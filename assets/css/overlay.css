@@ -53,6 +53,11 @@
     background: var(--bg-3);
 }
 
+.record-widget button:disabled {
+    filter: brightness(0.75);
+    pointer-events: none;
+}
+
 .cherri-info {
     position: absolute;
     left: 50%;
@@ -90,4 +95,42 @@
     right: 10px;
     border-radius: 25px;
     border: 1px solid var(--bg-4);
+}
+
+.game-controls {
+    background: var(--bg);
+    border: 1px solid var(--border-4);
+    border-radius: 25px;
+    height: 100px;
+    width: fit-content;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 15px;
+}
+
+.game-controls h1 {
+    font-size: 24px;
+    margin: 5px;
+    margin-left: 0;
+    margin-bottom: 7px;
+}
+
+.game-controls button {
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    border-radius: 15px;
+    aspect-ratio: 1;
+    background: var(--bg-2);
+    border: 1px solid var(--border-4);
+    transition: 0.2s;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 20px;
+    margin: 3px;
+}
+
+.game-controls button:hover {
+    background: var(--bg-3);
 }

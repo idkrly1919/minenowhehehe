@@ -31,7 +31,7 @@
     <meta name="description"
         content="A state of the art unblocked games website. Clean, customizable, and now in pink!">
     <meta name="keywords"
-        content="unblocked, ub, school, games, gn-math, gnmath, unblockedgames, proxy, ultraviolet, scramjet, roblox, fortnite, nowgg, movies, tv, browser, webos, ubgames, apps, discord, freemovies">
+        content="unblocked, ub, school, games, gn-math, gnmath, unblockedgames, proxy, ultraviolet, scramjet, roblox, fortnite, nowgg, movies, tv, browser, webos, ubgames, apps, discord, freemovies, vm">
     <meta name="robots" content="index, nofollow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="og:image" content="https://cherri.x8r.dev/assets/img/cover.png">
@@ -41,23 +41,21 @@
     <meta name="author" content="x8r and Cherri Team">
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="aa852720-724b-4441-be4c-6db9ef160eb9"></script>
-
+    <link rel="stylesheet" href="/assets/css/font.css">
 </html>
 </head>
-
 <body>
-    <div class="grid"></div>
     <nav>
         <ul>
-            <li style="width: 95px;">
+            <li style="width: 40px;">
                 <a onclick="navTo('home')" style="margin-top: 7.5px; margin-left: 10px;" href="#" data-page="home">
                     <div class="hcontainer">
-                        <img src="/assets/img/fav.png" style="height: 24px; margin-top: -1px; margin-right: 4px;"
+                        <img src="/assets/img/fav.png" style="height: 24px; margin-top: -1px; margin-right: -0px;"
                             alt="">
-                        <p>cherri</p>
                     </div>
                 </a>
             </li>
+            <li class="divider"></li>
             <li>
                 <a onclick="toggleGames()" href="#" data-page="games">
                     <i class="fas fa-gamepad-modern"></i>
@@ -74,6 +72,12 @@
                 </a>
             </li>
             <li>
+                <a onclick="navTo('vms'); showToast('success', 'VMs are still in beta! Report bugs on the repo/Discord.', 'fas fa-exclamation-triangle')" href="#" data-page="vms">
+                    <i class="fas fa-computer"></i>
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li>
                 <a onclick="togglePartners()" href="#" data-page="movies">
                     <i class="fas fa-handshake-simple"></i>
                 </a>
@@ -85,12 +89,12 @@
                 </a>
             </li>
             -->
-            <li class="toright" style="right: 60px;">
-                <a onclick="toggleSettings()" href="#" data-page="settings">
+            <li>
+                <a onclick="toggleSettings()" href="#" data-page="dc">
                     <i class="fas fa-cog"></i>
                 </a>
             </li>
-            <li class="toright">
+            <li>
                 <a target="_blank" href="https://discord.gg/hUYzETaQ9U" data-page="settings">
                     <i class="fa-brands fa-discord"></i>
                 </a>
@@ -106,8 +110,11 @@
         <br>
         <div class="searchathome">
             <i class="fas fa-search"></i>
-            <input id="homesearch" autocomplete="off" style="margin-right: -3%;" type="text"
-                placeholder="search anything..." />
+            <input id="homesearch" disabled autocomplete="off" style="margin-right: -3%;" type="text"
+                placeholder="search not ready yet!" />
+            <svg viewBox="25 25 50 50" class="loading">
+                <circle r="20" cy="50" cx="50"></circle>
+            </svg>
         </div>
         <br><br>
     </div>
@@ -316,14 +323,11 @@
                 </div>
 
                 <div id="settings-updates" class="settings-page">
-                    <h2>What's New in Beta 2.5</h2>
+                    <h2>What's New in Beta 2.6</h2>
                     <p class="update-cont">
-                        In Beta 2.5, we added quite a big feature: the Game Overlay! Access quick info like the clock, temperature, and playtime all from the overlay. Browse with the mini proxy, and record key moments with the simple recording tool. All in one space. Mobile support coming soon!
+                        For a preview of Beta 2.6, we added Chromium virtual machines to Cherri. They can be accessed by clicking the computer icon, and then New VM. If the iframe does not load, that is probably because they are under load as Hyperbeam has a terrible limit for free plans. Report bugs in the Discord or on the repo.
                         <br><br>
-                        • Added game overlay <br>
-                        • Added live store updates <br>
-                        • Added mini browser <br>
-                        • Some bug fixes <br>
+                        • VMs <br>
                     </p>
                 </div>
             </div>
@@ -331,7 +335,7 @@
             <p class="absolute bottom-4 text-[var(--text)] font-medium text-sm">cherri <span
                     class="opacity-70 bg-[var(--accent-2)] p-1 rounded-lg text-white"><a class="text-white release-link"
                         href="https://github.com/x8rr/cherri/releases/latest" target="_blank"
-                        style="text-decoration: none;">beta 2.5</a></span></p>
+                        style="text-decoration: none;">beta 2.6</a></span></p>
         </div>
     </div>
 
@@ -421,27 +425,27 @@
         <br>
         <h1 style="text-align: center; font-size: 35px; color: var(--bright-text); font-weight: 500;">Partners</h1>
         <br>
-        <p align="center">No partners yet.</p>
-        <div
-            class="partner-container h-[83%] overflow-y-scroll w-[475px] flex flex-wrap w-7/8 absolute left-1/2 translate-x-[-50%] justify-center">
-            <!--
-            <a href="https://prism.onl/" target="_blank">
-                <div class="app">
-                    <div class="bg-img" style="background: url('/assets/img/partners/prism.png');"></div>
-                    <div class="app-title-cont">
-                        <h2 class="app-title-h2">Prism</h2>
+        <div class="partner-container h-[83%] overflow-y-scroll w-[475px] flex flex-wrap w-7/8 absolute left-1/2 translate-x-[-50%] justify-center">
+            <a href="https://prism.onl/" target="_blank" class="app partner-square">
+                <div class="bg-img" style="background: url('/assets/img/partners/prism.png');"></div>
+                <div class="app-title-cont">
+                    <h2 class="app-title-h2">Prism</h2>
                 </div>
             </a>
-            -->
+            
+            <a href="https://github.com/Galaxy-Vortex/" target="_blank" class="app partner-square">
+                <div class="bg-img" style="background: url('/assets/img/partners/hydra.png');"></div>
+                <div class="app-title-cont">
+                    <h2 class="app-title-h2">Hydra Network</h2>
+                </div>
+            </a>
         </div>
-    </div>
-    <br>
     </div>
 
     <button id="reset-theme" onclick="resetTheme()">CLICK HERE TO RESET YOUR THEME!</button>
 
     <!-- site version -->
-    <cherriattr version="b2.5"></cherriattr>
+    <cherriattr version="b2.6"></cherriattr>
 
     <script src="/assets/js/dropdown.js"></script>
     <script>
@@ -456,7 +460,7 @@
         }
     </script>
     <script>
-        const selectedStore = localStorage.getItem("cherri_gameStore") ?? "Classplay"
+        const selectedStore = localStorage.getItem("cherri_gameStore") ?? "GN-Math"
 
         let res
         let data
@@ -550,6 +554,13 @@
                     console.log("Error registering service worker (SJ): " + e)
                     showToast("error", "Failed to register service worker", "fas fa-times-circle")
                 });
+
+                setTimeout(() => {
+                    document.querySelector(".loading").style.opacity = 0
+                    document.querySelector(".loading").style.pointerEvents = "none"
+                    document.querySelector("#homesearch").disabled = false
+                    document.querySelector("#homesearch").placeholder = "search anything..."
+                }, 1000)
             }
         }
 

@@ -18,6 +18,45 @@
     src: url("/assets/fonts/lexend.ttf");
 }
 
+@font-face {
+    font-family: figree;
+    src: url(/assets/fonts/figtree.ttf);
+}
+
+@font-face {
+    font-family: jakarta;
+    src: url(/assets/fonts/jakarta.ttf);
+}
+
+@font-face {
+    font-family: google sans;
+    src: url(/assets/fonts/googlesans.ttf);
+}
+
+@font-face {
+    font-family: gg sans;
+    src: url(/assets/fonts/gg-sans/reg.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: gg sans;
+    src: url(/assets/fonts/gg-sans/md.ttf);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: gg sans;
+    src: url(/assets/fonts/gg-sans/smb.ttf);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: gg sans;
+    src: url(/assets/fonts/gg-sans/bold.ttf);
+    font-weight: 700;
+}
+
 * {
-    font-family: lexend, sans-serif;
+    font-family: gg sans, sans-serif;
 }

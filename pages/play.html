@@ -17,7 +17,7 @@
 
 <body style="background: none !important;">
 
-    <div class="grid"></div>
+    
 
     <style>
         #particles-container {
@@ -205,11 +205,23 @@
         </div>
         <div class="record-widget">
             <h1>Record</h1>
-            <button style="margin-left: 0;" onclick="startRecording()">
+            <button id="startRecording" style="margin-left: 0;" onclick="startRecording()">
                 <i class="ri-record-circle-line"></i>
             </button>
-            <button id="stopRecording" style="margin-right: 0;" onclick="stopRecording()">
+            <button id="stopRecording" disabled style="margin-right: 0;" onclick="stopRecording()">
                 <i class="ri-stop-fill"></i>
+            </button>
+        </div>
+        <div class="game-controls">
+            <h1>Game Controls</h1>
+            <button style="margin-left: 0;" onclick="document.getElementById('gameframe').src = document.getElementById('gameframe').src">
+                <i class="ri-restart-line"></i>
+            </button>
+            <button onclick="window.open(document.getElementById('gameframe').src, '_blank')">
+                <i class="ri-external-link-line"></i>
+            </button>
+            <button style="margin-right: 0;" onclick="window.location.href = '/'">
+                <i class="ri-door-open-line"></i>
             </button>
         </div>
         <iframe src="/pages/browser-minimum.html" frameborder="0" class="proxy-widget"></iframe>
@@ -381,29 +393,32 @@
                     },
                     audio: true
                 });
+                document.getElementById("stopRecording").disabled = false
+                document.getElementById("startRecording").style.background = "var(--accent)"
 
                 recorder = new MediaRecorder(stream);
 
                 recorder.ondataavailable = e => chunks.push(e.data);
 
                 recorder.onstop = async () => {
-                    const blob = new Blob(chunks, { type: "video/webm" });
+                    const blob = new Blob(chunks, { type: "video/mp4" });
                     chunks = [];
 
                     stream.getTracks().forEach(track => track.stop());
 
                     try {
                         const handle = await window.showSaveFilePicker({
-                            suggestedName: "Cherri_Game_Recording.webm",
+                            suggestedName: "Cherri_Game_Recording" + Date.now() + ".mp4",
                             types: [{
                                 description: "Video Files",
-                                accept: { "video/webm": [".webm"] }
+                                accept: { "video/mp4": [".mp4"] }
                             }]
                         });
 
                         const writable = await handle.createWritable();
                         await writable.write(blob);
                         await writable.close();
+                        
                     } catch (err) {
                         if (err.name !== "AbortError") {
                             console.error("Save failed:", err);
@@ -415,6 +430,8 @@
 
                 console.log("Screen recording started");
                 document.getElementById("stopRecording").disabled = false
+                document.getElementById("startRecording").style.pointerEvents = "none"
+                
 
             } catch (err) {
                 console.error("Error:", err);
@@ -424,6 +441,9 @@
         function stopRecording() {
             recorder.stop();
             console.log("STOP.")
+            document.getElementById("stopRecording").disabled = true
+            document.getElementById("startRecording").style.background = "var(--bg-2)"
+            document.getElementById("startRecording").style.pointerEvents = "auto"
         }
 
         const sT = document.getElementById("sessionTime")
