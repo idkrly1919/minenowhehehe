@@ -1154,7 +1154,8 @@
             return parseInt(hex.replace("#", ""), 16)
         }
 
-        if (localStorage.getItem("cherri_particlesOn") === "yes") {
+        const useFog = localStorage.getItem("cherri_particlesOn") ?? "yes"
+        if (useFog === "yes") {
             VANTA.FOG({
                 el: "#vanta-fog-container",
                 mouseControls: true,
