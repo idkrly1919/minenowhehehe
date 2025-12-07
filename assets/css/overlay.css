@@ -16,8 +16,11 @@
 }
 
 .record-widget {
-    background: var(--bg);
-    border: 1px solid var(--border-4);
+    backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 30%, transparent 70%);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+            0 16px 32px rgba(0, 0, 0, 0.12);
     border-radius: 25px;
     height: 100px;
     width: 111px;
@@ -40,8 +43,11 @@
     padding: 10px;
     border-radius: 15px;
     aspect-ratio: 1;
-    background: var(--bg-2);
-    border: 1px solid var(--border-4);
+    backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg-2) 30%, transparent 70%);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+            0 16px 32px rgba(0, 0, 0, 0.12);
     transition: 0.2s;
     color: var(--text);
     cursor: pointer;
@@ -64,10 +70,13 @@
     transform: translateX(-50%);
     width: max-content;
     height: 20px;
-    background: var(--bg);
+    backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 30%, transparent 70%);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+            0 16px 32px rgba(0, 0, 0, 0.12);
     top: 10px;
     border-radius: 25px;
-    border: 1px solid var(--border-4);
     padding: 15px;
     text-align: center;
     transition: 0.2s;
@@ -75,7 +84,7 @@
 
 .cherri-info .divider {
     display: inline-block;
-    background: var(--bg-2);
+    background: color-mix(in srgb, var(--bg-2) 60%, transparent 40%);
     width: 2px;
     border-radius: 324986px;
     height: 25px;
@@ -98,8 +107,11 @@
 }
 
 .game-controls {
-    background: var(--bg);
-    border: 1px solid var(--border-4);
+    backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 30%, transparent 70%);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+            0 16px 32px rgba(0, 0, 0, 0.12);
     border-radius: 25px;
     height: 100px;
     width: fit-content;
@@ -122,8 +134,11 @@
     padding: 10px;
     border-radius: 15px;
     aspect-ratio: 1;
-    background: var(--bg-2);
-    border: 1px solid var(--border-4);
+    backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg-2) 30%, transparent 70%);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+            0 16px 32px rgba(0, 0, 0, 0.12);
     transition: 0.2s;
     color: var(--text);
     cursor: pointer;
@@ -133,4 +148,8 @@
 
 .game-controls button:hover {
     background: var(--bg-3);
+}
+
+#vm-frame {
+    cursor: none !important;
 }

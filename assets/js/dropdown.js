@@ -3,14 +3,18 @@ const appSettings = {
   backend: localStorage.getItem("cherri_backend") || "Scramjet",
   searchEngine: localStorage.getItem("cherri_searchEngine") || "DuckDuckGo",
   decoy: localStorage.getItem("decoy") || "None",
-  wisp: localStorage.getItem("cherri_wispUrl") || "wss://wisp.rhw.one/",
+  wisp: localStorage.getItem("cherri_wispUrlSelected") || "rhw",
   theme: localStorage.getItem("cherri_theme") || "default",
-  store: localStorage.getItem("cherri_gameStore") || "Classplay"
+  store: localStorage.getItem("cherri_gameStore") || "Classplay",
 };
 
 const searchEngineSelector = document.querySelector(".search-engine-selector");
-const searchEngineSelected = searchEngineSelector.querySelector(".search-engine-selected");
-const searchEngineOptions = searchEngineSelector.querySelector(".search-engine-options");
+const searchEngineSelected = searchEngineSelector.querySelector(
+  ".search-engine-selected"
+);
+const searchEngineOptions = searchEngineSelector.querySelector(
+  ".search-engine-options"
+);
 
 const decoySelector = document.querySelector(".decoy-selector");
 const decoySelected = decoySelector.querySelector(".decoy-selected");
@@ -38,7 +42,7 @@ const decoyPresets = {
     icon: "https://www.google.com/favicon.ico",
   },
   "Google Docs": {
-    title: "Google Docs",
+    title: "Untitled document - Google Docs",
     icon: "https://ssl.gstatic.com/docs/documents/images/kix-favicon-2023q4.ico",
   },
   Youtube: {
@@ -46,8 +50,36 @@ const decoyPresets = {
     icon: "https://www.youtube.com/s/desktop/014dbbed/img/favicon_32x32.png",
   },
   "Google Drive": {
-    title: "Google Drive",
+    title: "My Drive - Google Drive",
     icon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png",
+  },
+  "Khan Acadamy": {
+    title: "Khan Academy | Free Online Courses",
+    icon: "https://www.khanacademy.org/favicon.ico",
+  },
+  Canvas: {
+    title: "Dashboard | Canvas",
+    icon: "https://community.canvaslms.com/favicon.ico",
+  },
+  "Google Classroom": {
+    title: "Classroom",
+    icon: "https://ssl.gstatic.com/classroom/favicon.png",
+  },
+  "Delta Math": {
+    title: "Delta Math - Assignment",
+    icon: "https://www.google.com/s2/favicons?domain=deltamath.com&sz=256",
+  },
+  Microsoft: {
+    title: "Microsoft 365",
+    icon: "https://www.microsoft.com/favicon.ico",
+  },
+  Scratch: {
+    title: "Scratch - Imagine, Program, Share",
+    icon: "https://scratch.mit.edu/favicon.ico",
+  },
+  Billibilli: {
+    title: "Bilibili - Video Sharing Platform",
+    icon: "https://www.bilibili.com/favicon.ico",
   },
   Schoology: {
     title: "Home | Schoology",
@@ -96,21 +128,104 @@ const defaultWispUrl = `${
 }://${window.location.host}/w/`;
 const allBackendOptions = ["Ultraviolet", "Scramjet"];
 const allTransportOptions = ["Epoxy", "Libcurl"];
-const allSearchEngineOptions = ["DuckDuckGo", "Google", "Bing", "Startpage"];
+const allSearchEngineOptions = [
+  "DuckDuckGo",
+  "Brave",
+  "Qwant",
+  "Google",
+  "Bing",
+  "Startpage",
+];
 const allDecoyOptions = [
   "None",
   "Google",
   "Google Docs",
   "Youtube",
   "Google Drive",
-  "Schoology",
+  "Khan Acadamy",
+  "Canvas",
+  "Google Classroom",
+  "Delta Math",
+  "Microsoft",
+  "Scratch",
+  "Billibilli",
 ];
 
+const wispPresets = {
+  rhw: { url: "wss://wisp.rhw.one/" },
+
+  "Alu 1": { url: "wss://aluu.xyz/wisp/" },
+  "Alu 2": { url: "wss://freemathhw.xyz/wisp/" },
+  "Alu 3": { url: "wss://canvaslogin.org/wisp/" },
+  "Alu 4": { url: "wss://tnlnda.xyz/wisp/" },
+
+  "Incognito 1": { url: "wss://incog.works/wisp/" },
+  "Incognito 2": { url: "wss://math.mathpuns.lol/wisp/" },
+  "Incognito 3": { url: "wss://math.americahistory.online/wisp/" },
+  "Incognito 4": { url: "wss://english.geniuslecture.club/wisp/" },
+
+  "Definitely Science 1": { url: "wss://definitelyscience.com/wisp/" },
+  "Definitely Science 2": { url: "wss://onlinegames.ro/wisp/" },
+  "Definitely Science 3": { url: "wss://mages.io/wisp/" },
+  "Definitely Science 4": { url: "wss://lichology.com/wisp/" },
+
+  "Anura 1": { url: "wss://anura.pro/" },
+  "Anura 2": { url: "wss://adoptmy.baby/" },
+  "Anura 3": { url: "wss://wallstjournal.click/" },
+  "Anura 4": { url: "wss://mexicoon.top/" },
+  "Anura 5": { url: "wss://onlineosdev.nl/" },
+  "Anura 6": { url: "wss://swordartii.online/" },
+
+  Phantom: { url: "wss://phantom.lol/wisp/" },
+  Mercury: { url: "wss://wisp.mercurywork.shop/" },
+
+  "Terbium 1": { url: "wss://quantumchemistry.club/wisp/" },
+  "Terbium 2": { url: "wss://wisp.terbiumon.top/wisp/" },
+  "Terbium 3": { url: "wss://explorechemistry.online/wisp/" },
+  "Terbium 4": { url: "wss://webmath.help/wisp/" },
+
+  "Radius 1": { url: "wss://radiusproxy.app/wisp/" },
+  "Radius 1 (Adblock)": { url: "wss://radiusproxy.app/adblock/" },
+  "Radius 2": { url: "wss://radiusowski.site/wisp/" },
+  "Radius 2 (Adblock)": { url: "wss://radiusowski.site/adblock/" },
+};
+
 const allWispOptions = [
-  "wss://terbiumon.top/wisp/",
-  "wss://webmath.help/wisp/",
-  "wss://wisp.rhw.one/",
-  "wss://anura.pro/wisp/",
+  "rhw",
+  "Alu 1",
+  "Alu 2",
+  "Alu 3",
+  "Alu 4",
+
+  "Incognito 1",
+  "Incognito 2",
+  "Incognito 3",
+  "Incognito 4",
+
+  "Definitely Science 1",
+  "Definitely Science 2",
+  "Definitely Science 3",
+  "Definitely Science 4",
+
+  "Anura 1",
+  "Anura 2",
+  "Anura 3",
+  "Anura 4",
+  "Anura 5",
+  "Anura 6",
+
+  "Phantom",
+  "Mercury",
+
+  "Terbium 1",
+  "Terbium 2",
+  "Terbium 3",
+  "Terbium 4",
+
+  "Radius 1",
+  "Radius 1 (Adblock)",
+  "Radius 2",
+  "Radius 2 (Adblock)",
 ];
 
 const allThemeOptions = [
@@ -132,10 +247,7 @@ const allThemeOptions = [
   "violet",
 ];
 
-const allStoreOptions = [
-  "Classplay",
-  "GN-Math",
-];
+const allStoreOptions = ["Classplay", "GN-Math"];
 
 function createSelector(
   selectorType,
@@ -195,20 +307,28 @@ function createSelector(
 }
 
 function applyDecoy(s) {
-  const selected = decoyPresets[s]
-  let favicon = document.querySelector("link[rel*='icon']")
+  const selected = decoyPresets[s];
+  let favicon = document.querySelector("link[rel*='icon']");
 
   if (s === "None" || !selected) {
-    console.log("Stayed as " + favicon.href + " " + document.title + " and " + s + " was selected");
-    document.title = "cherri"
-    favicon.href = "/assets/img/fav.png"
-    return
+    console.log(
+      "Stayed as " +
+        favicon.href +
+        " " +
+        document.title +
+        " and " +
+        s +
+        " was selected"
+    );
+    document.title = "cherri";
+    favicon.href = "/assets/img/fav.png";
+    return;
   } else {
-    document.title = selected.title
-    favicon.href = selected.icon
-    console.log("Set to " + favicon.href + " " + document.title)
+    document.title = selected.title;
+    favicon.href = selected.icon;
+    console.log("Set to " + favicon.href + " " + document.title);
   }
-} 
+}
 
 createSelector(
   "search-engine",
@@ -238,7 +358,7 @@ createSelector(
   wispOptions,
   allWispOptions,
   appSettings.wisp,
-  "cherri_wispUrl",
+  "cherri_wispUrlSelected",
   "wispUpdated",
   "Successfully updated Wisp server!"
 );
@@ -262,7 +382,7 @@ createSelector(
   appSettings.theme,
   "cherri_theme",
   "themeUpdated",
-  "Successfully updated theme!"
+  "Successfully updated theme! Refresh to see background change."
 );
 
 createSelector(
@@ -276,8 +396,8 @@ createSelector(
   "Successfully updated game library!"
 );
 
-document.addEventListener("decoyUpdated", e => applyDecoy(e.detail))
-document.addEventListener("themeUpdated", e => {
+document.addEventListener("decoyUpdated", (e) => applyDecoy(e.detail));
+document.addEventListener("themeUpdated", (e) => {
   const link = document.getElementById("css-theme-link");
   const theme = e.detail ?? "default";
 
@@ -286,8 +406,14 @@ document.addEventListener("themeUpdated", e => {
   } else {
     link.href = "/assets/css/colors.css";
   }
-})
+});
+document.addEventListener("wispUpdated", (e) => {
+  const wisp = wispPresets[e.detail];
+
+  localStorage.setItem("cherri_wispUrl", wisp.url);
+  console.log(wisp.url);
+});
 window.addEventListener("load", () => {
   applyDecoy(localStorage.getItem("decoy"));
-  console.log("Cloaked as " + localStorage.getItem("decoy"))
-})
+  console.log("Cloaked as " + localStorage.getItem("decoy"));
+});

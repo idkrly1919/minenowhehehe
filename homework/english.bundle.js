@@ -3054,9 +3054,9 @@ var A,
                   tempunusedid: "$scramjet$tempunused",
                 },
                 files: {
-                  wasm: "/scramjet.wasm.wasm",
-                  all: "/scramjet.all.js",
-                  sync: "/scramjet.sync.js",
+                  wasm: "/history.wasm.wasm",
+                  all: "/math.all.js",
+                  sync: "/science.sync.js",
                 },
                 flags: {
                   serviceworkers: !1,

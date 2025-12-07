@@ -5,7 +5,7 @@ if (navigator.userAgent.includes("Firefox")) {
 	});
 }
 
-importScripts("/sj/scramjet.all.js");
+importScripts("/homework/math.all.js");
 
 const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();

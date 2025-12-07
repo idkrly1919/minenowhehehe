@@ -26,8 +26,17 @@ pnpm-debug.log*
 # Local Netlify folder
 .netlify
 
-./HYPERBEAM_KEY.json
+./KEYS.json
 
-HYPERBEAM_KEY.json
-HYPERBEAM_KEY.json*
+KEYS.json
+KEYS.json*
 
+./cherri-umami-worker
+
+/cherri-umami-worker
+cherri-umami-worker/
+
+./cherri-cometchat-worker
+
+/cherri-cometchat-worker
+cherri-cometchat-worker/

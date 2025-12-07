@@ -166,12 +166,6 @@ input {
     font-size: 17px;
 }
 
-input:focus {
-    outline: none;
-    border: 1px solid var(--accent);
-    width: 420px;
-}
-
 input::placeholder {
     color: var(--text);
 }
@@ -347,3 +341,4 @@ input::placeholder {
 .nav-logo img:hover {
     scale: 1.1;
 }
+

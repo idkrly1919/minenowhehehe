@@ -20,7 +20,7 @@
 .wisp-selected,
 .theme-selected,
 .store-selected {
-    background-color: var(--bg-2);
+    background-color: color-mix(in srgb, var(--bg) 30%, transparent 70%);
     border: 2px solid var(--bg-2);
     color: #e0e0e0;
     padding: 10px;
@@ -83,7 +83,8 @@
     left: 0;
     right: 0;
     color: #9b9b9b;
-    background-color: var(--bg-2);
+    background-color: color-mix(in srgb, var(--bg) 90%, transparent 10%);
+    backdrop-filter: blur(20px);
     border: 2px solid var(--bg-2);
     border-radius: 15px;
     max-height: 0;

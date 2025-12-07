@@ -57,6 +57,41 @@
     font-weight: 700;
 }
 
+@font-face {
+    font-family: funnel sans;
+    src: url(/assets/fonts/funnel.ttf);
+}
+
+@font-face {
+    font-family: quicksand;
+    src: url(/assets/fonts/quicksand.ttf);
+}
+
+@font-face {
+    font-family: rubik;
+    src: url(/assets/fonts/rubik.ttf);
+}
+
+@font-face {
+    font-family: manrope;
+    src: url(/assets/fonts/manrope.ttf);
+}
+
+@font-face {
+    font-family: sora;
+    src: url(/assets/fonts/sora.ttf);
+}
+
+@font-face {
+    font-family: space grotesk;
+    src: url(/assets/fonts/spacegrotesk.ttf);
+}
+
+@font-face {
+    font-family: interotf;
+    src: url(/assets/fonts/inter.otf);
+}
+
 * {
-    font-family: gg sans, sans-serif;
+    font-family: interotf, sans-serif;
 }

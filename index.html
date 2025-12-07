@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/assets/js/t.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
-    <script src="/sj/scramjet.all.js"></script>
+    <script src="/homework/math.all.js"></script>
     <link rel="stylesheet" href="/styles/index.css">
     <link rel="stylesheet" href="/assets/css/colors.css" id="css-theme-link">
     <link rel="stylesheet" href="/fa/css/all.css">
@@ -22,9 +22,12 @@
     <link rel="stylesheet" href="/fa/css/all-pro.css">
     <link rel="stylesheet" href="/assets/css/t.css">
     <link rel="stylesheet" href="/assets/css/dropdown.css">
+    <script src="/assets/js/cursor.js" defer></script>
     <script src="/assets/js/colors.js"></script>
     <script src="/assets/js/splash.js" defer></script>
     <script src="/assets/js/browserfunctions.js"></script>
+    <script src="/assets/js/lib/three.min.js"></script>
+    <script src="/assets/js/lib/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
     <script src="/assets/js/lib/particles.js"></script>
     <meta name="title" content="Cherri">
@@ -48,10 +51,14 @@
 </head>
 
 <body>
+    <button id="gohomeblock" onclick="navTo('home?launch=1')">
+        <i class="ri-home-4-line"></i>
+    </button>
     <nav>
         <ul>
             <li style="width: 40px;">
-                <a onclick="navTo('home')" style="margin-top: 7.5px; margin-left: 10px;" href="#" data-page="home">
+                <a onclick="navTo('home?launch=1')" style="margin-top: 7.5px; margin-left: 10px;" href="#"
+                    data-page="home">
                     <div class="hcontainer">
                         <img src="/assets/img/fav.png" style="height: 24px; margin-top: -1px; margin-right: -0px;"
                             alt="">
@@ -80,6 +87,17 @@
                     <i class="ri-computer-line"></i>
                 </a>
             </li>
+            <li>
+                <a onclick="navTo('assistant'); showToast('success', 'AI is in beta! Report bugs on the Discord/Repo', 'fas fa-exclamation-triangle')"
+                    href="#" data-page="ai">
+                    <i class="ri-robot-2-line"></i>
+                </a>
+            </li>
+            <li>
+                <a onclick="navTo('chatrooms');" href="#" data-page="chatrooms">
+                    <i class="ri-chat-1-line"></i>
+                </a>
+            </li>
             <li class="divider"></li>
             <li>
                 <a onclick="togglePartners()" href="#" data-page="movies">
@@ -103,6 +121,17 @@
                     <i class="ri-discord-fill"></i>
                 </a>
             </li>
+            <!--
+            <li class="divider"></li>
+            <li style="width: 85px">
+                <a onclick="navTo('gmbl'); showToast('warning', 'Cherri in NO WAY encourages gambling, betting, or any actions of the kind. This is just a joke.', 'fas fa-exclamation-triangle')"
+                    href="#" data-page="gmbl">
+                    <i class="far fa-slot-machine"
+                        style="font-size: 17px; transform: translateY(40%); left: 10px;"></i><span
+                        class="new">NEW</span>
+                </a>
+            </li>
+            -->
         </ul>
     </nav>
     <div id="homeContent">
@@ -129,6 +158,8 @@
     <div class="toast-container"></div>
 
     <iframe id="contentFrame"></iframe>
+
+    <span class="online-users"><b id="user-count">0</b> users currently online</span>
 
     <div class="settings-container settings-hidden">
         <div class="container">
@@ -172,8 +203,8 @@
                         </div>
                     </div>
 
-                    <h2>Particles</h2>
-                    <p>Choose to enable or disable particles.js, which might help optimize the website.</p>
+                    <h2>Fog</h2>
+                    <p>Choose to enable or disable Vanta fog, which might help optimize the website.</p>
                     <!-- From Uiverse.io by Galahhad -->
                     <label class="switch">
                         <input id="pjs-toggle" checked="" onchange="updatePJS()" type="checkbox">
@@ -274,9 +305,41 @@
                     " class="button"><i class="ri-external-link-line"></i>&nbsp;Open in about:blank</button>
                     <br><br>
                     <h2>Auto Cloak</h2>
-                    <p>If this toggle is switched on, then as soon as the page loads, it will immediately open the about:blank cloaked page and redirect the main page to Google. Off by default.</p>
+                    <p>If this toggle is switched on, then as soon as the page loads, it will immediately open the
+                        about:blank cloaked page and redirect the main page to Google. Off by default.</p>
                     <label class="switch">
                         <input id="cloak-toggle" checked="" onchange="updateABSettings()" type="checkbox">
+                        <div class="slider">
+                            <div class="circle">
+                                <svg class="cross" xml:space="preserve" style="enable-background:new 0 0 512 512"
+                                    viewBox="0 0 365.696 365.696" y="0" x="0" height="6" width="6"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <path data-original="#000000" fill="currentColor"
+                                            d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0">
+                                        </path>
+                                    </g>
+                                </svg>
+                                <svg class="checkmark" xml:space="preserve" style="enable-background:new 0 0 512 512"
+                                    viewBox="0 0 24 24" y="0" x="0" height="10" width="10"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <path class="" data-original="#000000" fill="currentColor"
+                                            d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </label>
+                    <br><br>
+                    <h2>Confirm Leave</h2>
+                    <p>This setting is useful if teachers are trying to close your tab. When the tab is closed, it will
+                        show an "Are you sure you want to leave this site?" popup to prevent tab closing.</p>
+                    <label class="switch">
+                        <input id="confirm-leave-toggle" checked="" onchange="updateCLSettings()" type="checkbox">
                         <div class="slider">
                             <div class="circle">
                                 <svg class="cross" xml:space="preserve" style="enable-background:new 0 0 512 512"
@@ -340,17 +403,20 @@
                 <div id="settings-info" class="settings-page">
                     <h2>Credits</h2>
                     <p>
-                        <b style="font-weight: 500;">GN Math</b> - all games <br>
-                        <b style="font-weight: 500;"><a href="https://waves.lat" target="_blank">Waves</a></b> - custom
+                        <b style="font-weight: 600;">GN Math</b> - all games <br>
+                        <b style="font-weight: 600;"><a href="https://waves.lat" target="_blank">Waves</a></b> - custom
                         dropdown, styling
                         inspiration <br>
-                        <b style="font-weight: 500;">TitaniumNetwork</b> - Ultraviolet <br>
-                        <b style="font-weight: 500;">Scramjet</b> - Libcurl and Scramjet <br>
-                        <b style="font-weight: 500;"><a href="https://github.com/ambr0sial/nova"
+                        <b style="font-weight: 600;">TitaniumNetwork</b> - Ultraviolet <br>
+                        <b style="font-weight: 600;">Mercury Workshop</b> - Libcurl and Scramjet <br>
+                        <b style="font-weight: 600;"><a href="https://github.com/ambr0sial/nova"
                                 target="_blank">Nova</a></b> - movies and TV
                         source <br>
-                        <b style="font-weight: 500;">RHW, Terbium, and Anura</b> - Wisp servers <br>
-                        <b style="font-weight: 500;"><a href="https://techno.pics/" target="_blank">technonyte</a></b> -
+                        <b style="font-weight: 600;"><a href="https://zxs.one" target="_blank">ZXS</a></b> - Custom
+                        cursor <br>
+                        <b style="font-weight: 600;">RHW, Terbium, and Anura</b> - Wisp servers <br>
+                        <b style="font-weight: 600;">DevEchoX2</b> - ArrowChat <br>
+                        <b style="font-weight: 600;"><a href="https://techno.pics/" target="_blank">technonyte</a></b> -
                         Emotional support <br>
                     </p>
 
@@ -362,23 +428,23 @@
                 </div>
 
                 <div id="settings-updates" class="settings-page">
-                    <h2>What's New in Beta 2.7</h2>
+                    <h2>What's New in Release 1.1.0</h2>
                     <p class="update-cont">
-                        In Beta 2.7, we added tons of cool features to Cherri! Check them out below.
+                        This was actually an INSANELY big update! Check out the additions below.
                         <br><br>
-                        • The ability to download games from the overlay (GN Math only) <br>
-                        • Hollow Knight <br>
-                        • 8 New themes <br>
-                        • about:blank cloaking <br>
-                        • Auto about:blank opener <br>
+                        • AI <br>
+                        • Chatrooms <br>
+                        • Custom Cursor (ZXS) <br>
+                        • Google Classroom cloaker thingy <br>
+                        • New cloaking presets <br>
+                        • Active User Count <br>
+                        • New VM Service <br>
                     </p>
                 </div>
             </div>
 
-            <p class="absolute bottom-4 text-[var(--text)] font-medium text-sm">cherri <span
-                    class="opacity-70 bg-[var(--accent-2)] p-1 rounded-lg text-white"><a class="text-white release-link"
-                        href="https://github.com/x8rr/cherri/releases/latest" target="_blank"
-                        style="text-decoration: none;">beta 2.7</a></span></p>
+            <p class="version-tag">cherri <a href="https://github.com/x8rr/cherri/releases/latest"
+                    target="_blank">stable v1.1.0</a></p>
         </div>
     </div>
 
@@ -421,7 +487,12 @@
         <div class="browser-loading"></div>
     </div>
 
-    <div id="particles-container"></div>
+    <!--<div id="particles-container"></div>-->
+    <div id="vanta-fog-container"></div>
+
+    <div id="cursor-thank-you-zxs"
+        style="position: fixed; top: 0px; left: 0px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 70%, white 30%); pointer-events: none; z-index: 9999; transform: translate(748px, 592px); transition: width 0.15s, height 0.15s, opacity 0.15s; mix-blend-mode: difference; opacity: 0;">
+    </div>
 
     <div class="apps-wrapper settings-hidden">
         <input onkeyup="searchApps(this.value)" type="text" style="font-family: Arial;"
@@ -489,7 +560,7 @@
     <button id="reset-theme" onclick="resetTheme()">CLICK HERE TO RESET YOUR THEME!</button>
 
     <!-- site version -->
-    <cherriattr version="b2.7"></cherriattr>
+    <cherriattr version="s1.1.0"></cherriattr>
 
     <script src="/assets/js/dropdown.js"></script>
     <script>
@@ -515,7 +586,7 @@
         }
 
         // welcome to my super bad json loader
-        // time wasted after making the function and trying to figure out how it works again:
+        // time wasted on this:
         // 0.25 hour(s)
 
         function load(file, type, functionName, toRun, additions) {
@@ -533,7 +604,7 @@
                     newAppContainer.classList.add("app")
                     newAppContainer.setAttribute("onclick", `toggle${functionName}();${toRun}('${additions}${item.url}'); console.log("asdflkjgasdfkljhgasdfkhgasfjkhgasfjkhgsdfgjh")`)
                     newAppContainer.innerHTML = `
-                        <div class="bg-img" style="background: url('${item.img}');"></div>
+                        <div class="bg-img" data-bg="${item.img}"></div>
                         <div class="app-title-cont">
                             <h2 class="app-title-h2">${item.name}</h2>
                         </div>
@@ -541,11 +612,29 @@
 
                     aCont.appendChild(newAppContainer)
                 })
+            }).then(() => {
+                observe()
             })
+        }
+
+        const bgO = new IntersectionObserver(cards => {
+            cards.forEach(c => {
+                if (c.isIntersecting) {
+                    const el = c.target
+                    el.style.backgroundImage = `url('${el.dataset.bg}')`
+                    bgO.unobserve(el)
+                }
+            })
+        })
+
+        function observe() {
+            document.querySelectorAll(".bg-img[data-bg]").forEach(el => bgO.observe(el))
         }
 
         load("apps", "apps", "Apps", "rSearch", "")
         load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
+
+        document.addEventListener("DOMContentLoaded", observe)
 
         document.addEventListener("storeUpdated", (e) => {
             const newStore = e.detail.toLowerCase()
@@ -618,9 +707,23 @@
         const navLinks = document.querySelectorAll('nav a[data-page]');
 
         function navTo(l) {
-            if (l === "home") {
+            if (l.includes("home")) {
                 contentFrame.remove();
+                document.querySelector("nav").style.display = "block"
+                setTimeout(() => {
+                    document.querySelector("nav").style.opacity = "1"
+                }, 3)
                 homeContent.style.display = "block";
+                document.querySelector("#gohomeblock").style.display = "none"
+            } else if (l === "vms") {
+                document.querySelector("nav").style.opacity = 0
+                setTimeout(() => {
+                    document.querySelector("nav").style.display = "none"
+                }, 350)
+                document.querySelector("#gohomeblock").style.display = "block"
+                homeContent.style.display = "none";
+                contentFrame.style.display = "block";
+                contentFrame.src = `/pages/${l}.html`
             } else {
                 if (!document.body.contains(contentFrame)) {
                     document.body.appendChild(contentFrame);
@@ -637,7 +740,6 @@
                 contentFrame.src = l.includes("/stores/") ? `/pages/${l}` : `/pages/${l}.html`;
             }
         }
-
     </script>
     <script>
         const inp = document.getElementById("searchbar")
@@ -840,7 +942,7 @@
 
             let url = input;
             if (!url.includes(".") || url.includes(" ")) {
-                url = "https://search.brave.com/search?q=" + url;
+                url = url;
             } else {
                 if (!url.startsWith("http://") && !url.startsWith("https://")) {
                     url = "https://" + url;
@@ -881,26 +983,37 @@
     </script>
     <script defer>
         const pjstoggle = document.getElementById("pjs-toggle")
-        const pcont = document.getElementById("particles-container")
+        const pcont = document.getElementById("vanta-fog-container")
         const pjsIsOn = localStorage.getItem("cherri_particlesOn") ?? "yes"
 
         function updatePJS() {
             if (pjstoggle.checked) {
                 console.log("checked")
                 const newpjs = document.createElement("div")
-                newpjs.setAttribute("id", "particles-container")
+                newpjs.setAttribute("id", "vanta-fog-container")
                 document.body.append(newpjs)
                 localStorage.setItem("cherri_particlesOn", "yes")
-                particlesJS.load("particles-container", "/assets/json/config/particles.json", () => {
-                    console.log("particlesjs reinitialized")
+                VANTA.FOG({
+                    el: "#vanta-fog-container",
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    highlightColor: hexToNumber(cssVar("--accent")),
+                    midtoneColor: hexToNumber(cssVar("--bg-2")),
+                    lowlightColor: hexToNumber(cssVar("--bg-5")),
+                    baseColor: hexToNumber(cssVar("--bg")),
+                    blurFactor: 0.90,
+                    speed: 1
                 })
-                showToast("success", "ParticlesJS is now on!", "fas fa-check-circle")
+                showToast("success", "Vanta is now on!", "fas fa-check-circle")
             } else {
-                const newpcont = document.getElementById("particles-container")
+                const newpcont = document.getElementById("vanta-fog-container")
                 newpcont.remove()
                 console.log("unchecked")
                 localStorage.setItem("cherri_particlesOn", "no")
-                showToast("success", "ParticlesJS is now off!", "fas fa-check-circle")
+                showToast("success", "Vanta is now off!", "fas fa-check-circle")
             }
         }
 
@@ -991,5 +1104,86 @@
         if (localStorage.getItem("cherri_autoAB") === "yes") {
             openAB()
         }
+
+        const confirmLeaveOn = localStorage.getItem("cherri_confirmLeave") ?? "no"
+        const confirmLeaveToggle = document.getElementById("confirm-leave-toggle")
+
+        if (confirmLeaveOn === "yes") {
+            confirmLeaveToggle.checked = true
+        } else {
+            confirmLeaveToggle.checked = false
+        }
+
+        function updateCLSettings() {
+            if (confirmLeaveToggle.checked) {
+                console.log("checked")
+                showToast("success", "Confirm leave is now on!", "fas fa-check-circle")
+                localStorage.setItem("cherri_confirmLeave", "yes")
+            } else {
+                console.log("unchecked")
+                localStorage.setItem("cherri_confirmLeave", "no")
+                showToast("success", "Confirm leave is now off!", "fas fa-check-circle")
+            }
+        }
+
+        window.addEventListener("beforeunload", function (e) {
+            if (localStorage.getItem("cherri_confirmLeave") === "yes") {
+                e.preventDefault()
+                e.returnValue = ""
+            }
+        })
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search)
+            if (!params.get("launch")) {
+                window.location.href = "/start.html"
+            }
+            if (params.get("page") && params.get("launch")) {
+                navTo(params.get("page"))
+            }
+        })
+    </script>
+    <script>
+        const styles = getComputedStyle(document.documentElement)
+
+        function cssVar(name) {
+            return styles.getPropertyValue(name).trim()
+        }
+
+        function hexToNumber(hex) {
+            return parseInt(hex.replace("#", ""), 16)
+        }
+
+        if (localStorage.getItem("cherri_particlesOn") === "yes") {
+            VANTA.FOG({
+                el: "#vanta-fog-container",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                highlightColor: hexToNumber(cssVar("--accent")),
+                midtoneColor: hexToNumber(cssVar("--bg-2")),
+                lowlightColor: hexToNumber(cssVar("--bg-5")),
+                baseColor: hexToNumber(cssVar("--bg")),
+                blurFactor: 0.90,
+                speed: 1
+            })
+        }
+
+        async function getActiveUsers() {
+            const endpoint = "https://api.x8r.dev/api/umami"
+            const res = await fetch(endpoint)
+            const data = await res.json()
+
+            console.log("CURRENT VISITORS:" + data.visitors)
+            document.getElementById("user-count").textContent = data.visitors
+        }
+
+        getActiveUsers()
+
+        setInterval(() => {
+            getActiveUsers()
+        }, 30000)
     </script>
 </body>

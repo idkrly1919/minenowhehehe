@@ -37,7 +37,10 @@
 .toast.success,
 .toast.error,
 .toast.info {
-    background-color: var(--bg-5);
+    background: linear-gradient(to bottom,
+                color-mix(in srgb, var(--bg-5) 60%, transparent),
+                color-mix(in srgb, var(--bg-5) 60%, transparent));
+        ;
     backdrop-filter: blur(5px);
 }
 

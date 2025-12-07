@@ -1,106 +1,81 @@
-const cursor = document.querySelector("#cursor");
+(() => {
+  const cursor = document.createElement("div");
+  cursor.style.position = "fixed";
+  cursor.style.top = "0";
+  cursor.style.left = "0";
+  cursor.style.width = "16px";
+  cursor.style.height = "16px";
+  cursor.style.borderRadius = "50%";
+  cursor.style.background = "white";
+  cursor.style.pointerEvents = "none";
+  cursor.style.zIndex = "9999";
+  cursor.style.transform = "translate(-50%, -50%)";
+  cursor.style.transition =
+    "width 0.15s ease, height 0.15s ease, opacity 0.15s ease, 0.0412s transform";
+  cursor.style.mixBlendMode = "difference";
+  cursor.id = "zxs-custom-cursor";
+  document.body.appendChild(cursor);
 
-const DEFAULT_CURSOR_SIZE = cursor.style.getPropertyValue("--height");
+  let cursorVisible = true;
+  let lastMove = Date.now();
+  let mouseX = 0;
+  let mouseY = 0;
+  let displayX = 0;
+  let displayY = 0;
 
-let isCursorLocked = false;
-
-document.addEventListener("mousedown", () => {
-  if (!isCursorLocked) {
-    cursor.style.setProperty("--scale", 0.9);
+  function animate() {
+    displayX += (mouseX - displayX) * 0.25;
+    displayY += (mouseY - displayY) * 0.25;
+    cursor.style.transform = `translate(${displayX - 8}px, ${displayY - 8}px)`;
+    requestAnimationFrame(animate);
   }
-});
+  requestAnimationFrame(animate);
 
-document.addEventListener("mouseup", () => {
-  if (!isCursorLocked) {
-    cursor.style.setProperty("--scale", 1);
+  function updateCursor(x, y) {
+    mouseX = x;
+    mouseY = y;
+    lastMove = Date.now();
+    if (!cursorVisible) showCursor();
   }
-});
 
-document.addEventListener("mousemove", ({ x, y }) => {
-  if (!isCursorLocked) {
-    cursor.style.setProperty("--top", y + "px");
-    cursor.style.setProperty("--left", x + "px");
+  window.addEventListener("mousemove", (e) =>
+    updateCursor(e.clientX, e.clientY)
+  );
+
+  window.addEventListener("message", (e) => {
+    const data = e.data;
+    if (!data || typeof data !== "object") return;
+
+    const iframe = Array.from(document.querySelectorAll("iframe")).find(
+      (f) => f.contentWindow === e.source
+    );
+    let offsetX = 0,
+      offsetY = 0;
+    if (iframe) {
+      const rect = iframe.getBoundingClientRect();
+      offsetX = rect.left;
+      offsetY = rect.top;
+    }
+
+    if (data.type === "cursorMove")
+      updateCursor(data.x + offsetX, data.y + offsetY);
+  });
+
+  const hideCursorStyle = document.createElement("style");
+  hideCursorStyle.textContent = `* { cursor: none !important; }`;
+  document.head.appendChild(hideCursorStyle);
+
+  setInterval(() => {
+    if (Date.now() - lastMove > 500 && cursorVisible) hideCursor();
+  }, 250);
+
+  function hideCursor() {
+    cursor.style.opacity = "0";
+    cursorVisible = false;
   }
-});
 
-document.querySelectorAll("a").forEach((a) => {
-  let rect = null;
-
-  a.addEventListener(
-    "mouseenter",
-    ({ target }) => {
-      isCursorLocked = true;
-
-      rect = target.getBoundingClientRect();
-
-      cursor.classList.add("is-locked");
-      cursor.style.setProperty("--top", rect.top + rect.height / 2 + "px");
-      cursor.style.setProperty("--left", rect.left + rect.width / 2 + "px");
-      cursor.style.setProperty("--width", rect.width + "px");
-      cursor.style.setProperty("--height", rect.height + "px");
-
-      target.style.setProperty("--scale", 1.05);
-    },
-    { passive: true }
-  );
-
-  a.addEventListener(
-    "mousemove",
-    ({ target }) => {
-      const halfHeight = rect.height / 2;
-      const topOffset = (event.y - rect.top - halfHeight) / halfHeight;
-      const halfWidth = rect.width / 2;
-      const leftOffset = (event.x - rect.left - halfWidth) / halfWidth;
-
-      cursor.style.setProperty("--translateX", `${leftOffset * 3}px`);
-      cursor.style.setProperty("--translateY", `${topOffset * 3}px`);
-
-      target.style.setProperty("--translateX", `${leftOffset * 6}px`);
-      target.style.setProperty("--translateY", `${topOffset * 4}px`);
-    },
-    { passive: true }
-  );
-
-  a.addEventListener(
-    "mouseleave",
-    ({ target }) => {
-      isCursorLocked = false;
-
-      cursor.style.setProperty("--width", DEFAULT_CURSOR_SIZE);
-      cursor.style.setProperty("--height", DEFAULT_CURSOR_SIZE);
-      cursor.style.setProperty("--translateX", 0);
-      cursor.style.setProperty("--translateY", 0);
-
-      target.style.setProperty("--translateX", 0);
-      target.style.setProperty("--translateY", 0);
-      target.style.setProperty("--scale", 1);
-
-      setTimeout(() => {
-        if (!isCursorLocked) {
-          cursor.classList.remove("is-locked");
-        }
-      }, 100);
-    },
-    { passive: true }
-  );
-});
-
-document.querySelectorAll("p").forEach((p) => {
-  p.addEventListener(
-    "mouseover",
-    () => {
-      cursor.style.setProperty("--width", "0.2em");
-      cursor.style.setProperty("--height", "1.5em");
-    },
-    { passive: true }
-  );
-
-  p.addEventListener(
-    "mouseout",
-    () => {
-      cursor.style.setProperty("--width", DEFAULT_CURSOR_SIZE);
-      cursor.style.setProperty("--height", DEFAULT_CURSOR_SIZE);
-    },
-    { passive: true }
-  );
-});
+  function showCursor() {
+    cursor.style.opacity = "1";
+    cursorVisible = true;
+  }
+})();

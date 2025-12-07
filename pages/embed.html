@@ -13,7 +13,7 @@
     <script src="/assets/js/lib/particles.js"></script>
     <script src="/baremux/index.js"></script>
     <script src="/assets/js/colors.js"></script>
-    <script src="/sj/scramjet.all.js"></script>
+    <script src="/homework/math.all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
     <script>
         async function swium() {
@@ -52,7 +52,6 @@
             width: 100%;
             height: 100vh;
             position: fixed;
-            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             border-radius: 0px;
@@ -75,6 +74,7 @@
             left: 0;
             top: 0;
             padding: 15px;
+            display: none;
         }
 
         .tabs {
@@ -221,7 +221,7 @@
             position: relative;
             transform: translate(-50%, -50%);
             left: 50%;
-            top: 50%;
+            top: 55%;
             border-radius: 100px;
         }
 
@@ -261,262 +261,85 @@
     </style>
 
     <div class="browser-container">
+        <div class="browser-controls">
+            <div class="tabs">
+                <button class="newtab" onclick="newTab()">
+                    <i class="ri-add-line ri"></i>
+                </button>
+            </div>
+            <div class="browser-buttons">
+                <div class="hcontainer">
+                    <button onclick="b()">
+                        <i class="ri-arrow-left-line ri"></i>
+                    </button>
+                    <button onclick="f()">
+                        <i class="ri-arrow-right-line ri"></i>
+                    </button>
+                    <button onclick="r()">
+                        <i class="ri-restart-line ri"></i>
+                    </button>
+                    <input type="text" id="searchbar" placeholder="Search for anything or enter a URL...">
+                    <button onclick="full()">
+                        <i class="ri-fullscreen-line ri"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="browser-loading"></div>
     </div>
+    <script src="/assets/js/browserfunctions.js"></script>
     <script defer>
-        let aTab = 0;
-            let tabCounter = 1;
-            let bTabs = [];
-            const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
-            const wispUrl = localStorage.getItem("cherri_wispUrl") || "wss://wisp.rhw.one/";
-            const bareUrl = "https://useclassplay.vercel.app/fq/";
+        function rSearch(input) {
+            newTab()
 
-            let searchE;
-            const se = localStorage.getItem("cherri_searchEngine") || "DuckDuckGo";
-
-            if (se === "DuckDuckGo") {
-                searchE = "https://duckduckgo.com/search?q=";
-            } else if (se === "Bing") {
-                searchE = "https://bing.com/search?q=";
-            } else if (se === "Google") {
-                searchE = "https://google.com/search?q=";
-            } else if (se === "Startpage") {
-                searchE = "https://startpage.com/search?q=";
-            } else if (se === "Qwant") {
-                searchE = "https://qwant.com/search?q=";
+            let url = input;
+            if (!url.includes(".") || url.includes(" ")) {
+                url = "https://search.brave.com/search?q=" + url;
             } else {
-                searchE = "https://search.brave.com/search?q=";
-            }
-
-            connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
-
-            const CONFIG = {
-                files: {
-                    wasm: "/sj/scramjet.wasm.wasm",
-                    all: "/sj/scramjet.all.js",
-                    sync: "/sj/scramjet.sync.js",
-                },
-            };
-
-            const { ScramjetController } = $scramjetLoadController();
-            const scramjet = new ScramjetController({
-                files: CONFIG.files,
-            });
-            scramjet.init();
-
-            function nav(i) {
-                console.log("e");
-                if (!i.trim()) return;
-
-                let url = i.trim();
-
-                if (!url.includes(".") || url.includes(" ")) {
-                    url = searchE + encodeURIComponent(url);
-                } else {
-                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                        url = "https://" + url;
-                    }
-                }
-
-                const cTab = bTabs.find((t) => t.id === aTab);
-                if (!cTab) return;
-
-                cTab.history.push(url);
-                cTab.historyIndex++;
-
-                cTab.url = url;
-
-                if (
-                    localStorage.getItem("cherri_backend") === "Scramjet" ||
-                    localStorage.getItem("cherri_backend") === "scramjet" ||
-                    !localStorage.getItem("cherri_backend")
-                ) {
-                    fUrl = scramjet.encodeUrl(url);
-                } else if (localStorage.getItem("cherri_backend") === "Ultraviolet") {
-                    fUrl = "/uv/service/" + __uv$config.encodeUrl(url);
-                } else {
-                    fUrl = scramjet.encodeUrl(url);
-                }
-
-                go(fUrl);
-            }
-
-            function updateUrlFromIframe(viewframe) {
-                try {
-                    const cTab = bTabs.find((t) => t.id === aTab);
-                    if (!cTab) return;
-
-                    let decodedUrl;
-                    const currentSrc = viewframe.src;
-
-                    if (localStorage.getItem("cherri_backend") === "Ultraviolet") {
-                        if (currentSrc.includes("/uv/service/")) {
-                            decodedUrl = __uv$config.decodeUrl(currentSrc.split("/uv/service/")[1]);
-                        }
-                    } else {
-                        decodedUrl = scramjet.decodeUrl(currentSrc);
-                    }
-
-                    if (decodedUrl && decodedUrl !== cTab.url) {
-                        cTab.url = decodedUrl;
-
-                        const ubar = document.getElementById("searchbar");
-                        if (ubar) ubar.value = decodedUrl;
-
-                        const favEl = document.querySelector(`#fav[data-fav-id="${aTab}"]`);
-                        if (favEl)
-                            favEl.src = `https://www.google.com/s2/favicons?domain=${decodedUrl}&sz=256`;
-                    }
-                } catch (e) {
-                    console.error("Error updating URL from iframe:", e);
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "https://" + url;
                 }
             }
 
-            async function go(u) {
-                if (!(await connection.getTransport())) {
-                    connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
-                }
+            const b = document.querySelector(".browser-container")
+            const frames = document.querySelectorAll(".viewframe")
 
-                console.log("a");
-                const cTab = bTabs.find((t) => t.id === aTab);
-                const favEl = document.querySelector(`#fav[data-fav-id="${aTab}"]`);
-                const viewframe = document.querySelector(
-                    `.viewframe[data-frame-id="${aTab}"]`
-                );
-                if (!viewframe) return;
+            b.style.opacity = 1
+            b.style.pointerEvents = "all"
 
-                const ubar = document.getElementById("searchbar");
+            frames.forEach(frame => {
+                frame.style.opacity = 1
+                frame.style.pointerEvents = "all"
+            })
 
-                const tabEl = document.querySelector(`.tab[data-tab-id="${aTab}"]`);
-                if (tabEl) {
-                    const titleEl = tabEl.querySelector("span");
-                    if (titleEl) titleEl.textContent = "Loading...";
-                }
+            console.log("rSearch")
+            nav(url)
+        }
+        const homesearch = document.getElementById("searchbar");
 
-                if (ubar) ubar.value = cTab.url;
-                const favUrl = cTab.url;
-                if (favEl)
-                    favEl.src = `https://www.google.com/s2/favicons?domain=${favUrl}&sz=256`;
-
-                try {
-                    viewframe.src = u;
-                    console.log("ooooo");
-
-                    viewframe.onload = () => {
-                        try {
-                            const iframeDoc =
-                                viewframe.contentDocument || viewframe.contentWindow.document;
-                            const title = iframeDoc.title || new URL(cTab.url).hostname;
-
-                            const tabEl = document.querySelector(`.tab[data-tab-id="${aTab}"]`);
-                            if (tabEl) {
-                                const titleEl = tabEl.querySelector("span");
-                                if (titleEl) titleEl.textContent = title;
-                            }
-
-                            updateUrlFromIframe(viewframe);
-                        } catch (e) {
-                            console.error("Error accessing iframe content:", e);
-                            const tabEl = document.querySelector(`.tab[data-tab-id="${aTab}"]`);
-                            if (tabEl) {
-                                const titleEl = tabEl.querySelector("span");
-                                if (titleEl) titleEl.textContent = new URL(cTab.url).hostname;
-                            }
-
-                            updateUrlFromIframe(viewframe);
-                        }
-                    };
-                } catch (e) {
-                    console.error("There was an error while loading the page:", e);
-                    showToast(
-                        "error",
-                        "There was a problem loading the page. Check the console for more info.",
-                        "fas fa-times-circle"
-                    );
-                }
+        homesearch.addEventListener("keydown", (e) => {
+            console.log("askjdfaskhjlgdf")
+            if (e.key === "Enter") {
+                rSearch(homesearch?.value.trim());
+                console.log("rsearching")
             }
+            console.log("check")
+        });
 
-            function b() {
-                const cTab = bTabs.find((t) => t.id === aTab);
-                if (!cTab || cTab.historyIndex <= 0) return;
+        const params = new URLSearchParams(window.location.search)
+        
+        async function waitThenSearch() {
+            await connection.setTransport("/libcurl/index.mjs", [{ websocket: localStorage.getItem("cherri_wispUrl") ?? "wss://wisp.rhw.one/" }])
 
-                cTab.historyIndex--;
-                const u = cTab.history[cTab.historyIndex];
-                cTab.url = u;
-                let furl;
-                const ba = localStorage.getItem("cherri_backend");
-                if (ba.toLowerCase() === "scramjet") {
-                    furl = scramjet.encodeUrl(u);
-                } else if (ba.toLowerCase() === "ultraviolet") {
-                    furl = __uv$config.prefix + __uv$config.encodeUrl(u);
-                } else {
-                    furl = scramjet.encodeUrl(u);
-                }
+            rSearch(params.get("launch"))
+        }
 
-                go(furl);
-            }
-
-            function f() {
-                const cTab = bTabs.find((t) => t.id === aTab);
-
-                cTab.historyIndex++;
-                const u = cTab.history[cTab.historyIndex];
-                cTab.url = u;
-                let furl;
-                const ba = localStorage.getItem("cherri_backend");
-                if (ba.toLowerCase() === "scramjet") {
-                    furl = scramjet.encodeUrl(u);
-                } else if (ba.toLowerCase() === "ultraviolet") {
-                    furl = __uv$config.prefix + __uv$config.encodeUrl(u);
-                } else {
-                    furl = scramjet.encodeUrl(u);
-                }
-
-                go(furl);
-            }
-
-            function r() {
-                const viewframe = document.querySelector(
-                    `.viewframe[data-frame-id="${aTab}"]`
-                );
-                const curl = viewframe.src;
-
-                viewframe.src = curl;
-            }
-
-            function full() {
-                const viewframe = document.querySelector(
-                    `.viewframe[data-frame-id="${aTab}"]`
-                );
-                viewframe.requestFullscreen();
-                console.log("sdfkjhasdkjhfg");
-            }
-
-            function hideBrowser() {
-                const b = document.querySelector(".browser-container");
-                const frames = document.querySelectorAll(".viewframe");
-                b.style.opacity = 0;
-                frames.forEach((frame) => {
-                    frame.style.opacity = 0;
-                    frame.style.pointerEvents = "none";
-                });
-                b.style.pointerEvents = "none";
-            }
-
-            async function launchEruda() {
-                showToast("info", "Launching Eruda...", "fas fa-info-circle");
-                try {
-                    eruda.init();
-                    showToast(
-                        "success",
-                        "Successfully injected Eruda",
-                        "fa-solid fa-check-circle"
-                    );
-                } catch (e) {
-                    showToast("error", "Failed to inject Eruda", "fas fa-times-circle");
-                }
-            }
+        waitThenSearch()
     </script>
+    <div id="cursor-thank-you-zxs"
+        style="position: fixed; top: 0px; left: 0px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 70%, white 30%); pointer-events: none; z-index: 9999; transform: translate(748px, 592px); transition: width 0.15s, height 0.15s, opacity 0.15s; mix-blend-mode: difference; opacity: 0;">
+    </div>
+    <script src="/assets/js/cursor.js"></script>
 </body>
 
 </html>

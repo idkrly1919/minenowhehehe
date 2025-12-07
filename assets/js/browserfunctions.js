@@ -26,9 +26,9 @@ connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
 
 const CONFIG = {
   files: {
-    wasm: "/sj/scramjet.wasm.wasm",
-    all: "/sj/scramjet.all.js",
-    sync: "/sj/scramjet.sync.js",
+    wasm: "/homework/history.wasm.wasm",
+    all: "/homework/math.all.js",
+    sync: "/homework/science.sync.js",
   },
 };
 
