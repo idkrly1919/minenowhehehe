@@ -5,7 +5,7 @@ const appSettings = {
   decoy: localStorage.getItem("decoy") || "None",
   wisp: localStorage.getItem("verdis_wispUrlSelected") || "rhw",
   theme: localStorage.getItem("verdis_theme") || "default",
-  store: localStorage.getItem("verdis_gameStore") || "Classplay",
+  store: localStorage.getItem("verdis_gameStore") || "GN-Math",
 };
 
 const searchEngineSelector = document.querySelector(".search-engine-selector");
