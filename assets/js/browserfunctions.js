@@ -2,7 +2,9 @@ let aTab = 0;
 let tabCounter = 1;
 let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
-const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://wisp.rhw.one/";
+const wispUrl =
+  localStorage.getItem("verdis_wispUrl") ||
+  "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;

@@ -152,7 +152,7 @@ const allDecoyOptions = [
 ];
 
 const wispPresets = {
-  rhw: { url: "wss://wisp.rhw.one/" },
+  rhw: { url: "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/" },
 
   "Alu 1": { url: "wss://aluu.xyz/wisp/" },
   "Alu 2": { url: "wss://freemathhw.xyz/wisp/" },

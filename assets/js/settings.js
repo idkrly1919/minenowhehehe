@@ -2,7 +2,9 @@ const sections = document.querySelectorAll(".settings-section");
 const buttons = document.querySelectorAll(".settings-side button");
 const wispServers = document.querySelectorAll(".wisp-servers button")
 const currentWisp = document.getElementById("currentWisp");
-const savedWisp = localStorage.getItem("verdis_wispUrl") ?? "wss://wisp.rhw.one/";
+const savedWisp =
+  localStorage.getItem("verdis_wispUrl") ??
+  "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
 const savedCloak = localStorage.getItem("verdis_cloak") ?? "";
 const savedCloakIcon = localStorage.getItem("verdis_cloakIcon") ?? "";
 const savedCloakTitle = localStorage.getItem("verdis_cloakTitle") ?? "";
