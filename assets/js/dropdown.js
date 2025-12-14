@@ -1,7 +1,7 @@
 // thanks to https://waves.lat for custom dropdowns || https://gitlab.com/waveslab/waves
 const appSettings = {
   backend: localStorage.getItem("verdis_backend") || "Scramjet",
-  searchEngine: localStorage.getItem("verdis_searchEngine") || "DuckDuckGo",
+  searchEngine: localStorage.getItem("verdis_searchEngine") || "Brave",
   decoy: localStorage.getItem("decoy") || "None",
   wisp: localStorage.getItem("verdis_wispUrlSelected") || "rhw",
   theme: localStorage.getItem("verdis_theme") || "default",
