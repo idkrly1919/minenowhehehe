@@ -15,8 +15,11 @@ const CLASSROOM_FAV = "https://ssl.gstatic.com/classroom/favicon.png";
 const CLASSROOM_PATH = "/";
 const LAST_PATH_KEY = "verdis_lastPath";
 const CLASSROOM_OVERLAY_ID = "classroom-overlay";
-const ORIGINAL_SEARCH = window.location.search;
 const MAX_Z_INDEX = "2147483647";
+
+function getClassroomSearch() {
+  return window.location.search;
+}
 
 function ensureMeta(name, content, attr = "name") {
   let meta = document.querySelector(`meta[${attr}="${name}"]`);
@@ -76,6 +79,7 @@ function ensureClassroomOverlay() {
   iframe.style.border = "0";
   iframe.style.width = "100%";
   iframe.style.height = "100%";
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
 
   overlay.appendChild(iframe);
   document.body.appendChild(overlay);
