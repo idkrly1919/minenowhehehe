@@ -86,7 +86,7 @@ function newTab() {
   tabFrame.setAttribute("allowfullscreen", "true");
   tabFrame.setAttribute(
     "allow",
-    "fullscreen; autoplay; clipboard-write; gamepad; geolocation"
+    "fullscreen; autoplay; clipboard-write; gamepad; geolocation; storage-access-by-user-activation"
   );
   tabFrame.src = "/newtab.html";
 

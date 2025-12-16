@@ -105,3 +105,10 @@ document.addEventListener("visibilitychange", () => {
     overlay.style.display = document.hidden ? "block" : "none";
   });
 });
+
+window.addEventListener("blur", () => {
+  withBody(() => {
+    const overlay = ensureClassroomOverlay();
+    overlay.style.display = "block";
+  });
+});
