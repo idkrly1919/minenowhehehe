@@ -1182,9 +1182,6 @@
 
         window.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search)
-            if (!params.get("launch")) {
-                window.location.href = "/start.html"
-            }
             if (params.get("page") && params.get("launch")) {
                 navTo(params.get("page"))
             }
