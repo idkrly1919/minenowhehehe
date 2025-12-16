@@ -4,10 +4,10 @@
 <head>
     <script>
         const params = new URLSearchParams(window.location.search);
-        const launched = sessionStorage.getItem("verdis_launch_blank");
-        if (params.has("launch")) {
+        const allowedLaunch = params.has("launch") || params.has("start");
+        if (allowedLaunch) {
             sessionStorage.setItem("verdis_launch_blank", "yes");
-        } else if (!launched) {
+        } else {
             window.location.replace("/start.html");
         }
     </script>
@@ -1072,16 +1072,41 @@
         function openAB() {
             if (window.self !== window.top) return
 
-            const win = window.open()
-            const url = window.location.href
-            const iframe = win.document.createElement('iframe')
-            iframe.style.width = '100vw'
-            iframe.style.height = '100vh'
-            iframe.style.border = 'none'
-            win.document.body.style.margin = '0'
-            iframe.src = url
-            win.document.body.appendChild(iframe)
-            window.location.href = "https://google.com/"
+            const targetUrl = window.location.href
+            const sanitizedUrl = targetUrl.replace(/"/g, "&quot;")
+            let cloakWin = window.open("about:blank", "_blank")
+            let usedFallback = false
+
+            if (!cloakWin) {
+                const blob = new Blob([`<!doctype html><html><head><title>Google Classroom</title><link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png"></head><body style="margin:0;overflow:hidden;"><iframe src="${sanitizedUrl}" style="width:100vw;height:100vh;border:0;"></iframe></body></html>`], { type: "text/html" })
+                const blobUrl = URL.createObjectURL(blob)
+                cloakWin = window.open(blobUrl, "_blank")
+                usedFallback = true
+            }
+
+            if (!cloakWin) {
+                return
+            }
+
+            try {
+                cloakWin.document.title = "Google Classroom"
+                const link = cloakWin.document.createElement("link")
+                link.rel = "icon"
+                link.href = "https://ssl.gstatic.com/classroom/favicon.png"
+                cloakWin.document.head.appendChild(link)
+            } catch (e) { }
+
+            if (!usedFallback) {
+                const iframe = cloakWin.document.createElement('iframe')
+                iframe.style.width = '100vw'
+                iframe.style.height = '100vh'
+                iframe.style.border = 'none'
+                cloakWin.document.body.style.margin = '0'
+                iframe.src = targetUrl
+                cloakWin.document.body.appendChild(iframe)
+            }
+
+            window.location.replace("https://google.com/")
         }
 
         const abToggle = document.getElementById("cloak-toggle")
