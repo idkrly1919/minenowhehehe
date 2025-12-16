@@ -7,7 +7,7 @@
             sessionStorage.setItem("verdis_launch_blank", "yes");
             const CLOAK_REDIRECT = "https://google.com/";
             const targetUrl = "/index.html?launch=1";
-            const sanitizedUrl = targetUrl.replace(/"/g, "&quot;");
+            const sanitizedUrl = new URL(targetUrl, window.location.href).toString();
             let blank = window.open("about:blank", "_blank");
             let usedFallback = false;
 
@@ -26,6 +26,7 @@
                 const blob = new Blob([blobHtml], { type: "text/html" });
                 const blobUrl = URL.createObjectURL(blob);
                 blank = window.open(blobUrl, "_blank");
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 0);
                 usedFallback = true;
             }
 
