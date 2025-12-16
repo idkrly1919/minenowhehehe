@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <script>
         const params = new URLSearchParams(window.location.search);
-        if (!params.has('launch') && !params.has('fromStart')) {
+        const cameFromStart = params.has('fromStart') || sessionStorage.getItem('cameFromStart') === '1';
+        if (!params.has('launch') && !cameFromStart) {
             window.location.replace('/start.html?fromStart=1');
         }
     </script>
