@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <script>
         const params = new URLSearchParams(window.location.search)
-        const cameFromStart = sessionStorage.getItem('cameFromStart') === '1';
+        const START_FLAG_KEY = 'startPageNavigation';
+        const cameFromStart = sessionStorage.getItem(START_FLAG_KEY) === '1';
         if (!params.get("launch") && !cameFromStart) {
             window.location.replace('/start.html');
         } else {
-            sessionStorage.removeItem('cameFromStart');
+            sessionStorage.removeItem(START_FLAG_KEY);
         }
     </script>
     <meta name="viewport" content="width=device-width">

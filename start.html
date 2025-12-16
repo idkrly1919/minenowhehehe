@@ -2,7 +2,8 @@
 
 <head>
     <script>
-        sessionStorage.setItem('cameFromStart', '1');
+        const START_FLAG_KEY = 'startPageNavigation';
+        sessionStorage.setItem(START_FLAG_KEY, '1');
         window.location.replace('/?launch=1');
     </script>
     <script
