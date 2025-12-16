@@ -1,7 +1,14 @@
 <html lang="en" dir="ltr" class="OVu6ob LQzn7d aCyi5 We03Jb zIKt9b eAcXqe">
 
 <head>
+    <script src="/assets/js/constants.js"></script>
     <script>
+        try {
+            const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+            sessionStorage.setItem(startFlagKey, 'true');
+        } catch (err) {
+            console.error('Failed to set start flag', err);
+        }
         window.location.replace('/?launch=1');
     </script>
     <script

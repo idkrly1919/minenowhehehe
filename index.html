@@ -3,10 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="/assets/js/constants.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search)
-        if (!params.get("launch")) {
-            window.location.replace('/start.html');
+        try {
+            const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+            const startFlagValue = sessionStorage.getItem(startFlagKey);
+            const cameFromStart = startFlagValue === 'true' || startFlagValue === '1';
+            if (!params.get("launch") && !cameFromStart) {
+                window.location.replace('/start.html');
+            } else if (cameFromStart) {
+                sessionStorage.removeItem(startFlagKey);
+            }
+        } catch (err) {
+            console.error('Start redirect guard failed', err);
         }
     </script>
     <meta name="viewport" content="width=device-width">
@@ -1178,9 +1188,6 @@
 
         window.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search)
-            if (!params.get("launch")) {
-                window.location.href = "/start.html"
-            }
             if (params.get("page") && params.get("launch")) {
                 navTo(params.get("page"))
             }
