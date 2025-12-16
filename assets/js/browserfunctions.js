@@ -159,19 +159,10 @@ async function nav(i) {
       const isIpv4 =
         /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
       const prefix = isIpv4 ? ip.split(".")[0] : "";
-      const originalPath = (() => {
-        try {
-          const target = url.includes("://") ? url : `https://${url}`;
-          return new URL(target).pathname || "/";
-        } catch {
-          return "/";
-        }
-      })();
 
       if (prefix) {
         const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
-        const shardPath = originalPath === "/" ? "/fun" : originalPath;
-        url = `https://${prefix}.ip.nowgg.${shardTld}${shardPath}`;
+        url = `https://${prefix}.ip.nowgg.${shardTld}/`;
       }
     } catch (e) {
       console.error("Unable to resolve nowgg shard", e);
