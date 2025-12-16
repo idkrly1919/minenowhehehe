@@ -191,9 +191,13 @@ const wispPresets = {
 };
 
 if (!localStorage.getItem("verdis_wispUrl")) {
-  const defaultWisp = wispPresets[appSettings.wisp];
+  const defaultWisp =
+    wispPresets[appSettings.wisp] || wispPresets["Anura 4"] || null;
   if (defaultWisp?.url) {
     localStorage.setItem("verdis_wispUrl", defaultWisp.url);
+    if (!localStorage.getItem("verdis_wispUrlSelected")) {
+      localStorage.setItem("verdis_wispUrlSelected", "Anura 4");
+    }
   }
 }
 if (!localStorage.getItem("verdis_wispUrlSelected")) {

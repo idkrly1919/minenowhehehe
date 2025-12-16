@@ -135,7 +135,6 @@ function closeTab(tId) {
 }
 
 async function nav(i) {
-  console.log("e");
   if (!i.trim()) return;
 
   let url = i.trim();
@@ -157,7 +156,8 @@ async function nav(i) {
         console.error("Unable to parse IP response", parseErr);
       }
       const ip = data?.ip || "";
-      const isIpv4 = /^(\d{1,3}\.){3}\d{1,3}$/.test(ip);
+      const isIpv4 =
+        /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
       const prefix = isIpv4 ? ip.split(".")[0] : "";
       const originalPath = (() => {
         try {
