@@ -70,6 +70,7 @@ function ensureClassroomOverlay() {
   overlay.style.position = "fixed";
   overlay.style.inset = "0";
   overlay.style.background = "#ffffff";
+  overlay.style.overflow = "hidden";
   overlay.style.display = "none";
   overlay.style.zIndex = MAX_Z_INDEX;
 
@@ -81,9 +82,35 @@ function ensureClassroomOverlay() {
   iframe.style.height = "100%";
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
 
+  const blocker = document.createElement("div");
+  blocker.className = "classroom-overlay-blocker";
+  blocker.style.position = "absolute";
+  blocker.style.inset = "0";
+  blocker.style.background = "transparent";
+  blocker.style.cursor = "pointer";
+  blocker.style.zIndex = MAX_Z_INDEX;
+
   overlay.appendChild(iframe);
+  overlay.appendChild(blocker);
   document.body.appendChild(overlay);
   return overlay;
+}
+
+function hideClassroomOverlay() {
+  const overlay = document.getElementById(CLASSROOM_OVERLAY_ID);
+  if (overlay) overlay.style.display = "none";
+}
+
+function showClassroomOverlay() {
+  const overlay = ensureClassroomOverlay();
+  overlay.style.display = "block";
+  const blocker = overlay.querySelector(".classroom-overlay-blocker");
+  if (blocker) {
+    blocker.onclick = () => {
+      hideClassroomOverlay();
+      blocker.onclick = null;
+    };
+  }
 }
 
 function withBody(fn) {
@@ -95,10 +122,10 @@ function withBody(fn) {
 }
 
 ensureRootPath();
+withBody(showClassroomOverlay);
 
 document.addEventListener("visibilitychange", () => {
-  withBody(() => {
-    const overlay = ensureClassroomOverlay();
-    overlay.style.display = document.hidden ? "block" : "none";
-  });
+  if (document.hidden) {
+    withBody(showClassroomOverlay);
+  }
 });

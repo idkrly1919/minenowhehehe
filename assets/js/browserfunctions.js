@@ -8,7 +8,7 @@ const wispUrl =
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
-const se = localStorage.getItem("verdis_searchEngine") || "Brave";
+const se = localStorage.getItem("verdis_searchEngine") || "DuckDuckGo";
 
 if (se === "DuckDuckGo") {
   searchE = "https://duckduckgo.com/search?q=";
@@ -84,6 +84,7 @@ function newTab() {
   tabFrame.classList.add("viewframe", "browser-frame");
   tabFrame.dataset.frameId = nTab.id;
   tabFrame.setAttribute("allowfullscreen", "true");
+  tabFrame.setAttribute("allow", "fullscreen; storage-access-by-user-activation");
   tabFrame.src = "/newtab.html";
 
   document.body.appendChild(tabFrame);
