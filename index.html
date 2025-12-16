@@ -8,8 +8,6 @@
         const isTop = window.self === window.top;
         if (isTop && !allowedLaunch && window.location.pathname !== "/start.html") {
             window.location.replace("/start.html?start=1");
-        } else if (isTop && params.has("launch") && !params.has("start")) {
-            window.location.replace("/start.html?start=1");
         }
     </script>
     <meta charset="UTF-8">
