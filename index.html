@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <script>
         const params = new URLSearchParams(window.location.search);
-        if (!params.has('launch')) {
-            window.location.replace('/start.html');
+        if (!params.has('launch') && !params.has('fromStart')) {
+            window.location.replace('/start.html?fromStart=1');
         }
     </script>
     <meta name="viewport" content="width=device-width">
