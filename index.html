@@ -1071,8 +1071,10 @@
             if (window.self !== window.top) return
 
             const CLOAK_REDIRECT = "https://google.com/"
+            const BLOB_URL_CLEANUP_DELAY_MS = 5000
             const targetUrl = window.location.href
             const sanitizedUrl = encodeURI(targetUrl)
+            const safeIframeUrl = sanitizedUrl.replace(/"/g, "&quot;")
             let cloakWin = window.open("about:blank", "_blank")
             let usedFallback = false
 
@@ -1085,13 +1087,13 @@
 <link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png">
 </head>
 <body style="margin:0;overflow:hidden;">
-<iframe src="${sanitizedUrl}" style="width:100vw;height:100vh;border:0;"></iframe>
+<iframe src="${safeIframeUrl}" style="width:100vw;height:100vh;border:0;"></iframe>
 </body>
 </html>`
                 const blob = new Blob([blobHtml], { type: "text/html" })
                 const blobUrl = URL.createObjectURL(blob)
                 cloakWin = window.open(blobUrl, "_blank")
-                setTimeout(() => URL.revokeObjectURL(blobUrl), 5000)
+                setTimeout(() => URL.revokeObjectURL(blobUrl), BLOB_URL_CLEANUP_DELAY_MS)
                 usedFallback = true
             }
 
