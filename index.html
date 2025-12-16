@@ -1070,11 +1070,17 @@
         function openAB() {
             if (window.self !== window.top) return
 
+            const escapeHtmlAttr = (value) => value
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+
             const CLOAK_REDIRECT = "https://google.com/"
             const BLOB_URL_CLEANUP_DELAY_MS = 5000
             const targetUrl = window.location.href
-            const sanitizedUrl = encodeURI(targetUrl)
-            const safeIframeUrl = sanitizedUrl.replace(/"/g, "&quot;")
+            const sanitizedUrl = escapeHtmlAttr(encodeURI(targetUrl))
             let cloakWin = window.open("about:blank", "_blank")
             let usedFallback = false
 
@@ -1087,7 +1093,7 @@
 <link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png">
 </head>
 <body style="margin:0;overflow:hidden;">
-<iframe src="${safeIframeUrl}" style="width:100vw;height:100vh;border:0;"></iframe>
+<iframe src="${sanitizedUrl}" style="width:100vw;height:100vh;border:0;"></iframe>
 </body>
 </html>`
                 const blob = new Blob([blobHtml], { type: "text/html" })
