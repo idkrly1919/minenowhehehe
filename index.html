@@ -7,7 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="/assets/fav.png">
     <script>
         const verdisParams = new URLSearchParams(window.location.search);
-        if (!verdisParams.get("launch")) {
+        if (!verdisParams.get("launch") && window.location.pathname !== "/start.html") {
             window.location.replace("/start.html");
         }
     </script>

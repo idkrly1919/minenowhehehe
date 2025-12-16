@@ -153,7 +153,8 @@ async function nav(i) {
       } catch (parseErr) {
         console.error("Unable to parse IP response", parseErr);
       }
-      const prefix = (data?.ip || "").split(".")[0];
+      const ip = data?.ip || "";
+      const prefix = ip.includes(".") ? ip.split(".")[0] : "";
 
       if (prefix) {
         const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
@@ -180,7 +181,7 @@ async function nav(i) {
 
   cTab.url = url;
   const backendRaw = localStorage.getItem("verdis_backend");
-  const backend = (backendRaw ? backendRaw : "scramjet").toLowerCase();
+  const backend = (backendRaw ?? "scramjet").toLowerCase();
   const useUv = backend === "ultraviolet";
   const fUrl = useUv
     ? "/uv/service/" + __uv$config.encodeUrl(url)
