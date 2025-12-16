@@ -147,7 +147,12 @@ async function nav(i) {
   if (nowggDomain) {
     try {
       const res = await fetch("https://api.ipify.org?format=json");
-      const data = await res.json();
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        console.error("Unable to parse IP response", parseErr);
+      }
       const prefix = (data?.ip || "").split(".")[0];
 
       if (prefix) {
@@ -174,11 +179,12 @@ async function nav(i) {
   cTab.historyIndex++;
 
   cTab.url = url;
-  const backend = (localStorage.getItem("verdis_backend") || "Scramjet").toLowerCase();
-  const fUrl =
-    backend === "ultraviolet"
-      ? "/uv/service/" + __uv$config.encodeUrl(url)
-      : scramjet.encodeUrl(url);
+  const backendRaw = localStorage.getItem("verdis_backend");
+  const backend = (backendRaw ? backendRaw : "scramjet").toLowerCase();
+  const useUv = backend === "ultraviolet";
+  const fUrl = useUv
+    ? "/uv/service/" + __uv$config.encodeUrl(url)
+    : scramjet.encodeUrl(url);
 
   go(fUrl);
 }
