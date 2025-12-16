@@ -3,8 +3,12 @@
 <head>
     <script src="/assets/js/constants.js"></script>
     <script>
-        const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
-        sessionStorage.setItem(startFlagKey, '1');
+        try {
+            const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+            sessionStorage.setItem(startFlagKey, 'true');
+        } catch (err) {
+            console.error('Failed to set start flag', err);
+        }
         window.location.replace('/?launch=1');
     </script>
     <script

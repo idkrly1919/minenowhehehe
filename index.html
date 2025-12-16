@@ -6,12 +6,17 @@
     <script src="/assets/js/constants.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search)
-        const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
-        const cameFromStart = sessionStorage.getItem(startFlagKey) === '1';
-        if (!params.get("launch") && !cameFromStart) {
-            window.location.replace('/start.html');
-        } else if (cameFromStart) {
-            sessionStorage.removeItem(startFlagKey);
+        try {
+            const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+            const startFlagValue = sessionStorage.getItem(startFlagKey);
+            const cameFromStart = startFlagValue === 'true' || startFlagValue === '1';
+            if (!params.get("launch") && !cameFromStart) {
+                window.location.replace('/start.html');
+            } else if (cameFromStart) {
+                sessionStorage.removeItem(startFlagKey);
+            }
+        } catch (err) {
+            console.error('Start redirect guard failed', err);
         }
     </script>
     <meta name="viewport" content="width=device-width">
