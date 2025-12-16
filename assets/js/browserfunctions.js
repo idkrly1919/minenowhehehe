@@ -151,8 +151,8 @@ async function nav(i) {
       const prefix = (data?.ip || "").split(".")[0];
 
       if (prefix) {
-        const suffix = nowggDomain.endsWith(".fun") ? "fun" : "lol";
-        url = `https://${prefix}.ip.nowgg.${suffix}/fun`;
+        const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
+        url = `https://${prefix}.ip.nowgg.${shardTld}/fun`;
       }
     } catch (e) {
       console.error("Unable to resolve nowgg shard", e);
@@ -174,19 +174,11 @@ async function nav(i) {
   cTab.historyIndex++;
 
   cTab.url = url;
-  let fUrl;
-
-  if (
-    localStorage.getItem("verdis_backend") === "Scramjet" ||
-    localStorage.getItem("verdis_backend") === "scramjet" ||
-    !localStorage.getItem("verdis_backend")
-  ) {
-    fUrl = scramjet.encodeUrl(url);
-  } else if (localStorage.getItem("verdis_backend") === "Ultraviolet") {
-    fUrl = "/uv/service/" + __uv$config.encodeUrl(url);
-  } else {
-    fUrl = scramjet.encodeUrl(url);
-  }
+  const backend = (localStorage.getItem("verdis_backend") || "Scramjet").toLowerCase();
+  const fUrl =
+    backend === "ultraviolet"
+      ? "/uv/service/" + __uv$config.encodeUrl(url)
+      : scramjet.encodeUrl(url);
 
   go(fUrl);
 }
