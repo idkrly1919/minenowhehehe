@@ -4,7 +4,7 @@ const wispServers = document.querySelectorAll(".wisp-servers button")
 const currentWisp = document.getElementById("currentWisp");
 const savedWisp =
   localStorage.getItem("verdis_wispUrl") ??
-  "wss://swordartii.online/";
+  "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
 const savedCloak = localStorage.getItem("verdis_cloak") ?? "";
 const savedCloakIcon = localStorage.getItem("verdis_cloakIcon") ?? "";
 const savedCloakTitle = localStorage.getItem("verdis_cloakTitle") ?? "";

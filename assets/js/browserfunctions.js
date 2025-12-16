@@ -4,7 +4,7 @@ let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 const wispUrl =
   localStorage.getItem("verdis_wispUrl") ||
-  "wss://swordartii.online/";
+  "wss://mexicoon.top/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
@@ -20,8 +20,6 @@ if (se === "DuckDuckGo") {
   searchE = "https://startpage.com/search?q=";
 } else if (se === "Qwant") {
   searchE = "https://qwant.com/search?q=";
-} else if (se === "Brave") {
-  searchE = "https://search.brave.com/search?q=";
 } else {
   searchE = "https://search.brave.com/search?q=";
 }
@@ -86,7 +84,6 @@ function newTab() {
   tabFrame.classList.add("viewframe", "browser-frame");
   tabFrame.dataset.frameId = nTab.id;
   tabFrame.setAttribute("allowfullscreen", "true");
-  tabFrame.setAttribute("allow", "fullscreen; storage-access-by-user-activation");
   tabFrame.src = "/newtab.html";
 
   document.body.appendChild(tabFrame);

@@ -1,7 +1,4 @@
 (() => {
-  const cursorPref = localStorage.getItem("verdis_customCursor") ?? "yes";
-  if (cursorPref !== "yes") return;
-
   const cursor = document.createElement("div");
   cursor.style.position = "fixed";
   cursor.style.top = "0";
