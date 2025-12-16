@@ -5,7 +5,10 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const allowedLaunch = params.has("launch") || params.has("start");
-        if (!allowedLaunch && window.location.pathname !== "/start.html") {
+        const isTop = window.self === window.top;
+        if (isTop && !allowedLaunch && window.location.pathname !== "/start.html") {
+            window.location.replace("/start.html?start=1");
+        } else if (isTop && params.has("launch") && !params.has("start")) {
             window.location.replace("/start.html?start=1");
         }
     </script>
@@ -69,8 +72,8 @@
         <ul>
             <li style="width: 40px;">
                 <button onclick="openAB()" aria-label="Cave cloak"
-                    style="margin-top: 7.5px; margin-left: 10px; background: var(--bg-3); color: var(--bright-text); border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer; text-transform: lowercase;">
-                    cave
+                    style="margin-top: 7.5px; margin-left: 10px; background: var(--bg-3); color: var(--bright-text); border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer;">
+                    <i class="fas fa-mountain" aria-hidden="true"></i>
                 </button>
             </li>
             <li class="divider"></li>
