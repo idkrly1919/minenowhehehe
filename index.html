@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/svg+xml" href="/assets/fav.png">
-    <title>verdis</title>
+    <script>
+        const verdisParams = new URLSearchParams(window.location.search);
+        if (!verdisParams.get("launch")) {
+            window.location.replace("/start.html");
+        }
+    </script>
+    <title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/uv/uv.bundle.js"></script>
     <script src="/uv/uv.config.js"></script>
@@ -30,11 +36,11 @@
     <script src="/assets/js/lib/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
     <script src="/assets/js/lib/particles.js"></script>
-    <meta name="title" content="verdis">
+    <meta name="title" content="IXL | Math, Language Arts, Science, Social Studies, and Spanish">
     <meta name="description"
-        content="A state of the art unblocked games website. Clean, customizable, and now in blue!">
+        content="IXL is the world's most popular subscription-based learning site for K–12. Used by over 15 million students, IXL provides personalized learning in more than 9,000 topics, covering math, language arts, science, social studies, and Spanish.">
     <meta name="keywords"
-        content="unblocked, ub, school, games, gn-math, gnmath, unblockedgames, proxy, ultraviolet, scramjet, roblox, fortnite, nowgg, movies, tv, browser, webos, ubgames, apps, discord, freemovies, vm">
+        content="IXL, math practice, language arts, science, social studies, spanish, k-12 learning">
     <meta name="robots" content="index, nofollow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="og:image" content="/assets/img/cover.png">
@@ -93,12 +99,6 @@
                     <i class="ri-robot-2-line"></i>
                 </a>
             </li>
-            <li>
-                <a onclick="navTo('chatrooms');" href="#" data-page="chatrooms">
-                    <i class="ri-chat-1-line"></i>
-                </a>
-            </li>
-            <li class="divider"></li>
             <li>
                 <a onclick="togglePartners()" href="#" data-page="movies">
                     <i class="ri-shake-hands-fill"></i>

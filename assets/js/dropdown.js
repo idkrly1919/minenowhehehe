@@ -3,7 +3,7 @@ const appSettings = {
   backend: localStorage.getItem("verdis_backend") || "Scramjet",
   searchEngine: localStorage.getItem("verdis_searchEngine") || "Brave",
   decoy: localStorage.getItem("decoy") || "None",
-  wisp: localStorage.getItem("verdis_wispUrlSelected") || "rhw",
+  wisp: localStorage.getItem("verdis_wispUrlSelected") || "Anura 4",
   theme: localStorage.getItem("verdis_theme") || "default",
   store: localStorage.getItem("verdis_gameStore") || "GN-Math",
 };
@@ -189,6 +189,16 @@ const wispPresets = {
   "Radius 2": { url: "wss://radiusowski.site/wisp/" },
   "Radius 2 (Adblock)": { url: "wss://radiusowski.site/adblock/" },
 };
+
+if (!localStorage.getItem("verdis_wispUrl")) {
+  const defaultWisp = wispPresets[appSettings.wisp];
+  if (defaultWisp?.url) {
+    localStorage.setItem("verdis_wispUrl", defaultWisp.url);
+  }
+}
+if (!localStorage.getItem("verdis_wispUrlSelected")) {
+  localStorage.setItem("verdis_wispUrlSelected", appSettings.wisp);
+}
 
 const allWispOptions = [
   "rhw",

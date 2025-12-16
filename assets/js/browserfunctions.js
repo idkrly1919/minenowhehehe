@@ -4,7 +4,7 @@ let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 const wispUrl =
   localStorage.getItem("verdis_wispUrl") ||
-  "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
+  "wss://mexicoon.top/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
@@ -134,11 +134,30 @@ function closeTab(tId) {
   }
 }
 
-function nav(i) {
+async function nav(i) {
   console.log("e");
   if (!i.trim()) return;
 
   let url = i.trim();
+  const lowerInput = url.toLowerCase();
+  const nowggDomain = ["nowgg.lol", "nowgg.fun"].find((d) =>
+    lowerInput.includes(d)
+  );
+
+  if (nowggDomain) {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      const prefix = (data?.ip || "").split(".")[0];
+
+      if (prefix) {
+        const suffix = nowggDomain.endsWith(".fun") ? "fun" : "lol";
+        url = `https://${prefix}.ip.nowgg.${suffix}/fun`;
+      }
+    } catch (e) {
+      console.error("Unable to resolve nowgg shard", e);
+    }
+  }
 
   if (!url.includes(".") || url.includes(" ")) {
     url = searchE + encodeURIComponent(url);
@@ -155,6 +174,7 @@ function nav(i) {
   cTab.historyIndex++;
 
   cTab.url = url;
+  let fUrl;
 
   if (
     localStorage.getItem("verdis_backend") === "Scramjet" ||
