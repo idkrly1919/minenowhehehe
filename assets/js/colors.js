@@ -14,6 +14,9 @@ const CLASSROOM_DESC =
 const CLASSROOM_FAV = "https://ssl.gstatic.com/classroom/favicon.png";
 const CLASSROOM_PATH = "/";
 const LAST_PATH_KEY = "verdis_lastPath";
+const CLASSROOM_OVERLAY_ID = "classroom-overlay";
+const ORIGINAL_SEARCH = window.location.search;
+const MAX_Z_INDEX = "2147483647";
 
 function ensureMeta(name, content, attr = "name") {
   let meta = document.querySelector(`meta[${attr}="${name}"]`);
@@ -45,21 +48,53 @@ function ensureMeta(name, content, attr = "name") {
   document.head.appendChild(iconLink);
 })();
 
-function rememberCurrentPath() {
-  const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-  sessionStorage.setItem(LAST_PATH_KEY, path);
+function ensureRootPath() {
+  if (
+    window.location.pathname !== CLASSROOM_PATH ||
+    window.location.search ||
+    window.location.hash
+  ) {
+    history.replaceState(null, "", CLASSROOM_PATH);
+  }
 }
 
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    rememberCurrentPath();
-    if (window.location.pathname !== CLASSROOM_PATH) {
-      window.location.replace(CLASSROOM_PATH);
-    }
+function ensureClassroomOverlay() {
+  let overlay = document.getElementById(CLASSROOM_OVERLAY_ID);
+  if (overlay) return overlay;
+
+  overlay = document.createElement("div");
+  overlay.id = CLASSROOM_OVERLAY_ID;
+  overlay.style.position = "fixed";
+  overlay.style.inset = "0";
+  overlay.style.background = "#ffffff";
+  overlay.style.display = "none";
+  overlay.style.zIndex = MAX_Z_INDEX;
+
+  const iframe = document.createElement("iframe");
+  iframe.src = "/start.html";
+  iframe.title = "Google Classroom";
+  iframe.style.border = "0";
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+
+  overlay.appendChild(iframe);
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function withBody(fn) {
+  if (document.body) {
+    fn();
   } else {
-    const target = sessionStorage.getItem(LAST_PATH_KEY);
-    if (window.location.pathname === CLASSROOM_PATH && target && target !== CLASSROOM_PATH) {
-      window.location.replace(target);
-    }
+    document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
+}
+
+ensureRootPath();
+
+document.addEventListener("visibilitychange", () => {
+  withBody(() => {
+    const overlay = ensureClassroomOverlay();
+    overlay.style.display = document.hidden ? "block" : "none";
+  });
 });

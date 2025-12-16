@@ -122,8 +122,8 @@ function cloakMe(o) {
             localStorage.setItem("verdis_cloakTitle", document.title);
             break;
         case "none":
-            tabIcon.href = "/assets/img/fav.png";
-            document.title = "verdis";
+            tabIcon.href = "https://ssl.gstatic.com/classroom/favicon.png";
+            document.title = "Google Classroom";
             localStorage.setItem("verdis_cloakIcon", tabIcon.href);
             localStorage.setItem("verdis_cloakTitle", document.title);
             break;

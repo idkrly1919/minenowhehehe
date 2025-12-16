@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" type="image/svg+xml" href="/assets/fav.png">
+    <link rel="icon" type="image/png" href="https://ssl.gstatic.com/classroom/favicon.png">
     <title>Google Classroom</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/uv/uv.bundle.js"></script>
@@ -59,10 +59,7 @@
             <li style="width: 40px;">
                 <a onclick="navTo('home?launch=1')" style="margin-top: 7.5px; margin-left: 10px;" href="#"
                     data-page="home">
-                    <div class="hcontainer">
-                        <img src="/assets/img/fav.png" style="height: 24px; margin-top: -1px; margin-right: -0px;"
-                            alt="">
-                    </div>
+                    <div class="hcontainer" style="display: none;"></div>
                 </a>
             </li>
             <li class="divider"></li>
@@ -1128,9 +1125,11 @@
         })
 
         window.addEventListener("DOMContentLoaded", () => {
-            const params = new URLSearchParams(window.location.search)
+            const safeSearch =
+                typeof ORIGINAL_SEARCH === "string" ? ORIGINAL_SEARCH : window.location.search
+            const params = new URLSearchParams(safeSearch)
             if (!params.get("launch")) {
-                window.location.href = "/start.html"
+                ensureRootPath()
             }
             if (params.get("page") && params.get("launch")) {
                 navTo(params.get("page"))

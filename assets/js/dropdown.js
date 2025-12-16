@@ -334,8 +334,8 @@ function applyDecoy(s) {
         s +
         " was selected"
     );
-    document.title = "verdis";
-    favicon.href = "/assets/img/fav.png";
+    document.title = "Google Classroom";
+    favicon.href = "https://ssl.gstatic.com/classroom/favicon.png";
     return;
   } else {
     document.title = selected.title;
