@@ -16,6 +16,7 @@ const CLASSROOM_PATH = "/";
 const LAST_PATH_KEY = "verdis_lastPath";
 const CLASSROOM_OVERLAY_ID = "classroom-overlay";
 const MAX_Z_INDEX = "2147483647";
+const OVERLAY_BLOCKER_Z = "1";
 
 function getClassroomSearch() {
   return window.location.search;
@@ -70,6 +71,7 @@ function ensureClassroomOverlay() {
   overlay.style.position = "fixed";
   overlay.style.inset = "0";
   overlay.style.background = "#ffffff";
+  overlay.style.overflow = "hidden";
   overlay.style.display = "none";
   overlay.style.zIndex = MAX_Z_INDEX;
 
@@ -79,11 +81,49 @@ function ensureClassroomOverlay() {
   iframe.style.border = "0";
   iframe.style.width = "100%";
   iframe.style.height = "100%";
+  iframe.style.position = "absolute";
+  iframe.style.zIndex = "0";
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
 
+  const blocker = document.createElement("div");
+  blocker.className = "classroom-overlay-blocker";
+  blocker.style.position = "absolute";
+  blocker.style.inset = "0";
+  blocker.style.background = "transparent";
+  blocker.style.cursor = "pointer";
+  blocker.style.zIndex = OVERLAY_BLOCKER_Z;
+
   overlay.appendChild(iframe);
+  overlay.appendChild(blocker);
   document.body.appendChild(overlay);
   return overlay;
+}
+
+function hideClassroomOverlay() {
+  const overlay = document.getElementById(CLASSROOM_OVERLAY_ID);
+  if (overlay) {
+    overlay.style.display = "none";
+    const blocker = overlay.querySelector(".classroom-overlay-blocker");
+    if (blocker) blocker.removeAttribute("data-dismiss-bound");
+  }
+}
+
+function bindOverlayDismiss(overlay) {
+  const blocker = overlay.querySelector(".classroom-overlay-blocker");
+  if (blocker && blocker.dataset.dismissBound !== "true") {
+    const onDismiss = () => {
+      blocker.removeAttribute("data-dismiss-bound");
+      hideClassroomOverlay();
+    };
+    blocker.dataset.dismissBound = "true";
+    blocker.addEventListener("click", onDismiss, { once: true });
+  }
+}
+
+function showClassroomOverlay() {
+  const overlay = ensureClassroomOverlay();
+  overlay.style.display = "block";
+  bindOverlayDismiss(overlay);
 }
 
 function withBody(fn) {
@@ -95,10 +135,15 @@ function withBody(fn) {
 }
 
 ensureRootPath();
+withBody(showClassroomOverlay);
 
 document.addEventListener("visibilitychange", () => {
   withBody(() => {
     const overlay = ensureClassroomOverlay();
-    overlay.style.display = document.hidden ? "block" : "none";
+    if (document.hidden) {
+      overlay.style.display = "block";
+    }
+    // Keep the cloak visible after returning; dismissal is user-driven for privacy.
+    bindOverlayDismiss(overlay);
   });
 });
