@@ -60,14 +60,22 @@
             filter: blur(0.1px);
         `;
 
-        // Create a canvas to generate a dynamic video stream
+        // Create a smaller canvas for better performance
         const canvas = document.createElement('canvas');
-        canvas.width = 1920;
-        canvas.height = 1080;
+        canvas.width = 640;
+        canvas.height = 360;
         const ctx = canvas.getContext('2d', { alpha: true, willReadFrequently: false });
 
         // Draw a nearly transparent pattern that interferes with capture
+        let frameCount = 0;
         function drawFrame() {
+            // Only update every 10th frame to reduce CPU usage
+            frameCount++;
+            if (frameCount % 10 !== 0) {
+                requestAnimationFrame(animate);
+                return;
+            }
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Draw very subtle noise that's invisible to users but disrupts capture
@@ -75,8 +83,8 @@
             const data = imageData.data;
             const time = Date.now();
             
-            for (let i = 0; i < data.length; i += 4) {
-                // Create a pattern based on position and time
+            // Process every 4th pixel for performance
+            for (let i = 0; i < data.length; i += 16) {
                 const x = (i / 4) % canvas.width;
                 const y = Math.floor((i / 4) / canvas.width);
                 const noise = Math.sin(x * 0.01 + time * 0.001) * Math.cos(y * 0.01 + time * 0.001);
@@ -90,9 +98,9 @@
             ctx.putImageData(imageData, 0, 0);
         }
 
-        // Capture stream from canvas
+        // Capture stream from canvas at lower frame rate
         drawFrame();
-        const stream = canvas.captureStream(30);
+        const stream = canvas.captureStream(10);
         videoOverlay.srcObject = stream;
         
         // Continuously update the canvas
@@ -235,12 +243,20 @@
 
         const noiseCtx = noiseCanvas.getContext('2d', { alpha: true, willReadFrequently: false });
 
+        let noiseFrameCount = 0;
         function drawNoise() {
+            // Limit noise updates to reduce CPU usage
+            noiseFrameCount++;
+            if (noiseFrameCount % 30 !== 0) {
+                requestAnimationFrame(drawNoise);
+                return;
+            }
+            
             const imageData = noiseCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
             const data = imageData.data;
             
-            // Create imperceptible noise pattern
-            for (let i = 0; i < data.length; i += 4) {
+            // Process every 8th pixel for performance
+            for (let i = 0; i < data.length; i += 32) {
                 const rand = Math.random();
                 data[i] = rand * 255;     // R
                 data[i + 1] = rand * 255; // G
@@ -259,15 +275,19 @@
         
         drawNoise();
 
-        // Resize canvases on window resize
+        // Debounced resize handler
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            whiteLayer.width = window.innerWidth;
-            whiteLayer.height = window.innerHeight;
-            whiteCtx.fillStyle = 'white';
-            whiteCtx.fillRect(0, 0, whiteLayer.width, whiteLayer.height);
-            
-            noiseCanvas.width = window.innerWidth;
-            noiseCanvas.height = window.innerHeight;
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                whiteLayer.width = window.innerWidth;
+                whiteLayer.height = window.innerHeight;
+                whiteCtx.fillStyle = 'white';
+                whiteCtx.fillRect(0, 0, whiteLayer.width, whiteLayer.height);
+                
+                noiseCanvas.width = window.innerWidth;
+                noiseCanvas.height = window.innerHeight;
+            }, 250);
         });
     }
 
@@ -355,20 +375,25 @@
         initProtection();
     }
 
+    // Clean up existing protection elements
+    function cleanupProtection() {
+        document.getElementById('screen-protection-video-overlay')?.remove();
+        document.getElementById('screen-protection-css')?.remove();
+        document.getElementById('protection-white-layer')?.remove();
+        document.getElementById('protection-invert-layer')?.remove();
+        document.getElementById('protection-noise-layer')?.remove();
+    }
+
     // Export toggle function for settings
     window.toggleScreenProtection = function(enabled) {
         config.enabled = enabled;
         localStorage.setItem('verdis_screenProtection', enabled ? 'yes' : 'no');
         
+        // Always clean up first to prevent duplicates
+        cleanupProtection();
+        
         if (enabled) {
             initProtection();
-        } else {
-            // Remove protection elements
-            document.getElementById('screen-protection-video-overlay')?.remove();
-            document.getElementById('screen-protection-css')?.remove();
-            document.getElementById('protection-white-layer')?.remove();
-            document.getElementById('protection-invert-layer')?.remove();
-            document.getElementById('protection-noise-layer')?.remove();
         }
     };
 
