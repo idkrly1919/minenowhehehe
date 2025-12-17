@@ -14,6 +14,12 @@
         protectContent: true
     };
 
+    // Animation control flags
+    let videoAnimationRunning = false;
+    let noiseAnimationRunning = false;
+    let videoAnimationId = null;
+    let noiseAnimationId = null;
+
     // Load saved settings
     const savedProtection = localStorage.getItem('verdis_screenProtection');
     if (savedProtection !== null) {
@@ -69,10 +75,12 @@
         // Draw a nearly transparent pattern that interferes with capture
         let frameCount = 0;
         function drawFrame() {
+            if (!videoAnimationRunning) return;
+            
             // Only update every 10th frame to reduce CPU usage
             frameCount++;
             if (frameCount % 10 !== 0) {
-                requestAnimationFrame(animate);
+                videoAnimationId = requestAnimationFrame(animate);
                 return;
             }
             
@@ -104,9 +112,11 @@
         videoOverlay.srcObject = stream;
         
         // Continuously update the canvas
+        videoAnimationRunning = true;
         function animate() {
+            if (!videoAnimationRunning) return;
             drawFrame();
-            requestAnimationFrame(animate);
+            videoAnimationId = requestAnimationFrame(animate);
         }
         animate();
 
@@ -245,10 +255,12 @@
 
         let noiseFrameCount = 0;
         function drawNoise() {
+            if (!noiseAnimationRunning) return;
+            
             // Limit noise updates to reduce CPU usage
             noiseFrameCount++;
             if (noiseFrameCount % 30 !== 0) {
-                requestAnimationFrame(drawNoise);
+                noiseAnimationId = requestAnimationFrame(drawNoise);
                 return;
             }
             
@@ -265,7 +277,7 @@
             }
             
             noiseCtx.putImageData(imageData, 0, 0);
-            requestAnimationFrame(drawNoise);
+            noiseAnimationId = requestAnimationFrame(drawNoise);
         }
 
         // Insert layers in correct order
@@ -273,6 +285,7 @@
         document.body.appendChild(invertLayer);
         document.body.appendChild(noiseCanvas);
         
+        noiseAnimationRunning = true;
         drawNoise();
 
         // Debounced resize handler
@@ -354,6 +367,23 @@
         });
     }
 
+    // Use Page Visibility API to pause animations when tab is not visible
+    function setupVisibilityHandler() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause animations when tab is hidden
+                videoAnimationRunning = false;
+                noiseAnimationRunning = false;
+            } else {
+                // Resume animations when tab becomes visible
+                if (config.enabled) {
+                    videoAnimationRunning = true;
+                    noiseAnimationRunning = true;
+                }
+            }
+        });
+    }
+
     // Initialize all protection mechanisms
     function initProtection() {
         console.log('Initializing screen capture protection (Netflix-style)...');
@@ -364,6 +394,7 @@
         setupMultiLayerProtection();
         setupContextMenuProtection();
         protectIframes();
+        setupVisibilityHandler();
         
         console.log('Screen capture protection active - captures will appear blank');
     }
@@ -375,9 +406,31 @@
         initProtection();
     }
 
-    // Clean up existing protection elements
+    // Clean up existing protection elements and stop animations
     function cleanupProtection() {
-        document.getElementById('screen-protection-video-overlay')?.remove();
+        // Stop animation loops
+        videoAnimationRunning = false;
+        noiseAnimationRunning = false;
+        
+        if (videoAnimationId) {
+            cancelAnimationFrame(videoAnimationId);
+            videoAnimationId = null;
+        }
+        if (noiseAnimationId) {
+            cancelAnimationFrame(noiseAnimationId);
+            noiseAnimationId = null;
+        }
+        
+        // Stop video stream
+        const videoOverlay = document.getElementById('screen-protection-video-overlay');
+        if (videoOverlay && videoOverlay.srcObject) {
+            const tracks = videoOverlay.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+            videoOverlay.srcObject = null;
+        }
+        
+        // Remove DOM elements
+        videoOverlay?.remove();
         document.getElementById('screen-protection-css')?.remove();
         document.getElementById('protection-white-layer')?.remove();
         document.getElementById('protection-invert-layer')?.remove();
