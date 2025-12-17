@@ -20,6 +20,8 @@ if (se === "DuckDuckGo") {
   searchE = "https://startpage.com/search?q=";
 } else if (se === "Qwant") {
   searchE = "https://qwant.com/search?q=";
+} else if (se === "LangSearch") {
+  searchE = "LANGSEARCH"; // Special marker for LangSearch
 } else {
   searchE = "https://search.brave.com/search?q=";
 }
@@ -174,6 +176,12 @@ async function nav(i) {
   }
 
   if (!url.includes(".") || url.includes(" ")) {
+    // Check if LangSearch is selected
+    if (searchE === "LANGSEARCH") {
+      // Redirect to LangSearch page instead of using proxy
+      window.location.href = `/search.html?q=${encodeURIComponent(url)}`;
+      return;
+    }
     url = searchE + encodeURIComponent(url);
   } else {
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
