@@ -144,3 +144,93 @@ document.addEventListener("DOMContentLoaded", function () {
     updateToastPositions(toastContainer.matches(":hover"));
   }
 });
+
+(() => {
+  const ua = navigator.userAgent || "";
+  const isGStreamer = /gstreamer/i.test(ua);
+  let blocker;
+
+  const ensureBlocker = () => {
+    if (blocker) return blocker;
+    blocker = document.createElement("div");
+    blocker.id = "capture-veil";
+    blocker.style.position = "fixed";
+    blocker.style.inset = "0";
+    blocker.style.background = "#000";
+    blocker.style.pointerEvents = "none";
+    blocker.style.zIndex = "2147483647";
+    blocker.style.opacity = "0";
+    blocker.style.transition = "opacity 120ms ease";
+    document.body.appendChild(blocker);
+    return blocker;
+  };
+
+  const setBlockerVisible = (visible) => {
+    if (!blocker || blocker.dataset.force === "1") return;
+    blocker.style.opacity = visible ? "1" : "0";
+  };
+
+  const writeBlankClipboard = async () => {
+    if (
+      !navigator.clipboard ||
+      !navigator.clipboard.write ||
+      typeof ClipboardItem === "undefined"
+    )
+      return;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, 1, 1);
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/png")
+    );
+    if (!blob) return;
+    const item = new ClipboardItem({ "image/png": blob });
+    try {
+      await navigator.clipboard.write([item]);
+    } catch {
+      /* ignore clipboard failures */
+    }
+  };
+
+  const handlePrintScreen = (e) => {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+    }
+    ensureBlocker();
+    setBlockerVisible(true);
+    writeBlankClipboard();
+    setTimeout(() => setBlockerVisible(false), 750);
+  };
+
+  const setupGuards = () => {
+    ensureBlocker();
+    if (isGStreamer && blocker) {
+      blocker.dataset.force = "1";
+      blocker.style.opacity = "1";
+      return;
+    }
+
+    window.addEventListener("blur", () => setBlockerVisible(true));
+    window.addEventListener("focus", () => setBlockerVisible(false));
+    document.addEventListener("visibilitychange", () =>
+      setBlockerVisible(document.hidden)
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "PrintScreen") {
+        handlePrintScreen(e);
+      }
+    });
+  };
+
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    setupGuards();
+  } else {
+    document.addEventListener("DOMContentLoaded", setupGuards);
+  }
+})();
