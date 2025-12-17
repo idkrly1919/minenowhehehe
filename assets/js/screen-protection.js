@@ -72,6 +72,13 @@
         canvas.height = 360;
         const ctx = canvas.getContext('2d', { alpha: true, willReadFrequently: false });
 
+        // Animation function
+        function animate() {
+            if (!videoAnimationRunning) return;
+            videoAnimationId = requestAnimationFrame(animate);
+            drawFrame();
+        }
+
         // Draw a nearly transparent pattern that interferes with capture
         let frameCount = 0;
         function drawFrame() {
@@ -80,7 +87,6 @@
             // Only update every 10th frame to reduce CPU usage
             frameCount++;
             if (frameCount % 10 !== 0) {
-                videoAnimationId = requestAnimationFrame(animate);
                 return;
             }
             
@@ -111,26 +117,18 @@
         const stream = canvas.captureStream(10);
         videoOverlay.srcObject = stream;
         
-        // Continuously update the canvas
+        // Start the animation
         videoAnimationRunning = true;
-        function animate() {
-            if (!videoAnimationRunning) return;
-            drawFrame();
-            videoAnimationId = requestAnimationFrame(animate);
-        }
+        videoAnimateFunc = animate;
         animate();
 
         document.body.appendChild(videoOverlay);
         
         // Ensure video plays
         videoOverlay.play().catch(e => {
-            console.log('Video overlay autoplay blocked, retrying...');
-            // Retry on user interaction
-            const playOnInteraction = () => {
-                videoOverlay.play();
-                document.removeEventListener('click', playOnInteraction);
-                document.removeEventListener('keydown', playOnInteraction);
-            };
+            console.log('Video overlay autoplay blocked, retrying on user interaction...');
+            // Retry on user interaction - { once: true } handles cleanup automatically
+            const playOnInteraction = () => videoOverlay.play();
             document.addEventListener('click', playOnInteraction, { once: true });
             document.addEventListener('keydown', playOnInteraction, { once: true });
         });
@@ -280,13 +278,16 @@
             noiseAnimationId = requestAnimationFrame(drawNoise);
         }
 
-        // Insert layers in correct order
-        document.body.appendChild(whiteLayer);
-        document.body.appendChild(invertLayer);
-        document.body.appendChild(noiseCanvas);
-        
-        noiseAnimationRunning = true;
-        drawNoise();
+        // Insert layers in correct order (ensure body exists)
+        if (document.body) {
+            document.body.appendChild(whiteLayer);
+            document.body.appendChild(invertLayer);
+            document.body.appendChild(noiseCanvas);
+            
+            noiseAnimationRunning = true;
+            noiseAnimateFunc = drawNoise;
+            drawNoise();
+        }
 
         // Debounced resize handler
         let resizeTimeout;
@@ -367,6 +368,10 @@
         });
     }
 
+    // Store animation functions to restart them
+    let videoAnimateFunc = null;
+    let noiseAnimateFunc = null;
+
     // Use Page Visibility API to pause animations when tab is not visible
     function setupVisibilityHandler() {
         document.addEventListener('visibilitychange', () => {
@@ -377,8 +382,14 @@
             } else {
                 // Resume animations when tab becomes visible
                 if (config.enabled) {
-                    videoAnimationRunning = true;
-                    noiseAnimationRunning = true;
+                    if (!videoAnimationRunning && videoAnimateFunc) {
+                        videoAnimationRunning = true;
+                        videoAnimateFunc();
+                    }
+                    if (!noiseAnimationRunning && noiseAnimateFunc) {
+                        noiseAnimationRunning = true;
+                        noiseAnimateFunc();
+                    }
                 }
             }
         });
