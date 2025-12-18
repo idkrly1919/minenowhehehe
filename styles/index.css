@@ -540,6 +540,15 @@ p a:hover {
     outline: none;
 }
 
+.search-warning {
+    font-size: 10px;
+    text-align: center;
+    color: var(--text);
+    opacity: 0.6;
+    margin-top: 6px;
+    pointer-events: none;
+}
+
 .tab {
     background: var(--bg);
     width: 200px;

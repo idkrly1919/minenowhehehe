@@ -68,11 +68,10 @@
     </button>
     <nav>
         <ul>
-            <li style="width: 40px;">
-                <button onclick="openAB()" aria-label="Cave cloak"
-                    style="margin-top: 7.5px; margin-left: 10px; background: var(--bg-3); color: var(--bright-text); border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer;">
+            <li>
+                <a onclick="openAB()" aria-label="Cave cloak" href="#">
                     <i class="fas fa-mountain" aria-hidden="true"></i>
-                </button>
+                </a>
             </li>
             <li class="divider"></li>
             <li>
@@ -100,6 +99,11 @@
                 <a onclick="navTo('assistant'); showToast('success', 'AI is in beta! Report bugs on the Discord/Repo', 'fas fa-exclamation-triangle')"
                     href="#" data-page="ai">
                     <i class="ri-robot-2-line"></i>
+                </a>
+            </li>
+            <li>
+                <a onclick="navTo('chat')" href="#" data-page="chat">
+                    <i class="ri-chat-3-line"></i>
                 </a>
             </li>
             <li>
@@ -486,6 +490,7 @@
                     </button>
                 </div>
             </div>
+            <div class="search-warning">This is a proxy; you could get in trouble.</div>
         </div>
         <div class="browser-loading"></div>
     </div>
