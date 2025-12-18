@@ -21,7 +21,7 @@
   let actingAsHost = false;
 
   const randomId = () =>
-    crypto.randomUUID
+    typeof crypto.randomUUID === "function"
       ? crypto.randomUUID()
       : `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -40,8 +40,12 @@
   };
 
   const loadName = () => {
-    const saved = localStorage.getItem("p2p_chat_name");
-    if (saved) ui.nameInput.value = saved;
+    try {
+      const saved = localStorage.getItem("p2p_chat_name");
+      if (saved) ui.nameInput.value = saved;
+    } catch {
+      /* ignore */
+    }
     if (!ui.nameInput.value.trim()) {
       ui.nameInput.value = `Guest-${Math.floor(Math.random() * 9999)}`;
     }
