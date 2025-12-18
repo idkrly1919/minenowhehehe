@@ -329,11 +329,8 @@
         const nameDisplay = document.getElementById("selfName");
 
         function getName() {
-            const saved = localStorage.getItem("verdis_p2p_name");
-            if (saved) return saved;
             const raw = prompt("Pick a display name for the room:")?.trim();
             const name = raw || "Guest";
-            localStorage.setItem("verdis_p2p_name", name);
             return name;
         }
 

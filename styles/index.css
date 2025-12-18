@@ -206,8 +206,10 @@ nav ul li.disabled {
     background: linear-gradient(to bottom right, var(--accent), var(--accent-2));
     background-clip: text;
     color: transparent;
-    text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 70%, transparent 30%),
-        0 0 32px color-mix(in srgb, var(--accent-2) 60%, transparent 40%);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 80%, transparent 20%),
+        0 0 36px color-mix(in srgb, var(--accent-2) 70%, transparent 30%),
+        0 0 54px color-mix(in srgb, var(--accent) 50%, transparent 50%);
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 35%, transparent 65%));
 }
 
 #homesearch {
