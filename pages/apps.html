@@ -290,8 +290,11 @@
                     const launchTarget = app.direct
                         ? (app.url.startsWith('http') ? app.url : new URL(app.url, window.location.origin).href)
                         : `/pages/browser.html?launch=${app.url}`;
+                    const clickHandler = app.name === 'Roblox'
+                        ? 'handleRoblox()'
+                        : `window.location.href = '${launchTarget}'`;
                     appDiv.innerHTML = `
-                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '${launchTarget}'"></div>
+                    <div class="app-img" style="background: url('${app.img}');" onclick="${clickHandler}"></div>
                         <div class="title">
                         <h2 class="h2-title">${app.name}</h2>
                     </div>
@@ -314,6 +317,16 @@
                     app.style.display = 'none';
                 }
             });
+        }
+    </script>
+    <script>
+        function handleRoblox() {
+            const useAlt = confirm('Alternative (lower ping, capped) = OK. Normal proxy (higher ping, unlimited) = Cancel.');
+            if (useAlt) {
+                window.location.href = '/pages/roblox.html';
+            } else {
+                window.location.href = '/pages/browser.html?launch=https://nowgg.lol';
+            }
         }
     </script>
 </body>
