@@ -388,31 +388,16 @@
                 try {
                     const apiKey = window.API_KEY || localStorage.getItem("API_KEY") || "";
                     if (!apiKey) throw new Error("API key missing");
-                    const res = await fetch("https://image.pollinations.ai/generate", {
-                        method: "POST",
+                    const encodedPrompt = encodeURIComponent(text);
+                    const url = `https://gen.pollinations.ai/image/${encodedPrompt}?model=zimage&width=1024&height=1024&nologo=true&nofeed=true&safe=false&private=true&quality=medium`;
+                    const res = await fetch(url, {
                         headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": apiKey
-                        },
-                        body: JSON.stringify({
-                            model: "zimage",
-                            prompt: text,
-                            size: "1024x1024",
-                            n: 1
-                        })
+                            "Authorization": `Bearer ${apiKey}`
+                        }
                     });
                     if (!res.ok) throw new Error("API error");
-
-                    const contentType = res.headers.get("content-type") || "";
-                    let imgUrl = "";
-                    if (contentType.includes("application/json")) {
-                        const data = await res.json();
-                        imgUrl = data?.images?.[0] || "";
-                    } else {
-                        const blob = await res.blob();
-                        imgUrl = URL.createObjectURL(blob);
-                    }
-                    if (!imgUrl) throw new Error("No image returned");
+                    const blob = await res.blob();
+                    const imgUrl = URL.createObjectURL(blob);
                     const img = document.createElement("img");
                     img.src = imgUrl;
                     img.alt = prompt;
