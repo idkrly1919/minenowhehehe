@@ -93,7 +93,7 @@ nav ul li {
     aspect-ratio: 1;
     margin-top: 4px;
     height: 40px;
-    transition: 0.15s;
+    transition: 0.15s ease, transform 0.15s ease;
     pointer-events: all;
     display: flex;
     align-items: center;
@@ -113,6 +113,7 @@ nav ul li.divider {
 nav ul li:hover {
     background: color-mix(in srgb, var(--bg-3) 60%, transparent 40%);
     cursor: pointer;
+    transform: scale(1.18);
 }
 
 nav ul li.divider:hover {

@@ -386,18 +386,8 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    const apiKey = window.API_KEY || localStorage.getItem("API_KEY") || "";
-                    if (!apiKey) throw new Error("API key missing");
-                    const encodedPrompt = encodeURIComponent(text);
-                    const url = `https://gen.pollinations.ai/image/${encodedPrompt}?model=zimage&width=1024&height=1024&nologo=true&nofeed=true&safe=false&private=true&quality=medium`;
-                    const res = await fetch(url, {
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`
-                        }
-                    });
-                    if (!res.ok) throw new Error("API error");
-                    const blob = await res.blob();
-                    const imgUrl = URL.createObjectURL(blob);
+                    const encoded = encodeURIComponent(text);
+                    const imgUrl = "https://image.pollinations.ai/prompt/" + encoded;
                     const img = document.createElement("img");
                     img.src = imgUrl;
                     img.alt = prompt;
