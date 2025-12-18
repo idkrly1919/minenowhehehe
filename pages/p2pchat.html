@@ -102,8 +102,8 @@
 <body>
     <div class="chat-card">
         <h1 style="margin-bottom: 4px;">Local P2P Chat</h1>
-        <p class="note">Messages travel directly between peers (WebRTC). Create an invite as the host, share it, and everyone
-            will see the messages.</p>
+        <p class="note">Messages travel directly between peers (WebRTC). Create an invite as the host, share it, and
+            everyone will see the messages while the host stays connected.</p>
         <p id="chat-status" class="note" style="margin-top: 4px;">Loading…</p>
 
         <div class="section">
@@ -115,15 +115,19 @@
             <div style="flex:1; min-width: 260px;">
                 <h3>Host a room</h3>
                 <button id="make-invite">Create invite</button>
-                <textarea id="invite-output" rows="3" readonly placeholder="Copy this invite and share it"></textarea>
-                <textarea id="answer-input" rows="3" placeholder="Paste an answer from a guest"></textarea>
+                <textarea id="invite-output" rows="3" readonly placeholder="Copy this invite and share it"
+                    aria-label="Generated invite code"></textarea>
+                <textarea id="answer-input" rows="3" placeholder="Paste an answer from a guest"
+                    aria-label="Answer from guest"></textarea>
                 <button id="accept-answer">Accept answer</button>
             </div>
             <div style="flex:1; min-width: 260px;">
                 <h3>Join a room</h3>
-                <textarea id="join-offer" rows="3" placeholder="Paste the host invite here"></textarea>
+                <textarea id="join-offer" rows="3" placeholder="Paste the host invite here"
+                    aria-label="Host invite code"></textarea>
                 <button id="join-btn">Generate answer</button>
-                <textarea id="join-answer" rows="3" readonly placeholder="Send this answer back to the host"></textarea>
+                <textarea id="join-answer" rows="3" readonly placeholder="Send this answer back to the host"
+                    aria-label="Generated answer code"></textarea>
             </div>
         </div>
 

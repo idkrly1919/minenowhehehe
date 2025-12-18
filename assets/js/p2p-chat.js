@@ -20,10 +20,20 @@
   let pendingHostPeer = null;
   let actingAsHost = false;
 
-  const randomId = () =>
-    typeof crypto.randomUUID === "function"
-      ? crypto.randomUUID()
-      : `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  const randomId = () => {
+    if (typeof crypto === "undefined") {
+      throw new Error("Secure randomness unavailable");
+    }
+    if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+    if (typeof crypto.getRandomValues === "function") {
+      const buf = new Uint32Array(4);
+      crypto.getRandomValues(buf);
+      return `msg-${Array.from(buf)
+        .map((n) => n.toString(16).padStart(8, "0"))
+        .join("")}`;
+    }
+    throw new Error("Secure randomness unavailable");
+  };
 
   const setStatus = (text) => {
     ui.status.textContent = text;
@@ -74,7 +84,14 @@
   };
 
   const encodeSignal = (desc) => btoa(JSON.stringify(desc));
-  const decodeSignal = (text) => JSON.parse(atob(text));
+  const decodeSignal = (text) => {
+    try {
+      return JSON.parse(atob(text));
+    } catch (err) {
+      console.error("P2P chat: failed to decode signal", err);
+      return null;
+    }
+  };
 
   const waitForIce = (pc) =>
     pc.iceGatheringState === "complete"
@@ -95,7 +112,11 @@
       if (peerId === ignorePeer) return;
       const channel = info.channel;
       if (channel && channel.readyState === "open") {
-        channel.send(serialized);
+        try {
+          channel.send(serialized);
+        } catch (err) {
+          console.error("P2P chat: failed to send message", err);
+        }
       }
     });
   };
@@ -136,7 +157,10 @@
 
   const createPeer = (peerId, isInitiator) => {
     const pc = new RTCPeerConnection({
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" },
+      ],
     });
     peers.set(peerId, { pc, channel: null });
 
@@ -181,13 +205,18 @@
       setStatus("Paste an answer to finish connecting.");
       return;
     }
+    const answer = decodeSignal(answerText);
+    if (!answer || !answer.type || !answer.sdp) {
+      setStatus("Could not read that answer. Double-check and try again.");
+      return;
+    }
     try {
-      const answer = decodeSignal(answerText);
       await pendingHostPeer.setRemoteDescription(answer);
       setStatus("Connected! Create another invite to add more peers.");
       pendingHostPeer = null;
-    } catch {
-      setStatus("Could not read that answer. Double-check and try again.");
+    } catch (err) {
+      console.error("P2P chat: failed to apply answer", err);
+      setStatus("Could not apply that answer. Try again.");
     }
   };
 
@@ -197,19 +226,19 @@
       setStatus("Paste a host invite to generate an answer.");
       return;
     }
-    try {
-      const offer = decodeSignal(offerText);
-      const peerId = `host-${randomId().slice(0, 8)}`;
-      const pc = createPeer(peerId, false);
-      await pc.setRemoteDescription(offer);
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      await waitForIce(pc);
-      ui.joinAnswerOutput.value = encodeSignal(pc.localDescription);
-      setStatus("Send your answer back to the host, then start chatting.");
-    } catch {
+    const offer = decodeSignal(offerText);
+    if (!offer || !offer.type || !offer.sdp) {
       setStatus("That invite didn't look right. Try again.");
+      return;
     }
+    const peerId = `host-${randomId().slice(0, 8)}`;
+    const pc = createPeer(peerId, false);
+    await pc.setRemoteDescription(offer);
+    const answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
+    await waitForIce(pc);
+    ui.joinAnswerOutput.value = encodeSignal(pc.localDescription);
+    setStatus("Send your answer back to the host, then start chatting.");
   };
 
   const sendChat = () => {
@@ -230,7 +259,6 @@
 
   const init = () => {
     loadName();
-    persistName();
     setStatus("Start by creating an invite or joining one.");
     updatePeerCount();
 
