@@ -389,12 +389,10 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    const proxiedEndpoint = `https://corsproxy.io/?${encodeURIComponent(INFIP_ENDPOINT)}`;
-                    const res = await fetch(proxiedEndpoint, {
+                    const res = await fetch("/infip-proxy", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": "infip-1e69c32b"
+                            "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
                             model: "img3",

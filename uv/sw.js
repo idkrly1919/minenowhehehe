@@ -8,6 +8,34 @@ let config = {
 }
 
 async function handleRequest(event) {
+    const requestUrl = new URL(event.request.url);
+    if (requestUrl.pathname === "/infip-proxy" && event.request.method === "POST") {
+        try {
+            const payload = await event.request.json();
+            const upstream = await fetch("https://api.infip.pro/v1/images/generations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "infip-1e69c32b"
+                },
+                body: JSON.stringify(payload)
+            });
+            const text = await upstream.text();
+            return new Response(text, {
+                status: upstream.status,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+        } catch (err) {
+            return new Response(JSON.stringify({ error: "proxy_failed" }), {
+                status: 502,
+                headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+            });
+        }
+    }
+
     if (uv.route(event)) {
         if (config.blocklist.size !== 0) {
             let decodedUrl = new URL(__uv$config.decodeUrl(new URL(event.request.url).pathname.slice(__uv$config.prefix.length)));
