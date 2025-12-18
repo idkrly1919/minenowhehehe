@@ -323,7 +323,10 @@
         function handleRoblox() {
             const useAlt = confirm('Alternative (lower ping, capped) = OK. Normal proxy (higher ping, unlimited) = Cancel.');
             if (useAlt) {
-                window.location.href = '/pages/roblox.html';
+                const canonical = window.location.hostname.endsWith('.verdis.pages.dev')
+                    ? 'https://verdis.pages.dev'
+                    : `${window.location.protocol}//${window.location.hostname}`;
+                window.top.location.href = `${canonical}/pages/roblox.html`;
             } else {
                 window.location.href = '/pages/browser.html?launch=https://nowgg.lol';
             }
