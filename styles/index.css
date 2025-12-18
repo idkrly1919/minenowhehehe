@@ -93,8 +93,11 @@ nav ul li {
     aspect-ratio: 1;
     margin-top: 4px;
     height: 40px;
-    transition: 0.15s;
+    transition: 0.15s ease, transform 0.15s ease;
     pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 nav ul li.divider {
@@ -110,6 +113,7 @@ nav ul li.divider {
 nav ul li:hover {
     background: color-mix(in srgb, var(--bg-3) 60%, transparent 40%);
     cursor: pointer;
+    transform: scale(1.18);
 }
 
 nav ul li.divider:hover {
@@ -121,13 +125,16 @@ nav ul li a {
     text-decoration: none;
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 
 nav ul li a i {
     position: relative;
-    left: 50%;
-    transform: translate(-50%, 11%);
+    left: 0;
+    transform: translateY(11%);
     font-size: 22px;
     cursor: pointer;
 }
@@ -206,6 +213,10 @@ nav ul li.disabled {
     background: linear-gradient(to bottom right, var(--accent), var(--accent-2));
     background-clip: text;
     color: transparent;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 80%, transparent 20%),
+        0 0 36px color-mix(in srgb, var(--accent-2) 70%, transparent 30%),
+        0 0 54px color-mix(in srgb, var(--accent) 50%, transparent 50%);
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 35%, transparent 65%));
 }
 
 #homesearch {
@@ -538,6 +549,15 @@ p a:hover {
 .browser-buttons input:focus {
     background: var(--bg-2);
     outline: none;
+}
+
+.search-warning {
+    font-size: 10px;
+    text-align: center;
+    color: var(--text);
+    opacity: 0.6;
+    margin-top: 6px;
+    pointer-events: none;
 }
 
 .tab {

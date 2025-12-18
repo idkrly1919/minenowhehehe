@@ -355,13 +355,7 @@
         }
 
         async function askAi(prompt, type) {
-            let endpoint;
-            if (type === "text") {
-                endpoint = "https://text.pollinations.ai/";
-            } else {
-                endpoint = "https://image.pollinations.ai/prompt/";
-            }
-            const text = encodeURIComponent(prompt.trim());
+            const text = prompt.trim();
 
             const cont = document.querySelector(".messages-container");
 
@@ -379,26 +373,32 @@
 
             cont.scrollTop = cont.scrollHeight;
 
-            const res = await fetch(endpoint + text);
-            if (!res.ok) {
-                div.innerHTML = "Error: There was a problem with the AI.";
-                return;
-            }
-
             if (responseType === "text") {
+                const res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(text));
+                if (!res.ok) {
+                    div.innerHTML = "Error: There was a problem with the AI.";
+                    return;
+                }
                 const data = await res.text();
                 console.log("AI RESPONSE:" + data);
 
                 div.innerHTML = ``;
                 anim(div, data, 10);
             } else {
-                const img = document.createElement("img");
-                img.src = endpoint + text;
-                img.alt = prompt;
-                img.style.maxWidth = "100%";
-                img.style.borderRadius = "25px";
-                div.innerHTML = ``;
-                div.append(img);
+                try {
+                    const encoded = encodeURIComponent(text);
+                    const imgUrl = "https://image.pollinations.ai/prompt/" + encoded;
+                    const img = document.createElement("img");
+                    img.src = imgUrl;
+                    img.alt = prompt;
+                    img.style.maxWidth = "100%";
+                    img.style.borderRadius = "25px";
+                    div.innerHTML = ``;
+                    div.append(img);
+                } catch (err) {
+                    div.innerHTML = "Error: Could not generate image.";
+                    console.error(err);
+                }
             }
 
             cont.scrollTop = cont.scrollHeight;
