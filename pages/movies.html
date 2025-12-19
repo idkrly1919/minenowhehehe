@@ -5,260 +5,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>verdis | movies</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="preconnect" href="https://fdn.fontcdn.ir">
-    <link rel="preconnect" href="https://v1.fontapi.ir">
-    <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon" id="tabIcon">
     <link rel="stylesheet" href="/assets/css/colors.css" id="css-theme-link">
-    <script src="/assets/js/colors.js"></script>
+    <link rel="stylesheet" href="/assets/css/elements.css">
     <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/icons/fonts/remixicon.css">
+    <script src="/assets/js/lib/particles.js"></script>
+    <script src="/assets/js/colors.js"></script>
+    <link rel="stylesheet" href="/assets/css/overlay.css">
+    <script src="/assets/js/t.js"></script>
+    <link rel="stylesheet" href="/assets/css/t.css">
 </head>
 
-<style>
+<body>
+    <style>
+        html {
+            background: none;
+            overflow: hidden;
+        }
 
-    button {
-        font-family: arial !important;
-    }
+        #particles-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
 
-    body, html {
-        background: none;
-    }
+        .container {
+            display: flex;
+        }
 
-    .movies-bg {
-        position: relative;
-        background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 30%),
-            radial-gradient(circle at 80% 0%, rgba(255, 0, 179, 0.14), transparent 25%),
-            radial-gradient(circle at 50% 80%, rgba(0, 166, 255, 0.18), transparent 35%),
-            linear-gradient(120deg, rgba(7, 10, 25, 0.85), rgba(6, 8, 18, 0.92));
-        background-size: 200% 200%;
-        animation: plasma-move 18s ease-in-out infinite;
-        overflow-x: hidden;
-    }
+        .centerc {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        }
 
-    .movies-bg::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-            radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.35), transparent),
-            radial-gradient(1px 1px at 30% 80%, rgba(255, 255, 255, 0.25), transparent),
-            radial-gradient(2px 2px at 70% 30%, rgba(255, 255, 255, 0.25), transparent),
-            radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.22), transparent);
-        background-size: 200% 200%;
-        animation: snow-drift 22s linear infinite;
-        opacity: 0.6;
-        z-index: 0;
-    }
+        h1 {
+            color: var(--bright-text);
+            font-size: 2.5rem;
+        }
 
-    @keyframes plasma-move {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+        .hcenter {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
 
-    @keyframes snow-drift {
-        0% { transform: translateY(-10px); }
-        50% { transform: translateY(10px); }
-        100% { transform: translateY(-10px); }
-    }
+        button {
+            backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg-2) 30%, transparent 70%);
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 .5px rgba(255, 255, 255, 0.15),
+        0 16px 32px rgba(0, 0, 0, 0.12);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 2px;
+        }
 
-    .glass-shell {
-        backdrop-filter: blur(16px);
-        background: color-mix(in srgb, var(--bg) 35%, transparent 65%);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 1;
-    }
+        button:hover {
+            scale: 1.05;
+            background: var(--bg-3);
+        }
 
-    .glass-inner {
-        backdrop-filter: blur(12px);
-        background: color-mix(in srgb, var(--bg-2) 35%, transparent 65%);
-        border: 1px solid color-mix(in srgb, var(--border-4) 40%, transparent 60%);
-    }
+        button:active {
+            scale: .95;
+        }
 
-    .glass-input {
-        background: color-mix(in srgb, var(--bg-2) 40%, transparent 60%) !important;
-        border: 1px solid color-mix(in srgb, var(--border-4) 35%, transparent 65%);
-    }
+        iframe {
+            background: var(--bg);
+            height: 100vh;
+            border-radius: 0px;
+            border: 0px solid var(--border-4);
+            width: 100%;
+            cursor: none;
+        }
 
-    .glass-input:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 70%, transparent 30%);
-    }
+        button.disabled {
+            filter: brightness(0.5);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
 
-    .card-glass {
-        background: color-mix(in srgb, var(--bg) 45%, transparent 55%);
-        backdrop-filter: blur(10px);
-    }
+        button:disabled {
+            filter: brightness(0.5);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
 
-    .glass-btn {
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
-    }
+        center p {
+            margin-bottom: -20px;
+            font-weight: 500;
+        }
 
-    input {
-        background: var(--bg-2) !important;
-        font-size: 14px !important;
-        font-family: Arial !important;
-        padding: 10px 20px !important;
-    }
+        .atbottom {
+            font-size: 14px;
+            opacity: .2;
+        }
+    </style>
 
-    input:focus {
-        outline: none;
-        background: var(--bg-3) !important;
-    }
-
-    .switcher {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        font-family: arial;
-    }
-
-    ::-webkit-scrollbar {
-        scrollbar-width: thin;
-    }
-</style>
-
-<body class="text-[var(--text)] min-h-screen p-8 movies-bg" x-data="app()">
-    <div class="glass-shell max-w-6xl mx-auto p-8 rounded-3xl shadow-2xl border border-white/10">
-        <h1 class="text-center text-4xl font-semibold mb-6">verdis | movies</h1>
-        <div class="mb-8 flex flex-col md:flex-row gap-4 transition-all duration-200 items-center justify-between glass-inner p-4 rounded-2xl">
-            <input type="text" x-model="searchQuery" @input="searchContent()" placeholder="what are we watching today?"
-                class="transition-all w-full md:w-2/3 text-[var(--text)] rounded-2xl px-4 py-3 glass-input">
-        </div>
-
-        <div class="switcher glass-inner rounded-full px-2 py-2">
-            <button @click="currentTab = 'movies'" :class="currentTab === 'movies' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
-                class="px-4 py-2 rounded-2xl transition-all w-32">
-                movies
-            </button>
-            <button @click="currentTab = 'shows'" :class="currentTab === 'shows' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
-                class="px-4 py-2 rounded-2xl transition-all w-32">
-                tv and shows
-            </button>
-        </div>
-
-        <br><br><br>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-            <template x-for="item in content" :key="item.id">
-                <a :href="'watch.html?id=' + item.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
-                    class="card-glass rounded-3xl overflow-hidden hover:scale-[102%] transition-transform block relative group border border-white/10">
-                    <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path" :alt="item.title || item.name"
-                        class="w-full aspect-[3/2] object-cover transition-all duration-200">
-                    <div
-                        class="absolute inset-0 bg-black/0 group-hover:bg-black/50 hover:backdrop-blur-[2px] transition-all duration-200 flex items-end p-3 opacity-0 group-hover:opacity-100">
-                        <h3 class="text-sm font-semibold text-[var(--text)]" x-text="item.title || item.name"></h3>
-                    </div>
-                </a>
-            </template>
-        </div>
-
-        <div class="mt-8 flex justify-center space-x-4 glass-inner p-4 rounded-2xl">
-            <button @click="currentPage > 1 && changePage(currentPage - 1)" :disabled="currentPage === 1"
-                class="bg-[var(--bg-2)] px-6 py-2 rounded-2xl disabled:opacity-50 glass-btn">
-                Previous
-            </button>
-            <span class="px-6 py-2" style="font-family: arial;">Page <span x-text="currentPage" style="font-family: arial;"></span></span>
-            <button @click="changePage(currentPage + 1)" class="rounded-2xl bg-[var(--bg-2)] px-6 py-2 rounded glass-btn">
-                Next
-            </button>
-        </div>
-        <br><br>
-    </div>
+    <center>
+        <iframe src="/pages/embed.html?launch=https://www.cineby.gd/" frameborder="0"></iframe>
+    </center>
 
     <script>
-        function app() {
-            return {
-                apiKey: 'fb7bb23f03b6994dafc674c074d01761',
-                content: [],
-                currentTab: 'movies',
-                currentPage: 1,
-                searchQuery: '',
-
-                async init() {
-                    await this.fetchContent();
-
-                    this.$watch('currentTab', async () => {
-                        this.currentPage = 1;
-                        this.searchQuery = '';
-                         await this.fetchContent();
-                     });
-                 },
-
-                async searchContent() {
-                    if (!this.searchQuery.trim()) {
-                        await this.fetchContent();
-                        return;
-                    }
-
-                    const baseUrl = 'https://api.tmdb.org/3';
-                    const endpoint = this.currentTab === 'movies' ? 'movie' : 'tv';
-                    const url = `${baseUrl}/search/${endpoint}?api_key=${this.apiKey}&query=${encodeURIComponent(this.searchQuery)}&page=${this.currentPage}`;
-
-                    try {
-                        const response = await fetch(url, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                            }
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                         const data = await response.json();
-                         this.content = data.results;
-                     } catch (error) {
-                         console.error('Error searching content:', error);
-                     }
-                 },
-
-                async fetchContent() {
-                    const baseUrl = 'https://api.tmdb.org/3';
-                    const endpoint = this.currentTab === 'movies' ? 'movie/popular' : 'tv/popular';
-                    const url = `${baseUrl}/${endpoint}?api_key=${this.apiKey}&page=${this.currentPage}`;
-
-                    try {
-                        const response = await fetch(url, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                            }
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                         const data = await response.json();
-                         this.content = data.results;
-                     } catch (error) {
-                         console.error('Error fetching content:', error);
-                         alert('Failed to load movies. TMDB API may be blocked by CORS. Try running this on a local server or use a CORS proxy.');
-                     }
-                 },
-
-                async changePage(page) {
-                    this.currentPage = page;
-                     if (this.searchQuery.trim()) {
-                         await this.searchContent();
-                     } else {
-                         await this.fetchContent();
-                     }
-                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-             }
-         }
-     </script>
-    <script>
-        window.open = function () { console.warn("Popup blocked"); return null; };
+        particlesJS.load('particles-container', '/assets/json/config/particles.json', function () {
+            console.log('Particles.js config loaded');
+        });
     </script>
+
+    <script src="/assets/js/vm.js" defer></script>
     <div id="cursor-thank-you-zxs"
         style="position: fixed; top: 0px; left: 0px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 70%, white 30%); pointer-events: none; z-index: 9999; transform: translate(748px, 592px); transition: width 0.15s, height 0.15s, opacity 0.15s; mix-blend-mode: difference; opacity: 0;">
     </div>
