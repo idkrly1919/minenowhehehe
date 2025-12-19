@@ -605,7 +605,14 @@
                     const newAppContainer = document.createElement("div")
 
                     newAppContainer.classList.add("app")
-                    newAppContainer.setAttribute("onclick", `toggle${functionName}();${toRun}('${additions}${item.url}'); console.log("asdflkjgasdfkljhgasdfkhgasfjkhgasfjkhgsdfgjh")`)
+                    
+                    // Special handling for Roblox
+                    if (item.name === 'Roblox') {
+                        newAppContainer.setAttribute("onclick", `handleRoblox()`)
+                    } else {
+                        newAppContainer.setAttribute("onclick", `toggle${functionName}();${toRun}('${additions}${item.url}'); console.log("asdflkjgasdfkljhgasdfkhgasfjkhgasfjkhgsdfgjh")`)
+                    }
+                    
                     newAppContainer.innerHTML = `
                         <div class="bg-img" data-bg="${item.img}"></div>
                         <div class="app-title-cont">
@@ -933,6 +940,74 @@
                 partnerHolder.classList.add("settings-hidden")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
                 newBlurOverlay.remove()
+            }
+        }
+
+        // Make handleRoblox globally accessible
+        window.handleRoblox = function() {
+            try {
+                console.log('handleRoblox called');
+                const robloxModalId = 'roblox-choice-modal';
+                let modal = document.getElementById(robloxModalId);
+                if (!modal) {
+                    console.log('Creating new modal');
+                    modal = document.createElement('div');
+                    modal.id = robloxModalId;
+                    modal.style.position = 'fixed';
+                    modal.style.inset = '0';
+                    modal.style.background = 'rgba(0,0,0,0.65)';
+                    modal.style.display = 'flex';
+                    modal.style.alignItems = 'center';
+                    modal.style.justifyContent = 'center';
+                    modal.style.zIndex = '9998';
+
+                    const box = document.createElement('div');
+                    box.style.background = 'var(--bg-2, #0f1422)';
+                    box.style.border = '1px solid var(--border-4, rgba(255,255,255,0.1))';
+                    box.style.borderRadius = '14px';
+                    box.style.padding = '18px';
+                    box.style.minWidth = '260px';
+                    box.style.boxShadow = '0 12px 30px rgba(0,0,0,0.35)';
+                    box.innerHTML = `
+                        <h3 style="margin:0 0 8px 0;color:var(--bright-text,#e8edff);font-size:18px;">Choose Roblox Option</h3>
+                        <p style="margin:0 0 14px 0;color:var(--muted-text,#b6c3e6);font-size:14px;line-height:1.5;">
+                            Select how you want to play Roblox:
+                        </p>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            <button id="rb-normal" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border-4,rgba(255,255,255,0.1));background:var(--bg-3,#121828);color:var(--bright-text,#e8edff);cursor:pointer;">
+                                Normal Proxy<br><small style="opacity:0.7;font-size:11px;">Higher ping, unlimited</small>
+                            </button>
+                            <button id="rb-alt" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--accent,rgba(120,169,255,0.6));background:var(--accent,rgba(120,169,255,0.15));color:var(--bright-text,#e8edff);cursor:pointer;">
+                                Alternative<br><small style="opacity:0.7;font-size:11px;">Lower ping, capped per month</small>
+                            </button>
+                        </div>
+                    `;
+
+                    modal.appendChild(box);
+                    document.body.appendChild(modal);
+                    console.log('Modal added to body');
+
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.remove();
+                    });
+
+                    box.querySelector('#rb-normal').addEventListener('click', () => {
+                        modal.remove();
+                        toggleApps();
+                        rSearch('https://nowgg.lol');
+                    });
+                    box.querySelector('#rb-alt').addEventListener('click', () => {
+                        modal.remove();
+                        toggleApps();
+                        window.open('/pages/roblox.html', '_blank');
+                    });
+                } else {
+                    console.log('Modal already exists, showing it');
+                    modal.style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error in handleRoblox:', error);
+                alert('Error showing Roblox options. Please refresh the page and try again.');
             }
         }
 

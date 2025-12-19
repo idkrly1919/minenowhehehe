@@ -130,6 +130,110 @@
                 }
             }
         })
+
+        // MAXIMUM AGGRESSIVE popup blocking - NO popups allowed from movie page
+        
+        // Override window.open completely
+        window.open = function () { 
+            console.warn("🚫 Popup blocked on movies page (window.open)"); 
+            return null; 
+        };
+        
+        // Block ALL clicks that might trigger navigation
+        document.addEventListener('click', function(e) {
+            let element = e.target;
+            let depth = 0;
+            
+            // Traverse up the DOM tree
+            while (element && depth < 10) {
+                // Special handling for nav links
+                if (element.closest('nav, .nav-logo')) {
+                    return; // Allow navigation bar clicks
+                }
+                
+                // Block ALL anchor tags with target="_blank" or external hrefs
+                if (element.tagName === 'A') {
+                    const target = element.getAttribute('target');
+                    const href = element.getAttribute('href');
+                    
+                    // Allow ONLY specific whitelisted external links and internal navigation
+                    const isInternal = !href || href.startsWith('/') || href.startsWith('#') || href.startsWith('javascript:');
+                    const isWhitelisted = href && (href.includes('discord.gg/hUYzETaQ9U') || href.includes('github.com/x8rr/verdis'));
+                    
+                    if ((!isInternal && !isWhitelisted) || (target === '_blank' && !isWhitelisted)) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        console.warn('🚫 Popup blocked on movies page (link):', href);
+                        return false;
+                    }
+                }
+                element = element.parentElement;
+                depth++;
+            }
+        }, true);
+        
+        // Block mousedown on ALL mouse buttons
+        document.addEventListener('mousedown', function(e) {
+            // Allow in nav area
+            if (e.target.closest('nav, .nav-logo')) {
+                return;
+            }
+            
+            // Block middle button and any modifier keys that might open new tabs
+            if (e.button === 1 || e.ctrlKey || e.metaKey || e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                console.warn('🚫 Popup blocked on movies page (mousedown)');
+                return false;
+            }
+        }, true);
+        
+        // Block auxclick (middle click and other auxiliary buttons)
+        document.addEventListener('auxclick', function(e) {
+            if (!e.target.closest('nav, .nav-logo')) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                console.warn('🚫 Popup blocked on movies page (auxclick)');
+                return false;
+            }
+        }, true);
+        
+        // Block contextmenu to prevent "Open in new tab"
+        document.addEventListener('contextmenu', function(e) {
+            // Allow right-click in nav and on video elements
+            if (!e.target.closest('nav, .nav-logo, video, iframe')) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.warn('🚫 Context menu blocked on movies page');
+                return false;
+            }
+        }, true);
+        
+        // Prevent any beforeunload popups
+        window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            return undefined;
+        });
+        
+        // Monitor for dynamically created iframes/windows
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.tagName === 'IFRAME') {
+                        // Check if it's not our movie iframe
+                        const src = node.src || '';
+                        if (!src.includes('vidsrc') && !src.includes('embed') && !src.includes('iframe')) {
+                            console.warn('🚫 Suspicious iframe blocked:', src);
+                            node.remove();
+                        }
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 
     <div class="nav-logo">
