@@ -943,7 +943,8 @@
             }
         }
 
-        function handleRoblox() {
+        // Make handleRoblox globally accessible
+        window.handleRoblox = function() {
             try {
                 console.log('handleRoblox called');
                 const robloxModalId = 'roblox-choice-modal';
