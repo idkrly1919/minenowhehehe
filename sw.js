@@ -101,7 +101,7 @@ function toRegex(pattern) {
  */
 function isBlocked(hostname, pathname) {
 	// Disable blocklist for cineby.gd
-	if (hostname.includes("cineby.gd")) {
+	if (hostname === "cineby.gd" || hostname === "www.cineby.gd") {
 		return false;
 	}
 	
