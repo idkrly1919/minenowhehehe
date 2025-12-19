@@ -495,11 +495,49 @@ const availableSources = [
         }
     </script>
     <script>
-        // Block all popups from movie embeds
+        // Comprehensive popup blocking from movie embeds
+        
+        // Block window.open
         window.open = function () { 
-            console.warn("Popup blocked on watch page"); 
+            console.warn("Popup blocked on watch page (window.open)"); 
             return null; 
         };
+        
+        // Block clicks that try to open new windows/tabs
+        document.addEventListener('click', function(e) {
+            // Check if the click is on a link or its parent
+            let element = e.target;
+            let maxDepth = 5;
+            let depth = 0;
+            
+            while (element && depth < maxDepth) {
+                if (element.tagName === 'A') {
+                    const target = element.getAttribute('target');
+                    const href = element.getAttribute('href');
+                    
+                    // Block links that open in new windows/tabs, except our own navigation
+                    if (target === '_blank' && href && !href.startsWith('/pages/') && !href.startsWith('#')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.warn('Popup blocked on watch page (click on link):', href);
+                        return false;
+                    }
+                }
+                element = element.parentElement;
+                depth++;
+            }
+        }, true); // Use capture phase to intercept early
+        
+        // Block mousedown events that might trigger popups
+        document.addEventListener('mousedown', function(e) {
+            // Only block middle mouse button (often used for popups)
+            if (e.button === 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.warn('Popup blocked on watch page (middle click)');
+                return false;
+            }
+        }, true);
     </script>
     <div id="cursor-thank-you-zxs"
         style="position: fixed; top: 0px; left: 0px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 70%, white 30%); pointer-events: none; z-index: 9999; transform: translate(748px, 592px); transition: width 0.15s, height 0.15s, opacity 0.15s; mix-blend-mode: difference; opacity: 0;">

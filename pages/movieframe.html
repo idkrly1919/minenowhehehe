@@ -131,11 +131,54 @@
             }
         })
 
-        // Block all popups on the movies page
+        // Comprehensive popup blocking on the movies page
+        
+        // Block window.open
         window.open = function () { 
-            console.warn("Popup blocked on movies page"); 
+            console.warn("Popup blocked on movies page (window.open)"); 
             return null; 
         };
+        
+        // Block clicks that try to open new windows/tabs
+        document.addEventListener('click', function(e) {
+            // Check if the click is on a link or its parent
+            let element = e.target;
+            let maxDepth = 5;
+            let depth = 0;
+            
+            while (element && depth < maxDepth) {
+                if (element.tagName === 'A') {
+                    const target = element.getAttribute('target');
+                    const href = element.getAttribute('href');
+                    
+                    // Allow our own navigation and Discord/GitHub links in nav
+                    if (target === '_blank' && href) {
+                        const isOwnNav = href.startsWith('/pages/') || href.startsWith('#');
+                        const isAllowedExternal = href.includes('discord.gg') || href.includes('github.com');
+                        
+                        if (!isOwnNav && !isAllowedExternal) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.warn('Popup blocked on movies page (click on link):', href);
+                            return false;
+                        }
+                    }
+                }
+                element = element.parentElement;
+                depth++;
+            }
+        }, true); // Use capture phase to intercept early
+        
+        // Block mousedown events that might trigger popups
+        document.addEventListener('mousedown', function(e) {
+            // Only block middle mouse button (often used for popups)
+            if (e.button === 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.warn('Popup blocked on movies page (middle click)');
+                return false;
+            }
+        }, true);
     </script>
 
     <div class="nav-logo">
