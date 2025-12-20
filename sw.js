@@ -100,6 +100,11 @@ function toRegex(pattern) {
  * @returns {boolean}
  */
 function isBlocked(hostname, pathname) {
+	// Disable blocklist for cineby.gd
+	if (hostname === "cineby.gd" || hostname === "www.cineby.gd") {
+		return false;
+	}
+	
 	return CONFIG.blocked.some((pattern) => {
 		if (pattern.startsWith("#")) {
 			pattern = pattern.substring(1);
