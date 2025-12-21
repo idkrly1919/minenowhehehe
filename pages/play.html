@@ -329,16 +329,26 @@
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
 
-            // Proxy all games through Scramjet using minenowheheheh.pages.dev
-            getProxiedUrl(decodedUrl).then(proxiedUrl => {
-                gameframe.src = proxiedUrl;
-                gameframe.focus();
-            }).catch(err => {
-                console.warn("Proxy failed:", err);
-                // Fallback to direct load
+            // Check if it's a local game (path starting with /)
+            const isLocalGame = decodedUrl.startsWith('/');
+
+            if (isLocalGame) {
+                // Load local games DIRECTLY without proxy
+                // This prevents SharedWorker/BareMux conflicts in Unity games
                 gameframe.src = decodedUrl;
                 gameframe.focus();
-            });
+            } else {
+                // External URLs go through Scramjet proxy
+                getProxiedUrl(decodedUrl).then(proxiedUrl => {
+                    gameframe.src = proxiedUrl;
+                    gameframe.focus();
+                }).catch(err => {
+                    console.warn("Proxy failed:", err);
+                    // Fallback to direct load
+                    gameframe.src = decodedUrl;
+                    gameframe.focus();
+                });
+            }
 
             gameframe.onload = () => {
                 try {
