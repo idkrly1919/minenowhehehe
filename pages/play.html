@@ -382,7 +382,7 @@
                     const proxyScript = doc.createElement("script");
                     proxyScript.textContent = `
                         (function() {
-                            const blockedDomains = ['rawcdn.githack.com', 'raw.githack.com', 'cdn.jsdelivr.net'];
+                            const blockedDomains = [];
                             const proxyBase = window.location.origin + '/uv/service/';
                             
                             // XOR encode for UV proxy
