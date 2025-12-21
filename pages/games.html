@@ -16,7 +16,7 @@
 
 <body>
 
-    
+
 
     <nav>
         <ul id="nav-ul" class="">
@@ -73,7 +73,8 @@
                         </a>
                     </li>
                     <li>
-                        <a style="cursor: pointer;" onclick="window.open('https://github.com/x8rr/verdis/releases/latest', '_blank')">
+                        <a style="cursor: pointer;"
+                            onclick="window.open('https://github.com/x8rr/verdis/releases/latest', '_blank')">
                             <i class="ri ri-github-fill"></i>
                             Beta 2.2
                         </a>
@@ -291,7 +292,7 @@
                     appDiv.classList.add('app');
 
                     appDiv.innerHTML = `
-                    <div class="app-img" style="background: url('${app.image}');" onclick="window.location.href = '/pages/play.html?launch=${app.url}&name=${app.name}&img=${app.image}'"></div>
+                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '/pages/play.html?launch=${app.url}&name=${app.name}&img=${app.img}'"></div>
                         <div class="title">
                         <h2 class="h2-title">${app.name}</h2>
                     </div>

@@ -13,6 +13,18 @@
     <script src="/assets/js/lib/particles.js"></script>
     <script src="/assets/js/colors.js"></script>
     <link rel="stylesheet" href="/assets/css/overlay.css">
+    <!-- Scramjet/BareMux for CDN proxying -->
+    <script src="/baremux/index.js"></script>
+    <script src="/homework/math.all.js"></script>
+    <script>
+        // Register service worker for proxy
+        async function initProxy() {
+            await navigator.serviceWorker.register("/sw.js").catch(e => {
+                console.log("SW registration error:", e);
+            });
+        }
+        window.addEventListener("load", initProxy);
+    </script>
 </head>
 
 <body style="background: none !important;">
@@ -276,24 +288,72 @@
         const urlParams = new URLSearchParams(window.location.search);
         const gameurl = urlParams.get('launch');
 
-        if (gameurl) {
-            gameframe.src = decodeURIComponent(gameurl);
-            gameframe.focus()
-            gameframe.onload = () => {
-                const doc = gameframe.contentDocument
-                const head = doc.head
+        // CDN Proxy Setup - proxy game through Scramjet to handle blocked CDN URLs
+        const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://swordartii.online/";
+        const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
-                const script = doc.createElement("script");
-                script.textContent = `
-                    window.addEventListener("keydown", (e) => {
-                        if (e.altKey && e.code === "KeyG") {
-                            parent.postMessage({ type: "alt-g" }, "*");
-                        }
-                    });
-                `
+        const CONFIG = {
+            files: {
+                wasm: "/homework/history.wasm.wasm",
+                all: "/homework/math.all.js",
+                sync: "/homework/science.sync.js",
+            },
+        };
 
-                head.appendChild(script)
+        const { ScramjetController } = $scramjetLoadController();
+        const scramjet = new ScramjetController({ files: CONFIG.files });
+        scramjet.init();
+
+        async function loadGameProxied(url) {
+            // Ensure proxy transport is set up
+            if (!(await connection.getTransport())) {
+                connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
             }
+
+            // Convert relative URL to absolute
+            let fullUrl = url;
+            if (url.startsWith('/')) {
+                fullUrl = window.location.origin + url;
+            }
+
+            // Encode URL through Scramjet proxy
+            const proxiedUrl = scramjet.encodeUrl(fullUrl);
+            return proxiedUrl;
+        }
+
+        if (gameurl) {
+            const decodedUrl = decodeURIComponent(gameurl);
+
+            // Load game through proxy to handle blocked CDN URLs
+            loadGameProxied(decodedUrl).then(proxiedUrl => {
+                gameframe.src = proxiedUrl;
+                gameframe.focus();
+            }).catch(err => {
+                // Fallback to direct load if proxy fails
+                console.warn("Proxy failed, loading directly:", err);
+                gameframe.src = decodedUrl;
+                gameframe.focus();
+            });
+
+            gameframe.onload = () => {
+                try {
+                    const doc = gameframe.contentDocument;
+                    const head = doc.head;
+
+                    const script = doc.createElement("script");
+                    script.textContent = `
+                        window.addEventListener("keydown", (e) => {
+                            if (e.altKey && e.code === "KeyG") {
+                                parent.postMessage({ type: "alt-g" }, "*");
+                            }
+                        });
+                    `;
+
+                    head.appendChild(script);
+                } catch (e) {
+                    // Cross-origin frame - can't inject script (expected for proxied content)
+                }
+            };
         }
 
         function refreshGame() {
