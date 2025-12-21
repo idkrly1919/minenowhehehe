@@ -325,16 +325,23 @@
             return encodeURIComponent(result);
         }
 
-        // Proxy URL through Ultraviolet using minenowheheheh.pages.dev
+        // Proxy URL through Ultraviolet for external URLs only
         async function getProxiedUrl(url) {
-            if (!(await connection.getTransport())) {
-                connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+            if (!url || typeof url !== 'string') {
+                throw new Error('Invalid URL provided');
             }
 
-            // Convert relative URL to full URL using minenowheheheh.pages.dev
+            if (!(await connection.getTransport())) {
+                await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+            }
+
+            // For external URLs, proxy through UV
             let fullUrl = url;
-            if (url.startsWith('/')) {
-                fullUrl = 'https://minenowheheheh.pages.dev' + url;
+
+            // If it starts with http:// or https://, it's already a full URL
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                // It's a relative URL, so convert to absolute for proxying
+                fullUrl = 'https://minenowheheheh.pages.dev' + (url.startsWith('/') ? url : '/' + url);
             }
 
             return '/uv/service/' + uvEncode(fullUrl);
@@ -342,16 +349,30 @@
 
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
-
-            // Proxy all games through UV using minenowheheheh.pages.dev domain
-            getProxiedUrl(decodedUrl).then(proxiedUrl => {
-                gameframe.src = proxiedUrl;
+            
+            // Check if we're running locally
+            const isLocal = window.location.hostname === 'localhost' || 
+                            window.location.hostname === '127.0.0.1' ||
+                            window.location.hostname.startsWith('192.168.');
+            
+            if (isLocal && decodedUrl.startsWith('/')) {
+                // When running locally, redirect to the deployed site to play games
+                // This ensures the UV proxy has a working wisp connection
+                const deployedUrl = 'https://minenowheheheh.pages.dev' + decodedUrl;
+                gameframe.src = deployedUrl;
                 gameframe.focus();
-            }).catch(err => {
-                console.warn("Proxy failed:", err);
-                gameframe.src = decodedUrl;
-                gameframe.focus();
-            });
+            } else {
+                // On deployed site, proxy through UV
+                getProxiedUrl(decodedUrl).then(proxiedUrl => {
+                    gameframe.src = proxiedUrl;
+                    gameframe.focus();
+                }).catch(err => {
+                    console.warn("Proxy failed:", err);
+                    // Fallback to direct load
+                    gameframe.src = decodedUrl;
+                    gameframe.focus();
+                });
+            }
 
             gameframe.onload = () => {
                 try {
