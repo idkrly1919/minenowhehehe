@@ -284,7 +284,8 @@
             try {
                 // Get selected store from localStorage (default to gn-math)
                 const store = localStorage.getItem('verdis_gameStore') || 'GN-Math';
-                const storeFile = store.toLowerCase().replace('-', '');
+                // Keep the dash for gn-math.json
+                const storeFile = store.toLowerCase();
 
                 res = await fetch(`/assets/json/${storeFile}.json`);
                 if (!res.ok) {
@@ -308,8 +309,18 @@
                     const appDiv = document.createElement('div');
                     appDiv.classList.add('app');
 
+                    const queryParams = new URLSearchParams({
+                        launch: app.url,
+                        name: app.name,
+                        img: app.img
+                    });
+
+                    if (app.embed) {
+                        queryParams.set('embed', 'true');
+                    }
+
                     appDiv.innerHTML = `
-                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '/pages/play.html?launch=${app.url}&name=${app.name}&img=${app.img}'"></div>
+                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '/pages/play.html?${queryParams.toString()}'"></div>
                         <div class="title">
                         <h2 class="h2-title">${app.name}</h2>
                     </div>

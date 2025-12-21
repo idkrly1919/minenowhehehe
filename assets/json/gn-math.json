@@ -4,7 +4,6 @@
     "img": "/assets/img/games/gn-math/0.png",
     "url": "/stores/gn-math/0.html"
   },
-
   {
     "name": "OvO 3 Dimensions",
     "img": "/assets/img/games/gn-math/3.png",
@@ -128,7 +127,8 @@
   {
     "name": "Geometry Dash Lite",
     "img": "/assets/img/games/gn-math/27.png",
-    "url": "/stores/gn-math/27.html"
+    "url": "/stores/gn-math/27.html",
+    "embed": true
   },
   {
     "name": "Basketball Frvr",

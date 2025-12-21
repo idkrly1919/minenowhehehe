@@ -733,7 +733,10 @@
                         }
                         console.log("Tracking play for: ${item.name}");
                         toggle${functionName}();
-                        ${toRun}('${additions}${item.url}');
+                        const launchUrl = new URL('${item.url}', window.location.origin);
+                        const playUrl = 'play.html?launch=' + encodeURIComponent('${item.url}') + 
+                                       '${item.embed ? '&embed=true' : ''}';
+                        ${toRun}(playUrl);
                     `.replace(/\s+/g, ' ');
 
                     // Special handling for Roblox
