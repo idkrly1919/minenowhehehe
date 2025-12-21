@@ -11,6 +11,14 @@ const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
 
 const CONFIG = {
+	// CDN domains that are blocked by school networks and need proxying
+	proxyDomains: [
+		"rawcdn.githack.com",
+		"raw.githack.com",
+		"cdn.jsdelivr.net",
+		"unpkg.com",
+		"cdnjs.cloudflare.com",
+	],
 	blocked: [
 		"youtube.com/get_video_info?*adformat=*",
 		"youtube.com/api/stats/ads/*",
@@ -78,6 +86,20 @@ const CONFIG = {
 	},
 };
 
+/**
+ * Check if URL is from a blocked CDN domain that needs proxying
+ * @param {string} url
+ * @returns {boolean}
+ */
+function needsProxy(url) {
+	try {
+		const parsed = new URL(url);
+		return CONFIG.proxyDomains.some(domain => parsed.hostname.includes(domain));
+	} catch {
+		return false;
+	}
+}
+
 /** @type {{ origin: string, html: string, css: string, js: string } | undefined} */
 let playgroundData;
 
@@ -134,6 +156,34 @@ function inject(html) {
 }
 
 /**
+ * Rewrite blocked CDN URLs in HTML to go through Ultraviolet proxy
+ * @param {string} html
+ * @returns {string}
+ */
+function rewriteCdnUrls(html) {
+	// Rewrite URLs for blocked CDN domains to go through Ultraviolet
+	for (const domain of CONFIG.proxyDomains) {
+		// Match URLs in src, href, and url() attributes
+		const patterns = [
+			new RegExp(`(src=["'])(https?://[^"']*${domain.replace(/\./g, '\\.')}[^"']*)`, 'gi'),
+			new RegExp(`(href=["'])(https?://[^"']*${domain.replace(/\./g, '\\.')}[^"']*)`, 'gi'),
+			new RegExp(`(url\\(["']?)(https?://[^"')]*${domain.replace(/\./g, '\\.')}[^"')]*)(["']?\\))`, 'gi'),
+		];
+
+		for (const pattern of patterns) {
+			html = html.replace(pattern, (match, prefix, url, suffix = '') => {
+				// XOR encode for Ultraviolet
+				const encoded = encodeURIComponent(
+					url.split('').map(c => String.fromCharCode(c.charCodeAt(0) ^ 2)).join('')
+				);
+				return `${prefix}/uv/service/${encoded}${suffix}`;
+			});
+		}
+	}
+	return html;
+}
+
+/**
  * @param {FetchEvent} event
  * @returns {Promise<Response>}
  */
@@ -163,7 +213,27 @@ async function handleRequest(event) {
 	}
 
 	try {
-		return await fetch(event.request);
+		const response = await fetch(event.request);
+		const url = event.request.url;
+		const contentType = response.headers.get("content-type") || "";
+
+		// For local game HTML files, rewrite blocked CDN URLs
+		if (url.includes("/stores/gn-math/") && contentType.includes("text/html")) {
+			const html = await response.text();
+			const rewrittenHtml = rewriteCdnUrls(inject(html));
+			const encoder = new TextEncoder();
+			const byteLength = encoder.encode(rewrittenHtml).length;
+			const newHeaders = new Headers(response.headers);
+			newHeaders.set("content-length", byteLength.toString());
+
+			return new Response(rewrittenHtml, {
+				status: response.status,
+				statusText: response.statusText,
+				headers: newHeaders,
+			});
+		}
+
+		return response;
 	} catch (e) {
 		console.error("SW Fetch error:", e);
 		return new Response("Network error", { status: 408 });

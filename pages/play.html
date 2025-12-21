@@ -288,10 +288,11 @@
         const urlParams = new URLSearchParams(window.location.search);
         const gameurl = urlParams.get('launch');
 
-        // CDN Proxy Setup - proxy game through Scramjet to handle blocked CDN URLs
+        // Use Ultraviolet for proxying - it handles same-origin URLs (unlike Scramjet)
         const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://swordartii.online/";
         const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
+        // Initialize Scramjet for external URL support but use UV for same-origin
         const CONFIG = {
             files: {
                 wasm: "/homework/history.wasm.wasm",
@@ -304,42 +305,60 @@
         const scramjet = new ScramjetController({ files: CONFIG.files });
         scramjet.init();
 
-        async function loadGameProxied(url) {
-            // Ensure proxy transport is set up
+        // Helper to check if URL is local/same-origin
+        function isLocalUrl(url) {
+            if (url.startsWith('/')) return true;
+            try {
+                const parsed = new URL(url, window.location.origin);
+                return parsed.origin === window.location.origin;
+            } catch {
+                return true; // Assume local if can't parse
+            }
+        }
+
+        // XOR encode for Ultraviolet (same as __uv$config.encodeUrl)
+        function uvEncode(str) {
+            let result = '';
+            for (let i = 0; i < str.length; i++) {
+                result += String.fromCharCode(str.charCodeAt(i) ^ 2);
+            }
+            return encodeURIComponent(result);
+        }
+
+        // Proxy external URLs using Ultraviolet
+        async function getProxiedUrl(url) {
             if (!(await connection.getTransport())) {
                 connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
             }
-
-            // Convert relative URL to absolute
-            let fullUrl = url;
-            if (url.startsWith('/')) {
-                fullUrl = window.location.origin + url;
-            }
-
-            // Encode URL through Scramjet proxy
-            const proxiedUrl = scramjet.encodeUrl(fullUrl);
-            return proxiedUrl;
+            return '/uv/service/' + uvEncode(url);
         }
 
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
 
-            // Load game through proxy to handle blocked CDN URLs
-            loadGameProxied(decodedUrl).then(proxiedUrl => {
-                gameframe.src = proxiedUrl;
-                gameframe.focus();
-            }).catch(err => {
-                // Fallback to direct load if proxy fails
-                console.warn("Proxy failed, loading directly:", err);
+            // Local games load directly - service worker rewrites CDN URLs in HTML
+            // External games proxy through Ultraviolet
+            if (isLocalUrl(decodedUrl)) {
                 gameframe.src = decodedUrl;
                 gameframe.focus();
-            });
+            } else {
+                getProxiedUrl(decodedUrl).then(proxiedUrl => {
+                    gameframe.src = proxiedUrl;
+                    gameframe.focus();
+                }).catch(err => {
+                    console.warn("Proxy failed:", err);
+                    gameframe.src = decodedUrl;
+                    gameframe.focus();
+                });
+            }
 
             gameframe.onload = () => {
                 try {
                     const doc = gameframe.contentDocument;
+                    if (!doc) return;
                     const head = doc.head;
 
+                    // Inject overlay keyboard listener
                     const script = doc.createElement("script");
                     script.textContent = `
                         window.addEventListener("keydown", (e) => {
@@ -348,10 +367,57 @@
                             }
                         });
                     `;
-
                     head.appendChild(script);
+
+                    // Inject CDN proxy script to rewrite blocked URLs
+                    const proxyScript = doc.createElement("script");
+                    proxyScript.textContent = `
+                        (function() {
+                            const blockedDomains = ['rawcdn.githack.com', 'raw.githack.com', 'cdn.jsdelivr.net'];
+                            const proxyBase = window.location.origin + '/uv/service/';
+                            
+                            // XOR encode for UV proxy
+                            function xorEncode(str) {
+                                let result = '';
+                                for (let i = 0; i < str.length; i++) {
+                                    result += String.fromCharCode(str.charCodeAt(i) ^ 2);
+                                }
+                                return encodeURIComponent(result);
+                            }
+                            
+                            // Intercept fetch
+                            const originalFetch = window.fetch;
+                            window.fetch = function(url, options) {
+                                if (typeof url === 'string') {
+                                    for (const domain of blockedDomains) {
+                                        if (url.includes(domain)) {
+                                            url = proxyBase + xorEncode(url);
+                                            break;
+                                        }
+                                    }
+                                }
+                                return originalFetch.call(this, url, options);
+                            };
+                            
+                            // Intercept XMLHttpRequest
+                            const originalOpen = XMLHttpRequest.prototype.open;
+                            XMLHttpRequest.prototype.open = function(method, url, ...args) {
+                                if (typeof url === 'string') {
+                                    for (const domain of blockedDomains) {
+                                        if (url.includes(domain)) {
+                                            url = proxyBase + xorEncode(url);
+                                            break;
+                                        }
+                                    }
+                                }
+                                return originalOpen.call(this, method, url, ...args);
+                            };
+                        })();
+                    `;
+                    head.insertBefore(proxyScript, head.firstChild);
                 } catch (e) {
-                    // Cross-origin frame - can't inject script (expected for proxied content)
+                    // Cross-origin frame - can't inject script
+                    console.log("Could not inject proxy script into game frame");
                 }
             };
         }
