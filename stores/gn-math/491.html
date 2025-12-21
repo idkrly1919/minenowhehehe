@@ -10,7 +10,7 @@
     var gameInstance;
 
     window.addEventListener("load", function() {
-      gameInstance = UnityLoader.instantiate("gameContainer", "Build/web.json");
+      gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/waycrosspublicmedia/whatver/nextyou/Build/web.json");
       resizeGame();
       window.addEventListener("resize", resizeGame);
     });

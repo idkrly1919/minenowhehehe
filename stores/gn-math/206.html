@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Tunnel Rush</title>
-    <link rel="stylesheet" href="style/style.css">
-    <script src="UnityLoader.js"></script>
-    <script src="UnityProgress.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/genizy/assets@main/tunnel-rush/style/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/genizy/assets@main/tunnel-rush/UnityLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/genizy/assets@main/tunnel-rush/UnityProgress.js"></script>
     <link rel="icon" href="img/tunnel.jpg">
     <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "build.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});
+      var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/genizy/assets@main/tunnel-rush/build.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});
     </script>
   </head>
   <body>

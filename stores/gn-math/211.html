@@ -14,7 +14,7 @@
             <meta charset="utf-8" />
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <title>Death Run 3D</title>
-            <link href="shared/style.css" rel="stylesheet" />
+            <link href="https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/shared/style.css" rel="stylesheet" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/style.css" />
             <script src="https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/UnityProgress.js"></script>
             <link rel="shortcut icon" href="TemplateData/favicon.ico" />
@@ -46,7 +46,7 @@
                     args[1] = /^http/.test(args[1]) ? "https://onebigstatic-tmm.tbt.mx/static/" + args[1] : args[1];
                     origOpen.apply(this, args);
                 };
-                var gameInstance = UnityLoader.instantiate("gameContainer", "Build/death_run_wasm_v1.json", {
+                var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/Build/death_run_wasm_v1.json", {
                     onProgress: UnityProgress,
                     Module: {
                         onRuntimeInitialized: function () {
@@ -55,8 +55,8 @@
                     },
                 });
             </script>
-            <script src="shared/lib.js" type="text/javascript"></script>
-            <script src="shared/gamebreak/gamebreak.js" type="text/javascript"></script>
+            <script src="https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/shared/lib.js" type="text/javascript"></script>
+            <script src="https://cdn.jsdelivr.net/gh/genizy/assets@main/death-run-3d/TemplateData56/shared/gamebreak/gamebreak.js" type="text/javascript"></script>
         </head>
         <body>
             <div class="webgl-content">
