@@ -207,6 +207,7 @@ nav ul li:has(#playtime-btn) {
     border-radius: 12px;
     padding: 12px 14px;
     transition: all 0.2s;
+    position: relative;
 }
 
 .playtime-activity:hover {
@@ -269,5 +270,63 @@ nav ul li:has(#playtime-btn) {
     .playtime-meta {
         flex-direction: column;
         gap: 4px;
+    }
+}
+
+/* Detailed Breakdown Styles */
+.playtime-activity.has-details {
+    cursor: pointer;
+}
+
+.playtime-activity.has-details::after {
+    content: "▼";
+    position: absolute;
+    right: 14px;
+    top: 12px;
+    font-size: 10px;
+    opacity: 0.3;
+    transition: transform 0.2s;
+}
+
+.playtime-activity.expanded::after {
+    transform: rotate(180deg);
+}
+
+.playtime-details-list {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-4);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    animation: fadeInSlide 0.2s ease;
+}
+
+.playtime-sub-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.playtime-sub-label {
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.playtime-sub-time {
+    font-weight: 600;
+    color: var(--bright-text);
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

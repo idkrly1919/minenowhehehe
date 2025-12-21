@@ -9,6 +9,7 @@ const VerdisPlaytime = (() => {
 
     let sessionStart = Date.now();
     let currentActivity = 'idle';
+    let currentSubActivity = null;
     let activityStart = Date.now();
     let saveTimer = null;
 
@@ -23,6 +24,12 @@ const VerdisPlaytime = (() => {
             movies: 0,
             browsing: 0,
             idle: 0
+        },
+        details: {
+            games: {},
+            apps: {},
+            movies: {},
+            browsing: {}
         }
     });
 
@@ -34,8 +41,11 @@ const VerdisPlaytime = (() => {
                 const data = JSON.parse(stored);
                 // Ensure all breakdown categories exist
                 if (!data.breakdown) data.breakdown = defaultData().breakdown;
+                if (!data.details) data.details = defaultData().details;
+
                 ['games', 'apps', 'movies', 'browsing', 'idle'].forEach(cat => {
                     if (typeof data.breakdown[cat] !== 'number') data.breakdown[cat] = 0;
+                    if (cat !== 'idle' && !data.details[cat]) data.details[cat] = {};
                 });
                 return data;
             }
@@ -67,6 +77,13 @@ const VerdisPlaytime = (() => {
 
         const data = loadData();
         data.breakdown[currentActivity] = (data.breakdown[currentActivity] || 0) + elapsed;
+
+        // Track sub-activity if present
+        if (currentSubActivity) {
+            if (!data.details[currentActivity]) data.details[currentActivity] = {};
+            data.details[currentActivity][currentSubActivity] = (data.details[currentActivity][currentSubActivity] || 0) + elapsed;
+        }
+
         data.totalMs += elapsed;
         saveData(data);
 
@@ -141,14 +158,15 @@ const VerdisPlaytime = (() => {
     }
 
     // Track activity change
-    function trackActivity(activity) {
+    function trackActivity(activity, subActivity = null) {
         if (!['games', 'apps', 'movies', 'browsing', 'idle'].includes(activity)) {
             activity = 'idle';
         }
 
-        if (activity !== currentActivity) {
+        if (activity !== currentActivity || subActivity !== currentSubActivity) {
             updateActivityTime();
             currentActivity = activity;
+            currentSubActivity = subActivity;
             activityStart = Date.now();
         }
     }
@@ -211,6 +229,7 @@ const VerdisPlaytime = (() => {
 
         const stats = getStats();
         const breakdown = stats.breakdown;
+        const details = stats.details || {};
         const total = stats.totalMs;
 
         // Activity icons and labels (no idle - we don't track home time)
@@ -234,16 +253,18 @@ const VerdisPlaytime = (() => {
                 <span><i class="far fa-repeat"></i> ${stats.sessions} session${stats.sessions !== 1 ? 's' : ''}</span>
             </div>
             <div class="playtime-divider"></div>
-            <h4>Activity Breakdown</h4>
+            <h4>Activity Breakdown <small style="opacity: 0.5; font-weight: normal; font-size: 0.7em;">(Click for details)</small></h4>
             <div class="playtime-activities">
         `;
 
         activities.forEach(act => {
             const time = breakdown[act.key] || 0;
             const percent = total > 0 ? Math.round((time / total) * 100) : 0;
+            const subItems = details[act.key] || {};
+            const hasDetails = Object.keys(subItems).length > 0;
 
             html += `
-                <div class="playtime-activity">
+                <div class="playtime-activity ${hasDetails ? 'has-details' : ''}" onclick="${hasDetails ? `VerdisPlaytime.toggleDetails('${act.key}')` : ''}">
                     <div class="playtime-activity-header">
                         <span class="playtime-activity-icon">${act.icon}</span>
                         <span class="playtime-activity-label">${act.label}</span>
@@ -252,12 +273,39 @@ const VerdisPlaytime = (() => {
                     <div class="playtime-progress">
                         <div class="playtime-progress-bar" style="width: ${percent}%"></div>
                     </div>
+                    <div id="playtime-details-${act.key}" class="playtime-details-list" style="display: none;">
+            `;
+
+            // Sort sub-items by time
+            const sortedSubItems = Object.entries(subItems).sort((a, b) => b[1] - a[1]);
+            sortedSubItems.forEach(([name, subTime]) => {
+                html += `
+                    <div class="playtime-sub-item">
+                        <span class="playtime-sub-label">${name}</span>
+                        <span class="playtime-sub-time">${formatTime(subTime, true)}</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
                 </div>
             `;
         });
 
         html += '</div>';
         container.innerHTML = html;
+    }
+
+    function toggleDetails(key) {
+        const detailsEl = document.getElementById(`playtime-details-${key}`);
+        if (!detailsEl) return;
+
+        const isCollapsed = detailsEl.style.display === 'none';
+        detailsEl.style.display = isCollapsed ? 'block' : 'none';
+
+        // Add a class for rotation animation of icon if needed
+        detailsEl.parentElement.classList.toggle('expanded', isCollapsed);
     }
 
     // Public API
@@ -269,7 +317,8 @@ const VerdisPlaytime = (() => {
         getStats,
         formatTime,
         updateDisplay,
-        toggleModal
+        toggleModal,
+        toggleDetails
     };
 })();
 

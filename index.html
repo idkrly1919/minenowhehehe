@@ -73,11 +73,13 @@
 </head>
 
 <body>
-    <button id="gohomeblock" onclick="navTo('home?launch=1')">
-        <i class="ri-home-4-line"></i>
-    </button>
-    <nav>
+    <nav id="main-nav">
         <ul>
+            <li id="nav-home-morph">
+                <a onclick="window.location.reload()" href="#">
+                    <i class="ri-home-4-line"></i>
+                </a>
+            </li>
             <li>
                 <a id="playtime-btn" href="#" aria-label="Playtime">
                     <i class="fas fa-mountain" onclick="event.stopPropagation(); openAB()" aria-label="Cave cloak"></i>
@@ -736,7 +738,7 @@
                         const launchUrl = new URL('${item.url}', window.location.origin);
                         const playUrl = 'play.html?launch=' + encodeURIComponent('${item.url}') + 
                                        '${item.embed ? '&embed=true' : ''}';
-                        ${toRun}(playUrl);
+                        ${toRun}(playUrl, '${item.name.replace(/'/g, "\\'")}');
                     `.replace(/\s+/g, ' ');
 
                     // Special handling for Roblox
@@ -824,7 +826,7 @@
                 // Click to open
                 item.addEventListener('click', () => {
                     if (fav.type === 'games') {
-                        navTo('play.html?launch=' + fav.url)
+                        navTo('play.html?launch=' + fav.url, fav.name)
                     } else if (fav.type === 'apps') {
                         rSearch(fav.url)
                     } else if (fav.type === 'movies') {
@@ -1029,11 +1031,11 @@
         const homeContent = document.getElementById('homeContent');
         const navLinks = document.querySelectorAll('nav a[data-page]');
 
-        function navTo(l) {
+        function navTo(l, name = null) {
             // Track activity based on destination
             if (typeof VerdisPlaytime !== 'undefined') {
                 if (l.includes("play.html") || l.includes("/stores/")) {
-                    VerdisPlaytime.trackActivity('games');
+                    VerdisPlaytime.trackActivity('games', name || l.split('/').pop().replace('.html', ''));
                 } else if (l === "movies") {
                     VerdisPlaytime.trackActivity('movies');
                 } else if (l.includes("home")) {
@@ -1041,19 +1043,21 @@
                 }
             }
 
+            const nav = document.getElementById("main-nav");
+
             if (l.includes("home")) {
                 // remove class first to unlock visibility
                 document.body.classList.remove("content-open");
+                document.body.classList.remove("game-active");
 
-                contentFrame.remove();
-                document.querySelector("nav").style.display = "block"
-                setTimeout(() => {
-                    document.querySelector("nav").style.opacity = "1"
-                }, 3)
+                if (nav) {
+                    nav.classList.remove("nav-minimized");
+                    nav.style.display = "block";
+                    nav.style.opacity = "1";
+                }
 
+                if (contentFrame) contentFrame.remove();
                 homeContent.style.display = "block";
-                document.querySelector("#gohomeblock").style.display = "none"
-                hideHomeButton(); // Hide home button on dashboard
 
                 // Close any open settings panels
                 const panels = document.querySelectorAll('.settings-shown');
@@ -1069,51 +1073,23 @@
                     exitGameMode();
                 }
 
-            } else if (l === "vms" || l === "movies") {
-                // OPTIMIZE - ENTER GAME MODE
-                if (typeof enterGameMode === 'function') {
-                    enterGameMode();
-                }
-
-                // Re-add iframe if it was removed
-                if (!document.body.contains(contentFrame)) {
-                    document.body.appendChild(contentFrame);
-                }
-                document.querySelector("nav").style.opacity = 0
-                setTimeout(() => {
-                    document.querySelector("nav").style.display = "none"
-                }, 350)
-                document.querySelector("#gohomeblock").style.display = "none"
-                homeContent.style.display = "none";
-                contentFrame.style.display = "block";
-                contentFrame.src = `/pages/${l}.html`
-                document.body.classList.add("content-open");
-                showHomeButton(); // Show home button
             } else {
+                document.body.classList.add("content-open");
+                document.body.classList.add("game-active");
+
+                if (nav) {
+                    nav.classList.add("nav-minimized");
+                }
+
                 if (!document.body.contains(contentFrame)) {
                     document.body.appendChild(contentFrame);
                 }
 
-                // OPTIMIZE - ENTER GAME MODE (For games and proxy pages)
+                // ENTER GAME MODE
                 if (typeof enterGameMode === 'function') {
                     enterGameMode();
                 }
 
-                const overlayOn = localStorage.getItem("verdis_useOverlay") ?? "yes"
-                if (l.includes("/stores/") || l.includes("play.html")) {
-                    document.body.classList.add("content-open");
-                    showHomeButton(); // Show home button for games
-                } else {
-                    // For generic proxy pages
-                    document.body.classList.add("content-open");
-                    showHomeButton();
-                }
-                if (overlayOn === "yes" && l.includes("/stores/")) {
-                    document.querySelector("nav").style.opacity = 0
-                    setTimeout(() => {
-                        document.querySelector("nav").style.display = "none"
-                    }, 350)
-                }
                 homeContent.style.display = "none";
                 contentFrame.style.display = "block";
 
@@ -1128,64 +1104,33 @@
                 contentFrame.src = target;
             }
         }
-    </script>
-    <script>
-        const inp = document.getElementById("searchbar")
 
-        inp.addEventListener("keydown", e => {
-            if (e.key === "Enter") {
-                nav(inp.value)
-                console.log("i")
+        // Nav Morph Hover Logic
+        (function () {
+            const nav = document.getElementById("main-nav");
+            let minimizeTimeout = null;
+
+            if (nav) {
+                nav.addEventListener("mouseenter", () => {
+                    if (nav.classList.contains("nav-minimized")) {
+                        nav.classList.add("nav-hover-expand");
+                        if (minimizeTimeout) {
+                            clearTimeout(minimizeTimeout);
+                            minimizeTimeout = null;
+                        }
+                    }
+                });
+
+                nav.addEventListener("mouseleave", () => {
+                    if (nav.classList.contains("nav-minimized") && nav.classList.contains("nav-hover-expand")) {
+                        minimizeTimeout = setTimeout(() => {
+                            nav.classList.remove("nav-hover-expand");
+                            minimizeTimeout = null;
+                        }, 3000);
+                    }
+                });
             }
-        })
-
-        // Global Home Button Logic
-        function showHomeButton() {
-            let btn = document.getElementById('global-home-btn');
-            if (!btn) {
-                btn = document.createElement('div');
-                btn.id = 'global-home-btn';
-                btn.innerHTML = '<i class="fas fa-home"></i>';
-                btn.style.position = 'fixed';
-                btn.style.top = '15px';
-                btn.style.right = '15px';
-                btn.style.width = '40px';
-                btn.style.height = '40px';
-                btn.style.background = 'rgba(0, 0, 0, 0.5)';
-                btn.style.backdropFilter = 'blur(5px)';
-                btn.style.borderRadius = '10px';
-                btn.style.display = 'flex';
-                btn.style.alignItems = 'center';
-                btn.style.justifyContent = 'center';
-                btn.style.color = 'white';
-                btn.style.cursor = 'pointer';
-                btn.style.zIndex = '10000';
-                btn.style.transition = '0.2s';
-                btn.style.border = '1px solid rgba(255,255,255,0.1)';
-
-                btn.onmouseenter = () => {
-                    btn.style.background = 'var(--accent)';
-                    btn.style.transform = 'scale(1.1)';
-                };
-                btn.onmouseleave = () => {
-                    btn.style.background = 'rgba(0, 0, 0, 0.5)';
-                    btn.style.transform = 'scale(1)';
-                };
-                btn.onclick = () => {
-                    window.location.reload();
-                };
-
-                document.body.appendChild(btn);
-            }
-            btn.style.display = 'flex';
-        }
-
-        function hideHomeButton() {
-            const btn = document.getElementById('global-home-btn');
-            if (btn) {
-                btn.style.display = 'none';
-            }
-        }
+        })();
     </script>
     <script defer>
         window.addEventListener("load", () => {

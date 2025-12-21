@@ -58,9 +58,11 @@ nav {
     background: color-mix(in srgb, var(--bg) 25%, transparent 75%);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-4);
-    z-index: 5;
+    z-index: 9324768;
+    /* Match old gohomeblock z-index */
     border-radius: 20px;
-    width: fit-content;
+    width: auto;
+    min-width: 50px;
     margin-top: 10px;
     height: 50px;
     opacity: 1;
@@ -70,18 +72,129 @@ nav {
     padding-right: 3px;
     transform: translateX(-50%);
     overflow: hidden;
+    pointer-events: all;
+    /* Ensure click/hover works */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hide home button when not in game mode */
+nav:not(.nav-minimized) #nav-home-morph {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Show home button in game mode (minimized or hover-expanded) */
+nav.nav-minimized #nav-home-morph,
+nav.nav-hover-expand #nav-home-morph {
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    margin: 2px;
+    display: flex !important;
+}
+
+/* Minimized state - corner position */
+/* Minimized state - corner position, anchored RIGHT */
+nav.nav-minimized:not(.nav-hover-expand) {
+    width: 45px;
+    height: 45px;
+    left: auto;
+    right: 15px;
+    /* Fixed distance from right edge */
+    top: 15px;
+    transform: none;
+    /* No centering transform */
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--bg) 55%, transparent 45%);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15), 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Hide other items when minimized */
+nav.nav-minimized:not(.nav-hover-expand) ul li:not(#nav-home-morph) {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
     pointer-events: none;
+    overflow: hidden;
+}
+
+/* Ensure UL is reversed so Home stays on right */
+nav.nav-minimized ul {
+    flex-direction: row-reverse;
+}
+
+/* Make home button fill the small container */
+nav.nav-minimized:not(.nav-hover-expand) #nav-home-morph {
+    width: 35px;
+    /* Smaller button */
+    height: 35px;
+    margin: 0 auto;
+}
+
+nav.nav-minimized:not(.nav-hover-expand) #nav-home-morph a {
+    font-size: 20px;
+}
+
+/* Hover expanded state - anchored right, grows LEFT */
+nav.nav-hover-expand {
+    left: auto;
+    right: 15px;
+    /* Same anchor as minimized */
+    top: 15px;
+    /* Same top as minimized */
+    transform: none;
+    border-radius: 20px;
+    width: 620px;
+    /* Expands to left because of right anchor */
+    max-width: calc(100vw - 30px);
+    height: 50px;
+    background: color-mix(in srgb, var(--bg) 25%, transparent 75%);
+    box-shadow: none;
+    padding-right: 0;
+}
+
+/* Ensure UL is reversed in expanded state so Home stays on right */
+nav.nav-hover-expand ul {
+    flex-direction: row-reverse;
+}
+
+/* Restore all items when hover-expanded */
+nav.nav-hover-expand ul li {
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    margin: 2px;
+    pointer-events: all;
+    overflow: visible;
+}
+
+/* Home button stays normal size when expanded */
+nav.nav-hover-expand #nav-home-morph {
+    width: 40px;
+    height: 40px;
+}
+
+nav.nav-hover-expand #nav-home-morph a {
+    font-size: 22px;
 }
 
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
+    /* Allow scale to pop out */
     background: transparent;
     display: flex;
     justify-content: center;
-    transition: 0.2s;
+    transition: 0.3s;
+    height: 100%;
+    align-items: center;
 }
 
 nav ul li {
@@ -91,9 +204,8 @@ nav ul li {
     border-radius: 15px;
     width: 40px;
     aspect-ratio: 1;
-    margin-top: 4px;
     height: 40px;
-    transition: 0.15s ease, transform 0.15s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: all;
     display: flex;
     align-items: center;
@@ -108,6 +220,7 @@ nav ul li.divider {
     position: relative;
     top: 50%;
     transform: translateY(25%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 nav ul li:hover {

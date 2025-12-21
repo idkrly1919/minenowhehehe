@@ -114,9 +114,10 @@ const TopGamesCarousel = (() => {
                     <div class="carousel-qa-items">`;
                 favorites.slice(0, 10).forEach(fav => {
                     quickAccessHtml += `
-                        <div class="carousel-qa-item" onclick="event.stopPropagation(); launchQuickAccess('${fav.type}', '${fav.url}')" 
+                        <div class="carousel-qa-item" onclick="event.stopPropagation(); launchQuickAccess('${fav.type}', '${fav.url}', '${fav.name.replace(/'/g, "\\'")}')" 
                              style="background-image: url('${fav.img}')">
-                        </div>`;
+                        </div>
+`;
                 });
                 quickAccessHtml += `</div></div>`;
             }
@@ -327,7 +328,7 @@ const TopGamesCarousel = (() => {
             return;
         }
 
-        if (typeof navTo === 'function') navTo(`play.html?launch=${game.url}`);
+        if (typeof navTo === 'function') navTo(`play.html?launch=${game.url}`, game.name);
     }
 
     return { init, goTo, next, playGame };
@@ -340,9 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Global function to launch quick access items from carousel
-function launchQuickAccess(type, url) {
+function launchQuickAccess(type, url, name = "Favorite") {
     if (type === 'games') {
-        if (typeof navTo === 'function') navTo(`play.html?launch=${url}`);
+        if (typeof navTo === 'function') navTo(`play.html?launch=${url}`, name);
     } else if (type === 'apps') {
         if (typeof rSearch === 'function') rSearch(url);
     }
