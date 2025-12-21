@@ -27,12 +27,14 @@
   {
     "name": "Jetpack Joyride",
     "img": "/assets/img/games/gn-math/7.png",
-    "url": "/stores/gn-math/7.html"
+    "url": "https://idkrly1919.github.io/seraph/games/jetpackjoyride/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin",
     "img": "/assets/img/games/gn-math/8.png",
-    "url": "/stores/gn-math/8.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Sprunki",
@@ -42,17 +44,20 @@
   {
     "name": "Temple Run 2",
     "img": "/assets/img/games/gn-math/10.png",
-    "url": "/stores/gn-math/10.html"
+    "url": "https://idkrly1919.github.io/seraph/games/templerun2/index.html",
+    "embed": true
   },
   {
     "name": "Stickman Hook",
     "img": "/assets/img/games/gn-math/11.png",
-    "url": "/stores/gn-math/11.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanhook/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: San Francisco",
     "img": "/assets/img/games/gn-math/12.png",
-    "url": "/stores/gn-math/12.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Attack Hole",
@@ -82,7 +87,8 @@
   {
     "name": "Stacky Dash",
     "img": "/assets/img/games/gn-math/18.png",
-    "url": "/stores/gn-math/18.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stack/index.html",
+    "embed": true
   },
   {
     "name": "Supreme Duelist",
@@ -112,7 +118,8 @@
   {
     "name": "Crossy Road",
     "img": "/assets/img/games/gn-math/24.png",
-    "url": "/stores/gn-math/24.html"
+    "url": "https://idkrly1919.github.io/seraph/games/crossy/index.html",
+    "embed": true
   },
   {
     "name": "Basket Battle",
@@ -127,7 +134,7 @@
   {
     "name": "Geometry Dash Lite",
     "img": "/assets/img/games/gn-math/27.png",
-    "url": "/stores/gn-math/27.html",
+    "url": "https://idkrly1919.github.io/seraph/games/gdlite/index.html",
     "embed": true
   },
   {
@@ -158,12 +165,14 @@
   {
     "name": "Retro Bowl",
     "img": "/assets/img/games/gn-math/33.png",
-    "url": "/stores/gn-math/33.html"
+    "url": "https://idkrly1919.github.io/seraph/games/retrobowl/index.html",
+    "embed": true
   },
   {
     "name": "Retro Bowl College",
     "img": "/assets/img/games/gn-math/34.png",
-    "url": "/stores/gn-math/34.html"
+    "url": "https://idkrly1919.github.io/seraph/games/retrobowl/index.html",
+    "embed": true
   },
   {
     "name": "Drive Mad",
@@ -223,37 +232,44 @@
   {
     "name": "Vex 2",
     "img": "/assets/img/games/gn-math/46.png",
-    "url": "/stores/gn-math/46.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex2/index.html",
+    "embed": true
   },
   {
     "name": "Vex 3",
     "img": "/assets/img/games/gn-math/47.png",
-    "url": "/stores/gn-math/47.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex3/index.html",
+    "embed": true
   },
   {
     "name": "Vex 3 XMAS",
     "img": "/assets/img/games/gn-math/48.png",
-    "url": "/stores/gn-math/48.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex3/index.html",
+    "embed": true
   },
   {
     "name": "Vex 4",
     "img": "/assets/img/games/gn-math/49.png",
-    "url": "/stores/gn-math/49.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex4/index.html",
+    "embed": true
   },
   {
     "name": "Vex 5",
     "img": "/assets/img/games/gn-math/50.png",
-    "url": "/stores/gn-math/50.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex5/index.html",
+    "embed": true
   },
   {
     "name": "Vex 6",
     "img": "/assets/img/games/gn-math/51.png",
-    "url": "/stores/gn-math/51.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex6/index.html",
+    "embed": true
   },
   {
     "name": "Vex 7",
     "img": "/assets/img/games/gn-math/52.png",
-    "url": "/stores/gn-math/52.html"
+    "url": "https://idkrly1919.github.io/seraph/games/vex7/index.html",
+    "embed": true
   },
   {
     "name": "Vex 8",
@@ -278,13 +294,15 @@
   {
     "name": "Monkey Mart",
     "img": "/assets/img/games/gn-math/57.png",
-    "url": "/stores/gn-math/57.html",
-    "featured": true
+    "url": "https://idkrly1919.github.io/seraph/games/monkeymart/index.html",
+    "featured": true,
+    "embed": true
   },
   {
     "name": "1v1.LoL",
     "img": "/assets/img/games/gn-math/58.png",
-    "url": "/stores/gn-math/58.html"
+    "url": "https://idkrly1919.github.io/seraph/games/1v1lol/index.html",
+    "embed": true
   },
   {
     "name": "A Dance of Fire and Ice",
@@ -294,17 +312,20 @@
   {
     "name": "Achievement Unlocked",
     "img": "/assets/img/games/gn-math/60.png",
-    "url": "/stores/gn-math/60.html"
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked/index.html",
+    "embed": true
   },
   {
     "name": "Achievement Unlocked 2",
     "img": "/assets/img/games/gn-math/61.png",
-    "url": "/stores/gn-math/61.html"
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked/index.html",
+    "embed": true
   },
   {
     "name": "Achievement Unlocked 3",
     "img": "/assets/img/games/gn-math/62.png",
-    "url": "/stores/gn-math/62.html"
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked/index.html",
+    "embed": true
   },
   {
     "name": "Angry Birds",
@@ -314,17 +335,20 @@
   {
     "name": "Backrooms",
     "img": "/assets/img/games/gn-math/64.png",
-    "url": "/stores/gn-math/64.html"
+    "url": "https://idkrly1919.github.io/seraph/games/backrooms2d/index.html",
+    "embed": true
   },
   {
     "name": "Baldi's Basics",
     "img": "/assets/img/games/gn-math/65.png",
-    "url": "/stores/gn-math/65.html"
+    "url": "https://idkrly1919.github.io/seraph/games/baldisbasics/index.html",
+    "embed": true
   },
   {
     "name": "Basket Random",
     "img": "/assets/img/games/gn-math/66.png",
-    "url": "/stores/gn-math/66.html"
+    "url": "https://idkrly1919.github.io/seraph/games/basketrandom/index.html",
+    "embed": true
   },
   {
     "name": "Big Tower Tiny Square",
@@ -344,8 +368,9 @@
   {
     "name": "BitLife",
     "img": "/assets/img/games/gn-math/70.png",
-    "url": "/stores/gn-math/70.html",
-    "featured": true
+    "url": "https://idkrly1919.github.io/seraph/games/bitlife/index.html",
+    "featured": true,
+    "embed": true
   },
   {
     "name": "Bloons TD",
@@ -375,17 +400,20 @@
   {
     "name": "Bob The Robber 2",
     "img": "/assets/img/games/gn-math/76.png",
-    "url": "/stores/gn-math/76.html"
+    "url": "https://idkrly1919.github.io/seraph/games/bobtherobber2/index.html",
+    "embed": true
   },
   {
     "name": "Boxing Random",
     "img": "/assets/img/games/gn-math/77.png",
-    "url": "/stores/gn-math/77.html"
+    "url": "https://idkrly1919.github.io/seraph/games/boxingrandom/index.html",
+    "embed": true
   },
   {
     "name": "Burrito Bison",
     "img": "/assets/img/games/gn-math/78.png",
-    "url": "/stores/gn-math/78.html"
+    "url": "https://idkrly1919.github.io/seraph/games/burritobison/index.html",
+    "embed": true
   },
   {
     "name": "Cannon Basketball",
@@ -400,12 +428,14 @@
   {
     "name": "Cluster Rush",
     "img": "/assets/img/games/gn-math/81.png",
-    "url": "/stores/gn-math/81.html"
+    "url": "https://idkrly1919.github.io/seraph/games/clusterrush/index.html",
+    "embed": true
   },
   {
     "name": "Cookie Clicker",
     "img": "/assets/img/games/gn-math/82.png",
-    "url": "/stores/gn-math/82.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cookieclicker/index.html",
+    "embed": true
   },
   {
     "name": "Coreball",
@@ -415,12 +445,14 @@
   {
     "name": "Cubefield",
     "img": "/assets/img/games/gn-math/84.png",
-    "url": "/stores/gn-math/84.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cubefield/index.html",
+    "embed": true
   },
   {
     "name": "Cut the Rope",
     "img": "/assets/img/games/gn-math/85.png",
-    "url": "/stores/gn-math/85.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cuttherope/index.html",
+    "embed": true
   },
   {
     "name": "Draw Climber",
@@ -435,12 +467,14 @@
   {
     "name": "Fireboy and Watergirl 2",
     "img": "/assets/img/games/gn-math/88.png",
-    "url": "/stores/gn-math/88.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fireboywatergirl/index.html",
+    "embed": true
   },
   {
     "name": "Fireboy and Watergirl 3",
     "img": "/assets/img/games/gn-math/89.png",
-    "url": "/stores/gn-math/89.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fireboywatergirl/index.html",
+    "embed": true
   },
   {
     "name": "Granny",
@@ -470,32 +504,38 @@
   {
     "name": "Line Rider",
     "img": "/assets/img/games/gn-math/95.png",
-    "url": "/stores/gn-math/95.html"
+    "url": "https://idkrly1919.github.io/seraph/games/linerider/index.html",
+    "embed": true
   },
   {
     "name": "Moto X3M",
     "img": "/assets/img/games/gn-math/96.png",
-    "url": "/stores/gn-math/96.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Moto X3M 2",
     "img": "/assets/img/games/gn-math/97.png",
-    "url": "/stores/gn-math/97.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Moto X3M 3",
     "img": "/assets/img/games/gn-math/98.png",
-    "url": "/stores/gn-math/98.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Moto X3M Spooky",
     "img": "/assets/img/games/gn-math/99.png",
-    "url": "/stores/gn-math/99.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Moto X3M Winter",
     "img": "/assets/img/games/gn-math/100.png",
-    "url": "/stores/gn-math/100.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Ninja vs EvilCorp",
@@ -505,37 +545,44 @@
   {
     "name": "Paper.io 2",
     "img": "/assets/img/games/gn-math/102.png",
-    "url": "/stores/gn-math/102.html"
+    "url": "https://idkrly1919.github.io/seraph/games/paperio2/index.html",
+    "embed": true
   },
   {
     "name": "The World's Hardest Game",
     "img": "/assets/img/games/gn-math/103.png",
-    "url": "/stores/gn-math/103.html"
+    "url": "https://idkrly1919.github.io/seraph/games/worldshardestgame/index.html",
+    "embed": true
   },
   {
     "name": "The World's Hardest Game 3",
     "img": "/assets/img/games/gn-math/104.png",
-    "url": "/stores/gn-math/104.html"
+    "url": "https://idkrly1919.github.io/seraph/games/worldshardestgame/index.html",
+    "embed": true
   },
   {
     "name": "The World's Hardest Game 4",
     "img": "/assets/img/games/gn-math/105.png",
-    "url": "/stores/gn-math/105.html"
+    "url": "https://idkrly1919.github.io/seraph/games/worldshardestgame/index.html",
+    "embed": true
   },
   {
     "name": "This Is The Only Level",
     "img": "/assets/img/games/gn-math/106.png",
-    "url": "/stores/gn-math/106.html"
+    "url": "https://idkrly1919.github.io/seraph/games/thisistheonlylevel/index.html",
+    "embed": true
   },
   {
     "name": "This Is The Only Level 2",
     "img": "/assets/img/games/gn-math/107.png",
-    "url": "/stores/gn-math/107.html"
+    "url": "https://idkrly1919.github.io/seraph/games/thisistheonlylevel/index.html",
+    "embed": true
   },
   {
     "name": "Tiny Fishing",
     "img": "/assets/img/games/gn-math/108.png",
-    "url": "/stores/gn-math/108.html"
+    "url": "https://idkrly1919.github.io/seraph/games/tinyfishing/index.html",
+    "embed": true
   },
   {
     "name": "Tomb Of The Mask",
@@ -550,12 +597,14 @@
   {
     "name": "Tube Jumpers",
     "img": "/assets/img/games/gn-math/111.png",
-    "url": "/stores/gn-math/111.html"
+    "url": "https://idkrly1919.github.io/seraph/games/tubejumpers/index.html",
+    "embed": true
   },
   {
     "name": "Wordle",
     "img": "/assets/img/games/gn-math/112.png",
-    "url": "/stores/gn-math/112.html"
+    "url": "https://idkrly1919.github.io/seraph/games/wordle/index.html",
+    "embed": true
   },
   {
     "name": "Ruffle",
@@ -565,12 +614,14 @@
   {
     "name": "2048",
     "img": "/assets/img/games/gn-math/114.png",
-    "url": "/stores/gn-math/114.html"
+    "url": "https://idkrly1919.github.io/seraph/games/2048/index.html",
+    "embed": true
   },
   {
     "name": "8 Ball Pool",
     "img": "/assets/img/games/gn-math/115.png",
-    "url": "/stores/gn-math/115.html"
+    "url": "https://idkrly1919.github.io/seraph/games/pool/index.html",
+    "embed": true
   },
   {
     "name": "Offroad Mountain Bike",
@@ -590,7 +641,8 @@
   {
     "name": "Snow Rider 3D",
     "img": "/assets/img/games/gn-math/119.png",
-    "url": "/stores/gn-math/119.html"
+    "url": "https://idkrly1919.github.io/seraph/games/snowrider3d/index.html",
+    "embed": true
   },
   {
     "name": "Fortzone Battle Royale",
@@ -615,7 +667,8 @@
   {
     "name": "Moto X3M Pool Party",
     "img": "/assets/img/games/gn-math/124.png",
-    "url": "/stores/gn-math/124.html"
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
   },
   {
     "name": "Granny 2",
@@ -640,7 +693,8 @@
   {
     "name": "Flappy Bird",
     "img": "/assets/img/games/gn-math/129.png",
-    "url": "/stores/gn-math/129.html"
+    "url": "https://idkrly1919.github.io/seraph/games/flappy/index.html",
+    "embed": true
   },
   {
     "name": "osu!",
@@ -650,77 +704,92 @@
   {
     "name": "Subway Surfers: Barcelona",
     "img": "/assets/img/games/gn-math/131.png",
-    "url": "/stores/gn-math/131.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Beijing",
     "img": "/assets/img/games/gn-math/132.png",
-    "url": "/stores/gn-math/132.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Berlin",
     "img": "/assets/img/games/gn-math/133.png",
-    "url": "/stores/gn-math/133.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Buenos Aires",
     "img": "/assets/img/games/gn-math/134.png",
-    "url": "/stores/gn-math/134.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Havana",
     "img": "/assets/img/games/gn-math/135.png",
-    "url": "/stores/gn-math/135.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Houston",
     "img": "/assets/img/games/gn-math/136.png",
-    "url": "/stores/gn-math/136.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Iceland",
     "img": "/assets/img/games/gn-math/137.png",
-    "url": "/stores/gn-math/137.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: London",
     "img": "/assets/img/games/gn-math/138.png",
-    "url": "/stores/gn-math/138.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Mexico",
     "img": "/assets/img/games/gn-math/139.png",
-    "url": "/stores/gn-math/139.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Miami",
     "img": "/assets/img/games/gn-math/140.png",
-    "url": "/stores/gn-math/140.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Monaco",
     "img": "/assets/img/games/gn-math/141.png",
-    "url": "/stores/gn-math/141.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: New Orleans",
     "img": "/assets/img/games/gn-math/142.png",
-    "url": "/stores/gn-math/142.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: St. Petersburg",
     "img": "/assets/img/games/gn-math/143.png",
-    "url": "/stores/gn-math/143.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Winter Holiday",
     "img": "/assets/img/games/gn-math/144.png",
-    "url": "/stores/gn-math/144.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "Subway Surfers: Zurich",
     "img": "/assets/img/games/gn-math/145.png",
-    "url": "/stores/gn-math/145.html"
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
   },
   {
     "name": "8 Ball Classic",
@@ -750,7 +819,8 @@
   {
     "name": "Chess Classic",
     "img": "/assets/img/games/gn-math/151.png",
-    "url": "/stores/gn-math/151.html"
+    "url": "https://idkrly1919.github.io/seraph/games/chess/index.html",
+    "embed": true
   },
   {
     "name": "Draw the Line",
@@ -785,7 +855,8 @@
   {
     "name": "Pac-Man Superfast",
     "img": "/assets/img/games/gn-math/158.png",
-    "url": "/stores/gn-math/158.html"
+    "url": "https://idkrly1919.github.io/seraph/games/pacman/index.html",
+    "embed": true
   },
   {
     "name": "Parking Rush",
@@ -800,7 +871,8 @@
   {
     "name": "State.io",
     "img": "/assets/img/games/gn-math/161.png",
-    "url": "/stores/gn-math/161.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stateio/index.html",
+    "embed": true
   },
   {
     "name": "Tower Crash 3D",
@@ -835,7 +907,8 @@
   {
     "name": "Blocky Snakes",
     "img": "/assets/img/games/gn-math/168.png",
-    "url": "/stores/gn-math/168.html"
+    "url": "https://idkrly1919.github.io/seraph/games/snake/index.html",
+    "embed": true
   },
   {
     "name": "Bloxorz",
@@ -860,7 +933,8 @@
   {
     "name": "Drift Hunters",
     "img": "/assets/img/games/gn-math/173.png",
-    "url": "/stores/gn-math/173.html"
+    "url": "https://idkrly1919.github.io/seraph/games/drifthunters/index.html",
+    "embed": true
   },
   {
     "name": "World Box",
@@ -875,12 +949,14 @@
   {
     "name": "Run 2",
     "img": "/assets/img/games/gn-math/176.png",
-    "url": "/stores/gn-math/176.html"
+    "url": "https://idkrly1919.github.io/seraph/games/templerun2/index.html",
+    "embed": true
   },
   {
     "name": "Run 3",
     "img": "/assets/img/games/gn-math/177.png",
-    "url": "/stores/gn-math/177.html"
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
   },
   {
     "name": "Swords and Souls",
@@ -895,7 +971,8 @@
   {
     "name": "n-gon",
     "img": "/assets/img/games/gn-math/180.png",
-    "url": "/stores/gn-math/180.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ngon/index.html",
+    "embed": true
   },
   {
     "name": "Minecraft 1.8.8",
@@ -986,22 +1063,26 @@
   {
     "name": "Slope",
     "img": "/assets/img/games/gn-math/198.png",
-    "url": "/stores/gn-math/198.html"
+    "url": "https://idkrly1919.github.io/seraph/games/slope/index.html",
+    "embed": true
   },
   {
     "name": "Time Shooter 1",
     "img": "/assets/img/games/gn-math/199.png",
-    "url": "/stores/gn-math/199.html"
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter1/index.html",
+    "embed": true
   },
   {
     "name": "Time Shooter 2",
     "img": "/assets/img/games/gn-math/200.png",
-    "url": "/stores/gn-math/200.html"
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter1/index.html",
+    "embed": true
   },
   {
     "name": "Time Shooter 3: SWAT",
     "img": "/assets/img/games/gn-math/201.png",
-    "url": "/stores/gn-math/201.html"
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter1/index.html",
+    "embed": true
   },
   {
     "name": "Carrom Clash",
@@ -1011,7 +1092,8 @@
   {
     "name": "DOOM",
     "img": "/assets/img/games/gn-math/203.png",
-    "url": "/stores/gn-math/203.html"
+    "url": "https://idkrly1919.github.io/seraph/games/doom64/index.html",
+    "embed": true
   },
   {
     "name": "Five Nights at Winston's",
@@ -1026,12 +1108,14 @@
   {
     "name": "Tunnel Rush",
     "img": "/assets/img/games/gn-math/206.png",
-    "url": "/stores/gn-math/206.html"
+    "url": "https://idkrly1919.github.io/seraph/games/tunnelrush/index.html",
+    "embed": true
   },
   {
     "name": "Snowbattle.io",
     "img": "/assets/img/games/gn-math/207.png",
-    "url": "/stores/gn-math/207.html"
+    "url": "https://idkrly1919.github.io/seraph/games/snowbattleio/index.html",
+    "embed": true
   },
   {
     "name": "Rolly Vortex",
@@ -1051,22 +1135,26 @@
   {
     "name": "Death Run 3D",
     "img": "/assets/img/games/gn-math/211.png",
-    "url": "/stores/gn-math/211.html"
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
   },
   {
     "name": "Cut the Rope",
     "img": "/assets/img/games/gn-math/212.png",
-    "url": "/stores/gn-math/212.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cuttherope/index.html",
+    "embed": true
   },
   {
     "name": "Cut the Rope: Time Travel",
     "img": "/assets/img/games/gn-math/213.png",
-    "url": "/stores/gn-math/213.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cuttherope/index.html",
+    "embed": true
   },
   {
     "name": "Cut the Rope: Holiday Gift",
     "img": "/assets/img/games/gn-math/214.png",
-    "url": "/stores/gn-math/214.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cuttherope/index.html",
+    "embed": true
   },
   {
     "name": "Bendy and the Ink Machine",
@@ -1086,47 +1174,56 @@
   {
     "name": "Papa's Bakeria",
     "img": "/assets/img/games/gn-math/218.png",
-    "url": "/stores/gn-math/218.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papasbakeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Burgeria",
     "img": "/assets/img/games/gn-math/219.png",
-    "url": "/stores/gn-math/219.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papasburgeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Cheeseria",
     "img": "/assets/img/games/gn-math/220.png",
-    "url": "/stores/gn-math/220.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papascheeseria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Cupcakeria",
     "img": "/assets/img/games/gn-math/221.png",
-    "url": "/stores/gn-math/221.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papascupcakeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Donuteria",
     "img": "/assets/img/games/gn-math/222.png",
-    "url": "/stores/gn-math/222.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papasdonuteria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Freezeria",
     "img": "/assets/img/games/gn-math/223.png",
-    "url": "/stores/gn-math/223.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papasfreezeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Hot Doggeria",
     "img": "/assets/img/games/gn-math/224.png",
-    "url": "/stores/gn-math/224.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papashotdoggeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Pancakeria",
     "img": "/assets/img/games/gn-math/225.png",
-    "url": "/stores/gn-math/225.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papaspancakeria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Pastaria",
     "img": "/assets/img/games/gn-math/226.png",
-    "url": "/stores/gn-math/226.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papaspastaria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Pizeria",
@@ -1136,22 +1233,26 @@
   {
     "name": "Papa's Scooperia",
     "img": "/assets/img/games/gn-math/228.png",
-    "url": "/stores/gn-math/228.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papasscooperia/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Sushiria",
     "img": "/assets/img/games/gn-math/229.png",
-    "url": "/stores/gn-math/229.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papassushiria/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Taco Mia",
     "img": "/assets/img/games/gn-math/230.png",
-    "url": "/stores/gn-math/230.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papastacomia/index.html",
+    "embed": true
   },
   {
     "name": "Papa's Wingeria",
     "img": "/assets/img/games/gn-math/231.png",
-    "url": "/stores/gn-math/231.html"
+    "url": "https://idkrly1919.github.io/seraph/games/papaswingeria/index.html",
+    "embed": true
   },
   {
     "name": "Plants vs Zombies",
@@ -1161,62 +1262,74 @@
   {
     "name": "Superhot",
     "img": "/assets/img/games/gn-math/233.png",
-    "url": "/stores/gn-math/233.html"
+    "url": "https://idkrly1919.github.io/seraph/games/superhot/index.html",
+    "embed": true
   },
   {
     "name": "Duck Life",
     "img": "/assets/img/games/gn-math/234.png",
-    "url": "/stores/gn-math/234.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife4/index.html",
+    "embed": true
   },
   {
     "name": "Duck Life 2",
     "img": "/assets/img/games/gn-math/235.png",
-    "url": "/stores/gn-math/235.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife/index.html",
+    "embed": true
   },
   {
     "name": "Duck Life 3",
     "img": "/assets/img/games/gn-math/236.png",
-    "url": "/stores/gn-math/236.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife/index.html",
+    "embed": true
   },
   {
     "name": "Duck Life 4",
     "img": "/assets/img/games/gn-math/237.png",
-    "url": "/stores/gn-math/237.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife4/index.html",
+    "embed": true
   },
   {
     "name": "Duck Life 5",
     "img": "/assets/img/games/gn-math/238.png",
-    "url": "/stores/gn-math/238.html"
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball",
     "img": "/assets/img/games/gn-math/239.png",
-    "url": "/stores/gn-math/239.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball 2",
     "img": "/assets/img/games/gn-math/240.png",
-    "url": "/stores/gn-math/240.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball 3",
     "img": "/assets/img/games/gn-math/241.png",
-    "url": "/stores/gn-math/241.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball 4",
     "img": "/assets/img/games/gn-math/242.png",
-    "url": "/stores/gn-math/242.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball 4 Vol. 2",
     "img": "/assets/img/games/gn-math/243.png",
-    "url": "/stores/gn-math/243.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Red Ball 4 Vol. 3",
     "img": "/assets/img/games/gn-math/244.png",
-    "url": "/stores/gn-math/244.html"
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
   },
   {
     "name": "Wheely",
@@ -1291,7 +1404,8 @@
   {
     "name": "Fruit Ninja",
     "img": "/assets/img/games/gn-math/261.png",
-    "url": "/stores/gn-math/261.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fruitninja/index.html",
+    "embed": true
   },
   {
     "name": "Half Life",
@@ -1321,7 +1435,8 @@
   {
     "name": "Pizza Tower",
     "img": "/assets/img/games/gn-math/267.png",
-    "url": "/stores/gn-math/267.html"
+    "url": "https://idkrly1919.github.io/seraph/games/pizzatower/index.html",
+    "embed": true
   },
   {
     "name": "Bacon May Die",
@@ -1331,17 +1446,20 @@
   {
     "name": "Bad Ice Cream",
     "img": "/assets/img/games/gn-math/269.png",
-    "url": "/stores/gn-math/269.html"
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream/index.html",
+    "embed": true
   },
   {
     "name": "Bad Ice Cream 2",
     "img": "/assets/img/games/gn-math/270.png",
-    "url": "/stores/gn-math/270.html"
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream/index.html",
+    "embed": true
   },
   {
     "name": "Bad Ice Cream 3",
     "img": "/assets/img/games/gn-math/271.png",
-    "url": "/stores/gn-math/271.html"
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream/index.html",
+    "embed": true
   },
   {
     "name": "Basketball Stars",
@@ -1366,7 +1484,8 @@
   {
     "name": "Drift Boss",
     "img": "/assets/img/games/gn-math/276.png",
-    "url": "/stores/gn-math/276.html"
+    "url": "https://idkrly1919.github.io/seraph/games/driftboss/index.html",
+    "embed": true
   },
   {
     "name": "Evil Glitch",
@@ -1376,7 +1495,8 @@
   {
     "name": "Madalin Stunt Cars 2",
     "img": "/assets/img/games/gn-math/278.png",
-    "url": "/stores/gn-math/278.html"
+    "url": "https://idkrly1919.github.io/seraph/games/cars2/index.html",
+    "embed": true
   },
   {
     "name": "Madalin Stunt Cars 3",
@@ -1401,7 +1521,8 @@
   {
     "name": "Rooftop Snipers",
     "img": "/assets/img/games/gn-math/283.png",
-    "url": "/stores/gn-math/283.html"
+    "url": "https://idkrly1919.github.io/seraph/games/rooftop/index.html",
+    "embed": true
   },
   {
     "name": "War The Knights",
@@ -1411,7 +1532,8 @@
   {
     "name": "Basket Bros",
     "img": "/assets/img/games/gn-math/285.png",
-    "url": "/stores/gn-math/285.html"
+    "url": "https://idkrly1919.github.io/seraph/games/basketbrosio/index.html",
+    "embed": true
   },
   {
     "name": "Endoparasitic",
@@ -1421,37 +1543,44 @@
   {
     "name": "Riddle School",
     "img": "/assets/img/games/gn-math/287.png",
-    "url": "/stores/gn-math/287.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
   },
   {
     "name": "Riddle School 2",
     "img": "/assets/img/games/gn-math/288.png",
-    "url": "/stores/gn-math/288.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
   },
   {
     "name": "Riddle School 3",
     "img": "/assets/img/games/gn-math/289.png",
-    "url": "/stores/gn-math/289.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
   },
   {
     "name": "Riddle School 4",
     "img": "/assets/img/games/gn-math/290.png",
-    "url": "/stores/gn-math/290.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
   },
   {
     "name": "Riddle School 5",
     "img": "/assets/img/games/gn-math/291.png",
-    "url": "/stores/gn-math/291.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
   },
   {
     "name": "Riddle Transfer",
     "img": "/assets/img/games/gn-math/292.png",
-    "url": "/stores/gn-math/292.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddletransfer/index.html",
+    "embed": true
   },
   {
     "name": "Riddle Transfer 2",
     "img": "/assets/img/games/gn-math/293.png",
-    "url": "/stores/gn-math/293.html"
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddletransfer/index.html",
+    "embed": true
   },
   {
     "name": "Idle Dice",
@@ -1501,8 +1630,9 @@
   {
     "name": "Territorial.io",
     "img": "/assets/img/games/gn-math/303.png",
-    "url": "https://territorial.io",
-    "direct": true
+    "url": "https://idkrly1919.github.io/seraph/games/territorialio/index.html",
+    "direct": true,
+    "embed": true
   },
   {
     "name": "Alien Hominid",
@@ -1512,7 +1642,8 @@
   {
     "name": "Tanuki Sunset",
     "img": "/assets/img/games/gn-math/305.png",
-    "url": "/stores/gn-math/305.html"
+    "url": "https://idkrly1919.github.io/seraph/games/tanukisunset/index.html",
+    "embed": true
   },
   {
     "name": "Shipo.io",
@@ -1552,7 +1683,8 @@
   {
     "name": "Minesweeper Mania",
     "img": "/assets/img/games/gn-math/313.png",
-    "url": "/stores/gn-math/313.html"
+    "url": "https://idkrly1919.github.io/seraph/games/minesweeper/index.html",
+    "embed": true
   },
   {
     "name": "Super Mario 63",
@@ -1652,72 +1784,86 @@
   {
     "name": "Fancy Pants Adventure",
     "img": "/assets/img/games/gn-math/333.png",
-    "url": "/stores/gn-math/333.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
   },
   {
     "name": "Fancy Pants Adventure 2",
     "img": "/assets/img/games/gn-math/334.png",
-    "url": "/stores/gn-math/334.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
   },
   {
     "name": "Fancy Pants Adventure 3",
     "img": "/assets/img/games/gn-math/335.png",
-    "url": "/stores/gn-math/335.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
   },
   {
     "name": "Fancy Pants Adventure 4 Part 1",
     "img": "/assets/img/games/gn-math/336.png",
-    "url": "/stores/gn-math/336.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
   },
   {
     "name": "Fancy Pants Adventure 4 Part 2",
     "img": "/assets/img/games/gn-math/337.png",
-    "url": "/stores/gn-math/337.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
   },
   {
     "name": "Getaway Shootout",
     "img": "/assets/img/games/gn-math/338.png",
-    "url": "/stores/gn-math/338.html"
+    "url": "https://idkrly1919.github.io/seraph/games/getawayshootout/index.html",
+    "embed": true
   },
   {
     "name": "House of Hazards",
     "img": "/assets/img/games/gn-math/339.png",
-    "url": "/stores/gn-math/339.html"
+    "url": "https://idkrly1919.github.io/seraph/games/houseofhazards/index.html",
+    "embed": true
   },
   {
     "name": "Learn to Fly",
     "img": "/assets/img/games/gn-math/340.png",
-    "url": "/stores/gn-math/340.html"
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly/index.html",
+    "embed": true
   },
   {
     "name": "Learn to Fly 2",
     "img": "/assets/img/games/gn-math/341.png",
-    "url": "/stores/gn-math/341.html"
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly/index.html",
+    "embed": true
   },
   {
     "name": "Learn to Fly 3",
     "img": "/assets/img/games/gn-math/342.png",
-    "url": "/stores/gn-math/342.html"
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly/index.html",
+    "embed": true
   },
   {
     "name": "Learn to Fly Idle",
     "img": "/assets/img/games/gn-math/343.png",
-    "url": "/stores/gn-math/343.html"
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly/index.html",
+    "embed": true
   },
   {
     "name": "Raft Wars",
     "img": "/assets/img/games/gn-math/344.png",
-    "url": "/stores/gn-math/344.html"
+    "url": "https://idkrly1919.github.io/seraph/games/raftwars2/index.html",
+    "embed": true
   },
   {
     "name": "Raft Wars 2",
     "img": "/assets/img/games/gn-math/345.png",
-    "url": "/stores/gn-math/345.html"
+    "url": "https://idkrly1919.github.io/seraph/games/raftwars2/index.html",
+    "embed": true
   },
   {
     "name": "Sort the Court",
     "img": "/assets/img/games/gn-math/346.png",
-    "url": "/stores/gn-math/346.html"
+    "url": "https://idkrly1919.github.io/seraph/games/sortthecourt/index.html",
+    "embed": true
   },
   {
     "name": "SpiderDoll",
@@ -1762,27 +1908,32 @@
   {
     "name": "Dadish 2",
     "img": "/assets/img/games/gn-math/355.png",
-    "url": "/stores/gn-math/355.html"
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
   },
   {
     "name": "Dadish 3",
     "img": "/assets/img/games/gn-math/356.png",
-    "url": "/stores/gn-math/356.html"
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
   },
   {
     "name": "Dadish",
     "img": "/assets/img/games/gn-math/357.png",
-    "url": "/stores/gn-math/357.html"
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
   },
   {
     "name": "Dadish 3D",
     "img": "/assets/img/games/gn-math/358.png",
-    "url": "/stores/gn-math/358.html"
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
   },
   {
     "name": "Daily Dadish",
     "img": "/assets/img/games/gn-math/359.png",
-    "url": "/stores/gn-math/359.html"
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
   },
   {
     "name": "EvoWars.io",
@@ -1812,7 +1963,8 @@
   {
     "name": "JustFall.lol",
     "img": "/assets/img/games/gn-math/365.png",
-    "url": "/stores/gn-math/365.html"
+    "url": "https://idkrly1919.github.io/seraph/games/justfalllol/index.html",
+    "embed": true
   },
   {
     "name": "Merge Harvest",
@@ -1827,7 +1979,8 @@
   {
     "name": "Slope 2",
     "img": "/assets/img/games/gn-math/368.png",
-    "url": "/stores/gn-math/368.html"
+    "url": "https://idkrly1919.github.io/seraph/games/slope/index.html",
+    "embed": true
   },
   {
     "name": "Slowroads",
@@ -1847,22 +2000,26 @@
   {
     "name": "Stickman Boost",
     "img": "/assets/img/games/gn-math/372.png",
-    "url": "/stores/gn-math/372.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanboost/index.html",
+    "embed": true
   },
   {
     "name": "Stickman Climb",
     "img": "/assets/img/games/gn-math/373.png",
-    "url": "/stores/gn-math/373.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanclimb/index.html",
+    "embed": true
   },
   {
     "name": "Stickman Golf",
     "img": "/assets/img/games/gn-math/374.png",
-    "url": "/stores/gn-math/374.html"
+    "url": "https://idkrly1919.github.io/seraph/games/stickmangolf/index.html",
+    "embed": true
   },
   {
     "name": "2048 Merge Run",
     "img": "/assets/img/games/gn-math/375.png",
-    "url": "/stores/gn-math/375.html"
+    "url": "https://idkrly1919.github.io/seraph/games/2048/index.html",
+    "embed": true
   },
   {
     "name": "Build a Big Army",
@@ -1897,7 +2054,8 @@
   {
     "name": "Cool Cars Run 3D",
     "img": "/assets/img/games/gn-math/382.png",
-    "url": "/stores/gn-math/382.html"
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
   },
   {
     "name": "Crush Cars 3D",
@@ -1907,7 +2065,8 @@
   {
     "name": "Destiny Run 3D",
     "img": "/assets/img/games/gn-math/384.png",
-    "url": "/stores/gn-math/384.html"
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
   },
   {
     "name": "Destroy The Car 3D",
@@ -2092,7 +2251,8 @@
   {
     "name": "Rich Run 3D",
     "img": "/assets/img/games/gn-math/421.png",
-    "url": "/stores/gn-math/421.html"
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
   },
   {
     "name": "High Heels",
@@ -2127,7 +2287,8 @@
   {
     "name": "10 Minutes Till Dawn",
     "img": "/assets/img/games/gn-math/430.png",
-    "url": "/stores/gn-math/430.html"
+    "url": "https://idkrly1919.github.io/seraph/games/10minutestilldawn/index.html",
+    "embed": true
   },
   {
     "name": "99 Balls",
@@ -2177,7 +2338,8 @@
   {
     "name": "Celeste PICO",
     "img": "/assets/img/games/gn-math/440.png",
-    "url": "/stores/gn-math/440.html"
+    "url": "https://idkrly1919.github.io/seraph/games/celeste/index.html",
+    "embed": true
   },
   {
     "name": "Kitty Toy",
@@ -2262,7 +2424,8 @@
   {
     "name": "Raft",
     "img": "/assets/img/games/gn-math/457.png",
-    "url": "/stores/gn-math/457.html"
+    "url": "https://idkrly1919.github.io/seraph/games/mc/index.html",
+    "embed": true
   },
   {
     "name": "The Deadseat",
@@ -2307,12 +2470,14 @@
   {
     "name": "Baldi's Basics Classic Remastered",
     "img": "/assets/img/games/gn-math/466.png",
-    "url": "/stores/gn-math/466.html"
+    "url": "https://idkrly1919.github.io/seraph/games/baldisbasics/index.html",
+    "embed": true
   },
   {
     "name": "Baldi's Basics Plus",
     "img": "/assets/img/games/gn-math/467.png",
-    "url": "/stores/gn-math/467.html"
+    "url": "https://idkrly1919.github.io/seraph/games/baldisbasics/index.html",
+    "embed": true
   },
   {
     "name": "sandstone",
@@ -2322,7 +2487,8 @@
   {
     "name": "Doodle Jump",
     "img": "/assets/img/games/gn-math/470.png",
-    "url": "/stores/gn-math/470.html"
+    "url": "https://idkrly1919.github.io/seraph/games/doodlejump/index.html",
+    "embed": true
   },
   {
     "name": "Madness Combat: Project Nexus (classic)",
@@ -2332,7 +2498,8 @@
   {
     "name": "Bad Time Simulator",
     "img": "/assets/img/games/gn-math/472.png",
-    "url": "/stores/gn-math/472.html"
+    "url": "https://idkrly1919.github.io/seraph/games/badtimesimulator/index.html",
+    "embed": true
   },
   {
     "name": "Spacebar Clicker",
@@ -2342,27 +2509,32 @@
   {
     "name": "Friday Night Funkin’ V.S. Whitty",
     "img": "/assets/img/games/gn-math/474.png",
-    "url": "/stores/gn-math/474.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin B-Sides",
     "img": "/assets/img/games/gn-math/475.png",
-    "url": "/stores/gn-math/475.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin Vs. Hex",
     "img": "/assets/img/games/gn-math/476.png",
-    "url": "/stores/gn-math/476.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin Vs. Hatsune Miku",
     "img": "/assets/img/games/gn-math/477.png",
-    "url": "/stores/gn-math/477.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin Neo",
     "img": "/assets/img/games/gn-math/478.png",
-    "url": "/stores/gn-math/478.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Steal A Brainrot",
@@ -2372,12 +2544,14 @@
   {
     "name": "Friday Night Funkin Sarvente's Mid-Fight Masses",
     "img": "/assets/img/games/gn-math/480.png",
-    "url": "/stores/gn-math/480.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Friday Night Funkin vs. Tricky",
     "img": "/assets/img/games/gn-math/481.png",
-    "url": "/stores/gn-math/481.html"
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
   },
   {
     "name": "Hollow Knight",

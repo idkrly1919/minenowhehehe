@@ -1116,7 +1116,16 @@
                 }
                 homeContent.style.display = "none";
                 contentFrame.style.display = "block";
-                contentFrame.src = l.includes("/stores/") ? `/pages/${l}` : `/pages/${l}.html`;
+
+                let target = l;
+                if (l.includes("/stores/")) {
+                    target = `/pages/${l}`;
+                } else if (l.endsWith('.html') || l.includes('.html?')) {
+                    target = `/pages/${l}`;
+                } else {
+                    target = `/pages/${l}.html`;
+                }
+                contentFrame.src = target;
             }
         }
     </script>
