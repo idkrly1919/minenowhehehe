@@ -217,10 +217,6 @@ async function handleRequest(event) {
 		const url = event.request.url;
 		const contentType = response.headers.get("content-type") || "";
 
-		// Return games directly without any CDN rewriting
-		// CDN URLs should load natively without proxying
-		return response;
-
 		return response;
 	} catch (e) {
 		console.error("SW Fetch error:", e);
@@ -231,7 +227,19 @@ async function handleRequest(event) {
 self.addEventListener("fetch", (event) => {
 	const url = event.request.url;
 
-	if (url.includes("supabase.co")) {
+	// Bypass service worker for common CDNs and trusted domains to prevent CORS/routing issues
+	const bypassCDNs = [
+		"gstatic.com",
+		"googleapis.com",
+		"jsdelivr.net",
+		"unpkg.com",
+		"cdnjs.cloudflare.com",
+		"raw.githubusercontent.com",
+		"googleusercontent.com",
+		"supabase.co"
+	];
+
+	if (bypassCDNs.some(domain => url.includes(domain))) {
 		return;
 	}
 
