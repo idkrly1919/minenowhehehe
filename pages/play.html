@@ -315,83 +315,31 @@
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
 
-            // Check if it's a local game (path starting with /)
-            const isLocalGame = decodedUrl.startsWith('/');
+            // Load ALL games directly without proxying
+            gameframe.src = decodedUrl;
+            gameframe.focus();
+        }
 
-            const isExplicitEmbed = urlParams.get('embed') === 'true';
+        gameframe.onload = () => {
+            try {
+                const doc = gameframe.contentDocument;
+                if (!doc) return;
+                const head = doc.head;
 
-            // Check if it's from seraph or other trusted game hosts / CDNs (embed directly)
-            const bypassDomains = [
-                'github.io',
-                'gitlab.io',
-                'pages.dev',
-                'vercel.app',
-                'netlify.app',
-                'territorial.io',
-                'raw.githubusercontent.com',
-                'cdn.jsdelivr.net',
-                'googleusercontent.com',
-                '3kh0.github.io',
-                'unblocked-games.github.io',
-                'bitbucket.io',
-                'idkrly1919.github.io',
-                // CDN domains - don't proxy these
-                'cdn.',
-                'cdnjs.cloudflare.com',
-                'unpkg.com',
-                'esm.sh',
-                'skypack.dev',
-                'fastly.net',
-                'akamaihd.net',
-                'cloudfront.net',
-                'azureedge.net',
-                'b-cdn.net'
-            ];
-
-            const isEmbedGame = isExplicitEmbed || bypassDomains.some(domain => decodedUrl.includes(domain));
-
-            if (isLocalGame || isEmbedGame) {
-                // Load local games and trusted embeds DIRECTLY without proxy
-                // This prevents SharedWorker/BareMux conflicts in Unity games or unnecessary lag
-                gameframe.src = decodedUrl;
-                gameframe.focus();
-            } else if (decodedUrl.startsWith('http://') || decodedUrl.startsWith('https://')) {
-                // Other external URLs go through Scramjet proxy
-                getProxiedUrl(decodedUrl).then(proxiedUrl => {
-                    gameframe.src = proxiedUrl;
-                    gameframe.focus();
-                }).catch(err => {
-                    console.warn("Proxy failed:", err);
-                    // Fallback to direct load
-                    gameframe.src = decodedUrl;
-                    gameframe.focus();
-                });
-            } else {
-                // Unknown format, try direct load
-                gameframe.src = decodedUrl;
-                gameframe.focus();
-            }
-
-            gameframe.onload = () => {
-                try {
-                    const doc = gameframe.contentDocument;
-                    if (!doc) return;
-                    const head = doc.head;
-
-                    // Inject overlay keyboard listener
-                    const script = doc.createElement("script");
-                    script.textContent = `
+                // Inject overlay keyboard listener
+                const script = doc.createElement("script");
+                script.textContent = `
                         window.addEventListener("keydown", (e) => {
                             if (e.altKey && e.code === "KeyG") {
                                 parent.postMessage({ type: "alt-g" }, "*");
                             }
                         });
                     `;
-                    head.appendChild(script);
+                head.appendChild(script);
 
-                    // Inject CDN proxy script to rewrite blocked URLs
-                    const proxyScript = doc.createElement("script");
-                    proxyScript.textContent = `
+                // Inject CDN proxy script to rewrite blocked URLs
+                const proxyScript = doc.createElement("script");
+                proxyScript.textContent = `
                         (function() {
                             const blockedDomains = [];
                             const proxyBase = window.location.origin + '/uv/service/';
@@ -434,13 +382,12 @@
                             };
                         })();
                     `;
-                    head.insertBefore(proxyScript, head.firstChild);
-                } catch (e) {
-                    // Cross-origin frame - can't inject script
-                    console.log("Could not inject proxy script into game frame");
-                }
-            };
-        }
+                head.insertBefore(proxyScript, head.firstChild);
+            } catch (e) {
+                // Cross-origin frame - can't inject script
+                console.log("Could not inject proxy script into game frame");
+            }
+        };
 
         function refreshGame() {
             gameframe.src = gameframe.src;

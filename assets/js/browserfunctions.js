@@ -258,6 +258,9 @@ async function go(u) {
     favEl.src = `https://www.google.com/s2/favicons?domain=${favUrl}&sz=256`;
 
   try {
+    // Hide carousel during loading
+    document.body.classList.add('browser-active');
+
     viewframe.src = u;
     console.log("ooooo");
 

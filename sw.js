@@ -217,21 +217,9 @@ async function handleRequest(event) {
 		const url = event.request.url;
 		const contentType = response.headers.get("content-type") || "";
 
-		// For local game HTML files, rewrite blocked CDN URLs
-		if (url.includes("/stores/gn-math/") && contentType.includes("text/html")) {
-			const html = await response.text();
-			const rewrittenHtml = rewriteCdnUrls(inject(html));
-			const encoder = new TextEncoder();
-			const byteLength = encoder.encode(rewrittenHtml).length;
-			const newHeaders = new Headers(response.headers);
-			newHeaders.set("content-length", byteLength.toString());
-
-			return new Response(rewrittenHtml, {
-				status: response.status,
-				statusText: response.statusText,
-				headers: newHeaders,
-			});
-		}
+		// Return games directly without any CDN rewriting
+		// CDN URLs should load natively without proxying
+		return response;
 
 		return response;
 	} catch (e) {

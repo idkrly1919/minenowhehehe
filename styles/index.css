@@ -615,10 +615,12 @@ p a:hover {
     transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
 }
 
-/* Hide carousel when game/proxy is active */
+/* Hide carousel when game/proxy/browser is active */
 body.game-active #topGamesCarousel,
 body.game-active #quickAccessSection,
-body.content-open #homeContent {
+body.content-open #homeContent,
+body.browser-active #topGamesCarousel,
+body.browser-active #quickAccessSection {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
