@@ -209,16 +209,36 @@ window.VerdisPlaytime = (() => {
         if (!modal) return;
 
         const isHidden = modal.classList.contains('settings-hidden');
+        const isOpening = modal.classList.contains('genie-opening');
 
-        if (isHidden) {
-            // Show modal
+        if (isHidden && !isOpening) {
+            // Calculate button position for genie effect
+            const playtimeBtn = document.getElementById('playtime-btn');
+            if (playtimeBtn) {
+                const btnRect = playtimeBtn.getBoundingClientRect();
+                const centerX = btnRect.left + btnRect.width / 2;
+                const offsetX = centerX - window.innerWidth / 2;
+                modal.style.setProperty('--genie-offset-x', `${offsetX}px`);
+            }
+
+            // Show modal with genie animation
             renderModal();
             modal.classList.remove('settings-hidden');
-            modal.classList.add('settings-shown');
-        } else {
-            // Hide modal
+            modal.classList.add('genie-opening');
+
+            // After animation, switch to settings-shown
+            setTimeout(() => {
+                modal.classList.remove('genie-opening');
+                modal.classList.add('settings-shown');
+            }, 500);
+        } else if (modal.classList.contains('settings-shown')) {
+            // Hide modal with genie animation
+            modal.classList.add('genie-closing');
             modal.classList.remove('settings-shown');
-            modal.classList.add('settings-hidden');
+            setTimeout(() => {
+                modal.classList.remove('genie-closing');
+                modal.classList.add('settings-hidden');
+            }, 450);
         }
     }
 

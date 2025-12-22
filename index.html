@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="/assets/css/playtime.css">
     <link rel="stylesheet" href="/assets/css/backend.css">
     <link rel="stylesheet" href="/assets/css/carousel.css">
+    <link rel="stylesheet" href="/assets/css/walkthrough.css">
     <script src="/assets/js/cursor.js" defer></script>
     <script src="/assets/js/colors.js"></script>
     <script src="/assets/js/splash.js" defer></script>
@@ -1195,7 +1196,7 @@
         })
 
         function toggleSettings() {
-            if (settingsHolder.classList.contains("settings-hidden")) {
+            if (settingsHolder.classList.contains("settings-hidden") && !settingsHolder.classList.contains("genie-opening")) {
                 if (appsHolder.classList.contains("settings-shown")) {
                     toggleApps()
                 } else if (gamesHolder.classList.contains("settings-shown")) {
@@ -1205,6 +1206,16 @@
                 } else if (downloadHolder.classList.contains("settings-shown")) {
                     toggleDownloadGames()
                 }
+
+                // Calculate button position for genie effect
+                const settingsBtn = document.querySelector('[data-page="dc"]');
+                if (settingsBtn) {
+                    const btnRect = settingsBtn.getBoundingClientRect();
+                    const centerX = btnRect.left + btnRect.width / 2;
+                    const offsetX = centerX - window.innerWidth / 2;
+                    settingsHolder.style.setProperty('--genie-offset-x', `${offsetX}px`);
+                }
+
                 const newBlurOverlay = document.createElement("div")
                 newBlurOverlay.classList.add("blurOverlay")
                 document.body.appendChild(newBlurOverlay)
@@ -1212,18 +1223,29 @@
                     toggleSettings()
                 })
                 settingsHolder.classList.remove("settings-hidden")
-                settingsHolder.classList.add("settings-shown")
+                settingsHolder.classList.add("genie-opening")
                 document.body.classList.add("content-open")
-            } else {
-                settingsHolder.classList.remove("settings-shown")
-                settingsHolder.classList.add("settings-hidden")
+
+                // After animation, switch to settings-shown
+                setTimeout(() => {
+                    settingsHolder.classList.remove("genie-opening");
+                    settingsHolder.classList.add("settings-shown");
+                }, 500);
+            } else if (settingsHolder.classList.contains("settings-shown")) {
+                // Genie collapse animation
+                settingsHolder.classList.add('genie-closing');
+                settingsHolder.classList.remove("settings-shown");
+                setTimeout(() => {
+                    settingsHolder.classList.remove('genie-closing');
+                    settingsHolder.classList.add("settings-hidden");
+                }, 450);
                 document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
-                newBlurOverlay.remove()
+                if (newBlurOverlay) newBlurOverlay.remove()
             }
         }
         function toggleApps() {
-            if (appsHolder.classList.contains("settings-hidden")) {
+            if (appsHolder.classList.contains("settings-hidden") && !appsHolder.classList.contains("genie-opening")) {
                 if (settingsHolder.classList.contains("settings-shown")) {
                     toggleSettings()
                 } else if (gamesHolder.classList.contains("settings-shown")) {
@@ -1233,6 +1255,16 @@
                 } else if (downloadHolder.classList.contains("settings-shown")) {
                     toggleDownloadGames()
                 }
+
+                // Calculate button position for genie effect
+                const appsBtn = document.querySelector('[data-page="apps"]');
+                if (appsBtn) {
+                    const btnRect = appsBtn.getBoundingClientRect();
+                    const centerX = btnRect.left + btnRect.width / 2;
+                    const offsetX = centerX - window.innerWidth / 2;
+                    appsHolder.style.setProperty('--genie-offset-x', `${offsetX}px`);
+                }
+
                 const newBlurOverlay = document.createElement("div")
                 newBlurOverlay.classList.add("blurOverlay")
                 document.body.appendChild(newBlurOverlay)
@@ -1241,15 +1273,27 @@
                 })
                 document.body.classList.add('content-open')
                 appsHolder.classList.remove("settings-hidden")
-                appsHolder.classList.add("settings-shown")
+                appsHolder.classList.add("genie-opening")
+
+                // After animation, switch to settings-shown
+                setTimeout(() => {
+                    appsHolder.classList.remove("genie-opening");
+                    appsHolder.classList.add("settings-shown");
+                }, 600);
+
                 console.log("Apps toggled.")
-            } else {
+            } else if (appsHolder.classList.contains("settings-shown")) {
                 document.body.classList.remove('content-open')
-                appsHolder.classList.remove("settings-shown")
-                appsHolder.classList.add("settings-hidden")
+                // Genie collapse animation
+                appsHolder.classList.add('genie-closing');
+                appsHolder.classList.remove("settings-shown");
+                setTimeout(() => {
+                    appsHolder.classList.remove('genie-closing');
+                    appsHolder.classList.add("settings-hidden");
+                }, 500);
                 document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
-                newBlurOverlay.remove()
+                if (newBlurOverlay) newBlurOverlay.remove()
             }
         }
 
@@ -1284,7 +1328,7 @@
         }
 
         function toggleGames() {
-            if (gamesHolder.classList.contains("settings-hidden")) {
+            if (gamesHolder.classList.contains("settings-hidden") && !gamesHolder.classList.contains("genie-opening")) {
                 if (appsHolder.classList.contains("settings-shown")) {
                     toggleApps()
                 } else if (settingsHolder.classList.contains("settings-shown")) {
@@ -1294,6 +1338,16 @@
                 } else if (downloadHolder.classList.contains("settings-shown")) {
                     toggleDownloadGames()
                 }
+
+                // Calculate button position for genie effect
+                const gamesBtn = document.querySelector('[data-page="games"]');
+                if (gamesBtn) {
+                    const btnRect = gamesBtn.getBoundingClientRect();
+                    const centerX = btnRect.left + btnRect.width / 2;
+                    const offsetX = centerX - window.innerWidth / 2;
+                    gamesHolder.style.setProperty('--genie-offset-x', `${offsetX}px`);
+                }
+
                 const newBlurOverlay = document.createElement("div")
                 newBlurOverlay.classList.add("blurOverlay")
                 document.body.appendChild(newBlurOverlay)
@@ -1301,15 +1355,30 @@
                     console.log("clicked")
                     toggleGames()
                 })
+
+                // Ensure blur is visible immediately, before and during animation
+                newBlurOverlay.style.opacity = "1";
+
                 document.body.classList.add('content-open')
                 gamesHolder.classList.remove("settings-hidden")
-                gamesHolder.classList.add("settings-shown")
-            } else {
+                gamesHolder.classList.add("genie-opening")
+
+                // After animation, switch to settings-shown
+                setTimeout(() => {
+                    gamesHolder.classList.remove("genie-opening");
+                    gamesHolder.classList.add("settings-shown");
+                }, 600);
+            } else if (gamesHolder.classList.contains("settings-shown")) {
                 document.body.classList.remove('content-open')
-                gamesHolder.classList.remove("settings-shown")
-                gamesHolder.classList.add("settings-hidden")
+                // Genie collapse animation
+                gamesHolder.classList.add('genie-closing');
+                gamesHolder.classList.remove("settings-shown");
+                setTimeout(() => {
+                    gamesHolder.classList.remove('genie-closing');
+                    gamesHolder.classList.add("settings-hidden");
+                }, 500);
                 const newBlurOverlay = document.querySelector(".blurOverlay")
-                newBlurOverlay.remove()
+                if (newBlurOverlay) newBlurOverlay.remove()
             }
         }
 
@@ -1784,4 +1853,5 @@
         // Umami Proxy Loader
 
     </script>
+    <script src="/assets/js/walkthrough.js" defer></script>
 </body>

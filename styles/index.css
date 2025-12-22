@@ -542,10 +542,8 @@ p a:hover {
 .games-wrapper.settings-hidden,
 .partners-wrapper.settings-hidden,
 .download-wrapper.settings-hidden {
-    transform: translate(-50%, -50%) scale(.9);
     opacity: 0;
     pointer-events: none;
-    transform-origin: center center;
     display: none;
 }
 
@@ -553,10 +551,56 @@ p a:hover {
 .games-wrapper.settings-shown,
 .partners-wrapper.settings-shown,
 .download-wrapper.settings-shown {
-    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: all;
-    transform-origin: center center;
+    display: block;
+}
+
+/* Genie animation - uses CSS custom properties set by JS */
+.apps-wrapper.genie-opening,
+.games-wrapper.genie-opening,
+.settings-container.genie-opening,
+.playtime-modal.genie-opening {
+    display: block !important;
+    animation: genieMagicLampOpen 0.45s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+}
+
+.apps-wrapper.genie-closing,
+.games-wrapper.genie-closing,
+.settings-container.genie-closing,
+.playtime-modal.genie-closing {
+    display: block !important;
+    animation: genieMagicLampClose 0.35s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* Magic Lamp Genie Open Animation - Enhanced 3D */
+@keyframes genieMagicLampOpen {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(var(--genie-offset-x, 0px)) translateY(-40vh) scale3d(0.1, 0.05, 1) rotateX(80deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0px) translateY(0) scale3d(1, 1, 1) rotateX(0deg);
+    }
+}
+
+/* Magic Lamp Genie Close Animation - Enhanced 3D */
+@keyframes genieMagicLampClose {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0px) translateY(0) scale3d(1, 1, 1) rotateX(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(var(--genie-offset-x, 0px)) translateY(-40vh) scale3d(0.1, 0.05, 1) rotateX(80deg);
+    }
 }
 
 .blurOverlay {
@@ -567,6 +611,17 @@ p a:hover {
     top: 0;
     left: 0;
     backdrop-filter: blur(3px) brightness(0.75);
+    opacity: 1;
+    transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Hide carousel when game/proxy is active */
+body.game-active #topGamesCarousel,
+body.game-active #quickAccessSection,
+body.content-open #homeContent {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 .browser-container {

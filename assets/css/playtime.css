@@ -84,7 +84,7 @@ nav ul li:has(#playtime-btn) {
 .playtime-modal.settings-hidden {
     opacity: 0;
     pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.95);
+    display: none;
 }
 
 .playtime-modal.settings-shown {

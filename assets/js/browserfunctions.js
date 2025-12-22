@@ -292,6 +292,10 @@ async function go(u) {
       "There was a problem loading the page. Check the console for more info.",
       "fas fa-times-circle"
     );
+    // Disable custom cursor on error to show normal cursor
+    if (window.VerdisCursor && typeof window.VerdisCursor.disable === 'function') {
+      window.VerdisCursor.disable();
+    }
   }
 }
 
@@ -339,8 +343,9 @@ function r() {
   const viewframe = document.querySelector(
     `.viewframe[data-frame-id="${aTab}"]`
   );
-  const curl = viewframe.src;
+  if (!viewframe) return;
 
+  const curl = viewframe.src;
   viewframe.src = curl;
 }
 
@@ -353,14 +358,8 @@ function full() {
 }
 
 function hideBrowser() {
-  const b = document.querySelector(".browser-container");
-  const frames = document.querySelectorAll(".viewframe");
-  b.style.opacity = 0;
-  frames.forEach((frame) => {
-    frame.style.opacity = 0;
-    frame.style.pointerEvents = "none";
-  });
-  b.style.pointerEvents = "none";
+  // Refresh the page to return to home
+  location.reload();
 }
 
 async function launchEruda() {

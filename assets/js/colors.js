@@ -2,9 +2,9 @@ const link = document.getElementById('css-theme-link');
 const theme = localStorage.getItem('verdis_theme') ?? 'default';
 
 if (theme !== 'default') {
-    link.href = `/assets/css/themes/${theme}.css`;
+  link.href = `/assets/css/themes/${theme}.css`;
 } else {
-    link.href = '/assets/css/colors.css';
+  link.href = '/assets/css/colors.css';
 }
 
 // Global Google Classroom cloaking across all pages
@@ -77,7 +77,7 @@ function ensureClassroomOverlay() {
   overlay.innerHTML = `
       <div style="max-width: 520px; margin: 80px auto 0 auto; font-family: Arial, sans-serif; padding: 0 24px;">
         <h1 style="font-size: 28px; margin: 8px 0 12px 0; font-weight: 500; color: #e8eaed;">This site can’t be reached</h1>
-        <p style="margin: 0 0 6px 0; color: #e8eaed;">Check if there is a typo in <b>verdis.eu.org</b>.</p>
+        <p style="margin: 0 0 6px 0; color: #e8eaed;">Check if there is a typo in <b>classroom.google.com</b>.</p>
         <p style="margin: 0 0 16px 0; color: #9aa0a6; font-size: 14px;">
           If spelling is correct, try running Windows <a class="overlay-diagnostics" style="color: #8ab4f8; text-decoration: none; cursor: pointer;">Network Diagnostics.</a>
         </p>
@@ -91,16 +91,25 @@ function ensureClassroomOverlay() {
       </div>
    `;
 
-   overlay.querySelector(".overlay-diagnostics")?.addEventListener("click", (e) => {
-     e.preventDefault();
-     e.stopPropagation();
-     overlay.style.display = "none";
-   });
+  overlay.querySelector(".overlay-diagnostics")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    overlay.style.display = "none";
 
-   overlay.querySelector(".overlay-reload")?.addEventListener("click", (e) => {
-     e.preventDefault();
-     e.stopPropagation();
-   });
+    // Re-enable custom cursor when overlay is dismissed
+    if (window.VerdisCursor && typeof window.VerdisCursor.enable === 'function') {
+      window.VerdisCursor.enable();
+    }
+  });
+
+  overlay.querySelector(".overlay-reload")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.href = "https://classroom.google.com";
+  });
+
+  // Disable custom cursor when overlay is shown
+  overlay.style.cursor = "default";
 
   document.body.appendChild(overlay);
   return overlay;
@@ -118,19 +127,27 @@ function showClassroomOverlay() {
   withBody(() => {
     const overlay = ensureClassroomOverlay();
     overlay.style.display = "block";
+
+    // Disable custom cursor while overlay is visible
+    if (window.VerdisCursor && typeof window.VerdisCursor.disable === 'function') {
+      window.VerdisCursor.disable();
+    }
   });
 }
 
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    showClassroomOverlay();
-  }
-});
-
-window.addEventListener("blur", () => {
-  setTimeout(() => {
+// Only run on top-level window, not in iframes
+if (window.self === window.top) {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       showClassroomOverlay();
     }
-  }, 50);
-});
+  });
+
+  window.addEventListener("blur", () => {
+    setTimeout(() => {
+      if (document.hidden) {
+        showClassroomOverlay();
+      }
+    }, 50);
+  });
+}

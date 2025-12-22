@@ -1,0 +1,687 @@
+/* ============================================
+   VERDIS WALKTHROUGH TUTORIAL STYLES
+   High-budget animated first-time user guide
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   OVERLAY & BACKDROP
+   ═══════════════════════════════════════════ */
+
+.walkthrough-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure custom cursor shows over everything including nav */
+#zxs-custom-cursor,
+#cursor-thank-you-zxs {
+    z-index: 9999999 !important;
+    pointer-events: none !important;
+}
+
+/* During walkthrough, show modals ABOVE the overlay but BELOW the dialog */
+.walkthrough-overlay~.playtime-modal,
+.walkthrough-overlay~.games-wrapper,
+.walkthrough-overlay~.apps-wrapper,
+.walkthrough-overlay~.settings-container,
+.walkthrough-overlay~.game-details-modal,
+body:has(.walkthrough-overlay) .playtime-modal.settings-shown,
+body:has(.walkthrough-overlay) .playtime-modal.genie-opening,
+body:has(.walkthrough-overlay) .games-wrapper.settings-shown,
+body:has(.walkthrough-overlay) .games-wrapper.genie-opening,
+body:has(.walkthrough-overlay) .apps-wrapper.settings-shown,
+body:has(.walkthrough-overlay) .apps-wrapper.genie-opening,
+body:has(.walkthrough-overlay) .game-details-modal:not(.settings-hidden) {
+    z-index: 105000 !important;
+}
+
+/* Walkthrough dialog must be above EVERYTHING except cursor */
+.walkthrough-dialog {
+    z-index: 110000 !important;
+}
+
+
+.walkthrough-overlay.walkthrough-hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.walkthrough-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    transition: opacity 0.4s ease;
+}
+
+/* ═══════════════════════════════════════════
+   SPOTLIGHT EFFECT
+   ═══════════════════════════════════════════ */
+
+.walkthrough-spotlight {
+    position: absolute;
+    border-radius: 16px;
+    box-shadow:
+        0 0 0 9999px rgba(0, 0, 0, 0.65),
+        0 0 40px 10px rgba(var(--accent-rgb, 120, 169, 255), 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.walkthrough-spotlight::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 20px;
+    background: linear-gradient(135deg,
+            rgba(var(--accent-rgb, 120, 169, 255), 0.6),
+            rgba(var(--accent-rgb, 120, 169, 255), 0.2),
+            rgba(var(--accent-rgb, 120, 169, 255), 0.6));
+    background-size: 200% 200%;
+    animation: spotlightGlow 2s ease-in-out infinite;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+@keyframes spotlightGlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Pulsing ring animation around spotlight */
+.walkthrough-spotlight::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 24px;
+    border: 2px solid rgba(var(--accent-rgb, 120, 169, 255), 0.5);
+    animation: spotlightPulse 1.5s ease-out infinite;
+}
+
+@keyframes spotlightPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.15);
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   POINTER/CURSOR ANIMATION
+   ═══════════════════════════════════════════ */
+
+.walkthrough-pointer {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 10;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.walkthrough-pointer svg {
+    width: 100%;
+    height: 100%;
+    fill: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.walkthrough-pointer.clicking {
+    animation: pointerClick 0.4s ease-out;
+}
+
+@keyframes pointerClick {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.85);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   DIALOG BOX
+   ═══════════════════════════════════════════ */
+
+.walkthrough-dialog {
+    position: fixed;
+    min-width: 320px;
+    max-width: 420px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg,
+            rgba(15, 20, 35, 0.98) 0%,
+            rgba(10, 15, 28, 0.99) 100%);
+    backdrop-filter: blur(20px) saturate(1.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 110000 !important;
+    transform-origin: center center;
+    animation: dialogEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+}
+
+@keyframes dialogEnter {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.walkthrough-dialog.exiting {
+    animation: dialogExit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dialogExit {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+}
+
+/* Gradient border effect */
+.walkthrough-dialog::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 21px;
+    background: linear-gradient(135deg,
+            rgba(var(--accent-rgb, 120, 169, 255), 0.4),
+            transparent 40%,
+            transparent 60%,
+            rgba(var(--accent-rgb, 120, 169, 255), 0.2));
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   DIALOG CONTENT
+   ═══════════════════════════════════════════ */
+
+.walkthrough-step-indicator {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    justify-content: center;
+}
+
+.walkthrough-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.walkthrough-step-dot.active {
+    background: var(--accent, #78a9ff);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb, 120, 169, 255), 0.5);
+    transform: scale(1.2);
+}
+
+.walkthrough-step-dot.completed {
+    background: rgba(var(--accent-rgb, 120, 169, 255), 0.5);
+}
+
+.walkthrough-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px auto;
+    background: linear-gradient(135deg,
+            rgba(var(--accent-rgb, 120, 169, 255), 0.2),
+            rgba(var(--accent-rgb, 120, 169, 255), 0.05));
+    border-radius: 16px;
+    border: 1px solid rgba(var(--accent-rgb, 120, 169, 255), 0.3);
+}
+
+.walkthrough-icon i {
+    font-size: 24px;
+    color: var(--accent, #78a9ff);
+}
+
+.walkthrough-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 10px 0;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.walkthrough-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 20px 0;
+    text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   ACTION BUTTONS
+   ═══════════════════════════════════════════ */
+
+.walkthrough-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.walkthrough-next-btn {
+    flex: 1;
+    padding: 12px 24px;
+    background: linear-gradient(135deg,
+            var(--accent, #78a9ff),
+            color-mix(in srgb, var(--accent, #78a9ff) 80%, #6366f1 20%));
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 4px 15px rgba(var(--accent-rgb, 120, 169, 255), 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.walkthrough-next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 25px rgba(var(--accent-rgb, 120, 169, 255), 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.walkthrough-next-btn:active {
+    transform: translateY(0);
+}
+
+.walkthrough-skip-btn {
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.walkthrough-skip-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ═══════════════════════════════════════════
+   STEP COUNTER
+   ═══════════════════════════════════════════ */
+
+.walkthrough-step-counter {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    padding: 4px 12px;
+    background: var(--accent, #78a9ff);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb, 120, 169, 255), 0.4);
+}
+
+/* ═══════════════════════════════════════════
+   BODY ZOOM EFFECT
+   ═══════════════════════════════════════════ */
+
+body.walkthrough-zooming {
+    overflow: hidden;
+}
+
+body.walkthrough-zooming #vanta-fog-container,
+body.walkthrough-zooming #particles-container {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════
+   WELCOME INTRO ANIMATION
+   ═══════════════════════════════════════════ */
+
+.walkthrough-welcome {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center,
+            rgba(var(--accent-rgb, 120, 169, 255), 0.08) 0%,
+            transparent 70%),
+        rgba(5, 8, 15, 0.95);
+    z-index: 100000;
+    animation: welcomeFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes welcomeFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.walkthrough-welcome-logo {
+    font-size: 64px;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent, #78a9ff), var(--accent-2, #a78bfa));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+    animation: logoReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+@keyframes logoReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.walkthrough-welcome-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 32px;
+    animation: subtitleReveal 0.8s ease-out 0.6s both;
+}
+
+@keyframes subtitleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.walkthrough-welcome-btn {
+    padding: 16px 40px;
+    background: linear-gradient(135deg,
+            var(--accent, #78a9ff),
+            color-mix(in srgb, var(--accent, #78a9ff) 70%, #a78bfa 30%));
+    border: none;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 8px 30px rgba(var(--accent-rgb, 120, 169, 255), 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: btnReveal 0.8s ease-out 0.9s both;
+}
+
+@keyframes btnReveal {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.walkthrough-welcome-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 12px 40px rgba(var(--accent-rgb, 120, 169, 255), 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.walkthrough-welcome-skip {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    animation: skipReveal 0.6s ease-out 1.2s both;
+}
+
+@keyframes skipReveal {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.walkthrough-welcome-skip:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ═══════════════════════════════════════════
+   CONFETTI/CELEBRATION (Final Step)
+   ═══════════════════════════════════════════ */
+
+.walkthrough-celebration {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100001;
+}
+
+.walkthrough-confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 3s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .walkthrough-dialog {
+        min-width: 280px;
+        max-width: calc(100vw - 40px);
+        padding: 20px 22px;
+    }
+
+    .walkthrough-title {
+        font-size: 19px;
+    }
+
+    .walkthrough-description {
+        font-size: 14px;
+    }
+
+    .walkthrough-actions {
+        flex-direction: column-reverse;
+    }
+
+    .walkthrough-skip-btn {
+        width: 100%;
+    }
+
+    .walkthrough-welcome-logo {
+        font-size: 48px;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .walkthrough-spotlight,
+    .walkthrough-dialog,
+    .walkthrough-pointer,
+    body.walkthrough-zooming {
+        transition-duration: 0.1s !important;
+        animation-duration: 0.1s !important;
+    }
+
+    .walkthrough-spotlight::after,
+    .walkthrough-spotlight::before {
+        animation: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   DEMO CLICK ANIMATION (for tutorial)
+   ═══════════════════════════════════════════ */
+
+.walkthrough-demo-click {
+    animation: demoClick 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes demoClick {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(0.85);
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Heart fill animation during demo */
+.walkthrough-demo-click.active i {
+    color: #ff6b9d !important;
+    animation: heartBeat 0.8s ease-in-out;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.3);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.2);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   CONFETTI ANIMATION
+   ═══════════════════════════════════════════ */
+
+.walkthrough-celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 200001;
+    overflow: hidden;
+}
+
+.walkthrough-confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #f00;
+    top: -10px;
+    opacity: 0;
+    animation: confettiDrop 3s ease-in forwards;
+}
+
+@keyframes confettiDrop {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) translateX(calc(var(--confetti-drift, 0) * 50px)) rotate(720deg) scale(0.8);
+        opacity: 0;
+    }
+}
