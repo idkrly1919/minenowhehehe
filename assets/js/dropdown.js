@@ -188,6 +188,9 @@ const wispPresets = {
   "Radius 1 (Adblock)": { url: "wss://radiusproxy.app/adblock/" },
   "Radius 2": { url: "wss://radiusowski.site/wisp/" },
   "Radius 2 (Adblock)": { url: "wss://radiusowski.site/adblock/" },
+  "Verdis 2.0": {
+    url: "wss://offered-val-moderator-xbox.trycloudflare.com/wisp/",
+  },
 };
 
 if (!localStorage.getItem("verdis_wispUrl")) {
@@ -241,6 +244,7 @@ const allWispOptions = [
   "Radius 1 (Adblock)",
   "Radius 2",
   "Radius 2 (Adblock)",
+  "Verdis 2.0",
 ];
 
 const allThemeOptions = [
