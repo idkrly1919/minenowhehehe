@@ -144,3 +144,96 @@ document.addEventListener("DOMContentLoaded", function () {
     updateToastPositions(toastContainer.matches(":hover"));
   }
 });
+
+(() => {
+  const BLOCKER_Z_INDEX = String(Number.MAX_SAFE_INTEGER);
+  const PRINT_SCREEN_KEY = "PrintScreen";
+  const BLOCKER_TIMEOUT_MS = 750;
+  const BLOCKER_FORCE_FLAG = "1";
+  const ua = navigator.userAgent || "";
+  const isGStreamer = /gstreamer/i.test(ua);
+  let blocker;
+
+  const ensureBlocker = () => {
+    if (blocker) return blocker;
+    blocker = document.createElement("div");
+    blocker.id = "capture-veil";
+    blocker.style.position = "fixed";
+    blocker.style.inset = "0";
+    blocker.style.background = "#000";
+    blocker.style.pointerEvents = "none";
+    blocker.style.zIndex = BLOCKER_Z_INDEX;
+    blocker.style.opacity = "0";
+    blocker.style.transition = "opacity 120ms ease";
+    document.body.appendChild(blocker);
+    return blocker;
+  };
+
+  const setBlockerVisible = (visible) => {
+    if (!blocker || blocker.dataset.force === BLOCKER_FORCE_FLAG) return;
+    blocker.style.opacity = visible ? "1" : "0";
+  };
+
+  const writeBlankClipboard = async () => {
+    if (
+      !navigator.clipboard ||
+      !navigator.clipboard.write ||
+      typeof ClipboardItem === "undefined"
+    )
+      return;
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, 1, 1);
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/png")
+      );
+      if (!blob) return;
+      const item = new ClipboardItem({ "image/png": blob });
+      await navigator.clipboard.write([item]);
+    } catch (err) {
+      console.debug("capture guard: failed to blank clipboard", err);
+    }
+  };
+
+  const handlePrintScreen = (e) => {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+    }
+    ensureBlocker();
+    setBlockerVisible(true);
+    writeBlankClipboard();
+    setTimeout(() => setBlockerVisible(false), BLOCKER_TIMEOUT_MS);
+  };
+
+  const setupGuards = () => {
+    ensureBlocker();
+    if (isGStreamer && blocker) {
+      blocker.dataset.force = BLOCKER_FORCE_FLAG;
+      blocker.style.opacity = "1";
+      return;
+    }
+
+    window.addEventListener("blur", () => setBlockerVisible(true));
+    window.addEventListener("focus", () => setBlockerVisible(false));
+    document.addEventListener("visibilitychange", () =>
+      setBlockerVisible(document.hidden)
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== PRINT_SCREEN_KEY) return;
+      handlePrintScreen(e);
+    });
+  };
+
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    setupGuards();
+  } else {
+    document.addEventListener("DOMContentLoaded", setupGuards);
+  }
+})();
