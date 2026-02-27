@@ -134,6 +134,7 @@ const allSearchEngineOptions = [
   "Google",
   "Bing",
   "Startpage",
+  "LangSearch",
 ];
 const allDecoyOptions = [
   "None",

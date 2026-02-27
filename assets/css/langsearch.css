@@ -1,0 +1,66 @@
+/* LangSearch Custom Search Engine Styles */
+
+/* Override any conflicting styles from the main app */
+.langsearch-page {
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Ensure Vanta container covers the whole page */
+.langsearch-page #vanta-fog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .langsearch-page .container {
+        padding: 10px;
+    }
+    
+    .langsearch-page .search-box {
+        font-size: 14px;
+        padding: 14px 50px 14px 20px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .langsearch-page #vanta-fog-container,
+    .langsearch-page .settings-btn,
+    .langsearch-page .filters {
+        display: none !important;
+    }
+}
+
+/* Accessibility improvements */
+.langsearch-page *:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Loading animation improvements */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.langsearch-page .result-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.langsearch-page .result-card:nth-child(1) { animation-delay: 0.05s; }
+.langsearch-page .result-card:nth-child(2) { animation-delay: 0.1s; }
+.langsearch-page .result-card:nth-child(3) { animation-delay: 0.15s; }
+.langsearch-page .result-card:nth-child(4) { animation-delay: 0.2s; }
+.langsearch-page .result-card:nth-child(5) { animation-delay: 0.25s; }
